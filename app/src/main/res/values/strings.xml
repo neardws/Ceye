@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">V2I_information</string>
+    <string name="action_settings">Settings</string>
+
+    * indexNum     序号
+    * longitude    经度
+    * latitude     纬度
+    * speed        速度
+    * direction    方向
+    * timeNow      时间戳
+    * packageNum   包数量
+
+    <string name="deviceName">设备名</string>
+    <string name="deviceNo">设备号</string>
+    <string name="indexNum">序号</string>
+    <string name="longitude">经度</string>
+    <string name="latitude">纬度</string>
+    <string name="speed">速度</string>
+    <string name="direction">方向</string>
+    <string name="timeNow">时间戳</string>
+    <string name="packageNum">包数量</string>
+    <string name="frequency">频率</string>
+
+    <string name="hint_deviceName">设备名，由用户自定义，默认为Device</string>
+    <string name="hint_deviceNo">由设备的MAC地址获得</string>
+    <string name="hint_indexNum">数据包的序号，由1开始编号</string>
+    <string name="hint_longitude">GPS经度</string>
+    <string name="hint_latitude">GPS纬度</string>
+    <string name="hint_speed">速度，单位为m/s</string>
+    <string name="hint_direction">方向，0正北，90正东，-90正西，180或-180正南</string>
+    <string name="hint_timeNow">时间戳，以距标准时间差</string>
+    <string name="hint_packageNum">数据包的数量</string>
+    <string name="hint_context">"IND##indexNum##LON##longitude##LAT##latitude##SPE##speed##DIR##direction##TIM##timeNow##PAC##packageNum##</string>
+    <string name="hint_frequency">更新的时间间隔，单位S</string>
+    <string name="hint_log">显示Log信息</string>
+
+    <string name="btn_GPS">GPS</string>
+    <string name="btn_start">开始</string>
+    <string name="btn_stop">停止</string>
+
+</resources>

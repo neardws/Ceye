@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.qq.vip.singleangel.v2i_information.MainActivity"
+    tools:showIn="@layout/activity_main">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <!--* indexNum     序号
+            * longitude    经度
+            * latitude     纬度
+            * speed        速度
+            * direction    方向
+            * timeNow      时间戳
+            * packageNum   包大小-->
+
+        <TextView
+            android:id="@+id/tv_black"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"/>
+        <TextView
+            android:id="@+id/tag_deviceName"
+            android:layout_below="@+id/tv_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="@string/deviceName"/>
+
+        <EditText
+            android:id="@+id/edit_deviceName"
+            android:layout_below="@id/tv_black"
+            android:layout_toEndOf="@+id/tag_deviceName"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_deviceName"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/tag_deviceNo"
+            android:layout_below="@+id/edit_deviceName"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/deviceNo"/>
+
+        <TextView
+            android:id="@+id/con_deviceNo"
+            android:layout_toEndOf="@+id/tag_deviceNo"
+            android:layout_below="@id/edit_deviceName"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_deviceNo"/>
+
+        <TextView
+            android:id="@+id/hint_deviceNo"
+            android:layout_below="@+id/edit_deviceName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentEnd="true"/>
+
+        <TextView
+            android:id="@+id/tag_indexNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tag_deviceNo"
+            android:layout_margin="5dp"
+            android:text="@string/indexNum" />
+
+        <TextView
+            android:id="@+id/con_indexNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tag_deviceNo"
+            android:layout_margin="5dp"
+            android:layout_toEndOf="@id/tag_indexNum"
+            android:hint="@string/hint_indexNum" />
+
+        <TextView
+            android:id="@+id/hint_indexNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tag_deviceNo"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:id="@+id/tag_longitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tag_indexNum"
+            android:layout_margin="5dp"
+            android:text="@string/longitude" />
+
+        <TextView
+            android:id="@+id/con_longitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tag_indexNum"
+            android:layout_margin="5dp"
+            android:layout_toEndOf="@id/tag_longitude"
+            android:hint="@string/hint_longitude" />
+
+        <TextView
+            android:id="@+id/gps_type"
+            android:layout_below="@+id/tag_indexNum"
+            android:layout_toEndOf="@+id/con_longitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp" />
+
+        <TextView
+            android:id="@+id/hint_longitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tag_indexNum"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:id="@+id/tag_latitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tag_longitude"
+            android:layout_margin="5dp"
+            android:text="@string/latitude" />
+
+        <TextView
+            android:id="@+id/con_latitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tag_longitude"
+            android:layout_margin="5dp"
+            android:layout_toEndOf="@id/tag_latitude"
+            android:hint="@string/hint_latitude" />
+
+        <TextView
+            android:id="@+id/hint_latitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tag_longitude"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:id="@+id/tag_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tag_latitude"
+            android:layout_margin="5dp"
+            android:text="@string/speed" />
+
+        <TextView
+            android:id="@+id/con_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tag_latitude"
+            android:layout_margin="5dp"
+            android:layout_toEndOf="@id/tag_speed"
+            android:hint="@string/hint_speed" />
+
+        <TextView
+            android:id="@+id/hint_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tag_latitude"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:id="@+id/tag_direction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tag_speed"
+            android:layout_margin="5dp"
+            android:text="@string/direction" />
+
+        <TextView
+            android:id="@+id/con_direction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tag_speed"
+            android:layout_margin="5dp"
+            android:layout_toEndOf="@id/tag_direction"
+            android:hint="@string/hint_direction" />
+
+        <TextView
+            android:id="@+id/hint_direction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tag_speed"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentEnd="true"  />
+
+        <TextView
+            android:id="@+id/tag_timeNow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tag_direction"
+            android:layout_margin="5dp"
+            android:text="@string/timeNow" />
+
+        <TextView
+            android:id="@+id/con_timeNow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tag_direction"
+            android:layout_margin="5dp"
+            android:layout_toEndOf="@id/tag_timeNow"
+            android:hint="@string/hint_timeNow" />
+
+        <TextView
+            android:id="@+id/hint_timeNow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tag_direction"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:id="@+id/tag_packageNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tag_timeNow"
+            android:layout_margin="5dp"
+            android:text="@string/packageNum" />
+
+        <TextView
+            android:id="@+id/con_packageNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tag_timeNow"
+            android:layout_margin="5dp"
+            android:layout_toEndOf="@id/tag_packageNum"
+            android:hint="@string/hint_packageNum" />
+
+        <TextView
+            android:id="@+id/hint_packageNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tag_timeNow"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:id="@+id/context"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tag_packageNum"
+            android:layout_margin="5dp"
+            android:hint="@string/hint_context" />
+
+        <TextView
+            android:id="@+id/tv_frequency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/context"
+            android:text="@string/frequency"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp" />
+
+        <EditText
+            android:id="@+id/ed_frequency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/con_packageNum"
+            android:layout_alignTop="@+id/tv_frequency"
+            android:layout_margin="5dp"
+            android:layout_toEndOf="@+id/tv_frequency"
+            android:textSize="12sp"
+            android:inputType="number" />
+
+        <Spinner
+            android:id="@+id/spin_frequency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/context"
+            android:layout_toEndOf="@+id/ed_frequency"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_alignBottom="@+id/ed_frequency">
+
+        </Spinner>
+
+        <TextView
+            android:id="@+id/hint_frequency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/context"
+            android:text="@string/hint_frequency"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentEnd="true" />
+
+        <Button
+            android:id="@+id/btn_GPS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ed_frequency"
+            android:visibility="invisible"
+            android:layout_margin="3dp"
+            android:text="@string/btn_GPS" />
+
+        <Button
+            android:id="@+id/btn_timeNow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ed_frequency"
+            android:layout_toEndOf="@+id/btn_GPS"
+            android:visibility="invisible"
+            android:layout_margin="3dp"
+            android:text="@string/timeNow" />
+
+        <Button
+            android:id="@+id/btn_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ed_frequency"
+            android:layout_margin="3dp"
+            android:text="@string/btn_start" />
+
+        <Button
+            android:id="@+id/btn_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ed_frequency"
+            android:layout_toEndOf="@+id/btn_start"
+            android:layout_margin="3dp"
+            android:text="@string/btn_stop" />
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_start"
+            android:scrollbars="vertical"
+            android:scrollbarStyle="outsideOverlay"
+            android:padding="10dp"
+            android:scrollbarFadeDuration="2000">
+            <TextView
+                android:id="@+id/log"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="false"
+                android:textSize="12sp"
+                android:hint="@string/hint_log"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+
+                />
+        </ScrollView>
+
+
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/tv_black"
+            tools:layout_editor_absoluteX="31dp"
+            tools:layout_editor_absoluteY="478dp" />
+
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

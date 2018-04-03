@@ -13,6 +13,7 @@
     <string name="deviceName">设备名</string>
     <string name="deviceNo">设备号</string>
     <string name="indexNum">序号</string>
+    <string name="gps_type">GPS类型</string>
     <string name="longitude">经度</string>
     <string name="latitude">纬度</string>
     <string name="speed">速度</string>
@@ -24,6 +25,7 @@
     <string name="hint_deviceName">设备名，由用户自定义，默认为Device</string>
     <string name="hint_deviceNo">由设备的MAC地址获得</string>
     <string name="hint_indexNum">数据包的序号，由1开始编号</string>
+    <string name="hint_gps_type">WGS84/GCJ02/BD09</string>
     <string name="hint_longitude">GPS经度</string>
     <string name="hint_latitude">GPS纬度</string>
     <string name="hint_speed">速度，单位为m/s</string>

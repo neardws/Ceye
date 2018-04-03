@@ -58,10 +58,10 @@ public class TimerThread extends Thread{
         long sleepTime = (long) frequency*1000;
         while (!stop){
             Information infor = infoTool.getInfo();
-            infor.setLongitude(information.getLongitude());
-            infor.setLatitude(information.getLatitude());
-            infor.setSpeed(information.getSpeed());
-            infor.setCoord_type_input(Information.WGS84);
+            //infor.setLongitude(information.getLongitude());
+            //infor.setLatitude(information.getLatitude());
+            //infor.setSpeed(information.getSpeed());
+            //infor.setCoord_type_input(Information.WGS84);
             //ooper.loop();
             updateUI(infor);
             try {

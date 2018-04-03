@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView tv_packageNum;
     private TextView tv_context;
     private TextView gps_tpye;
+    private TextView hint_gps_type;
 
     private TextView hint_deviceNo;
     private TextView hint_indexNum;
@@ -157,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
         tv_packageNum   = (TextView) findViewById(R.id.con_packageNum);
         tv_context      = (TextView) findViewById(R.id.context);
         gps_tpye        = (TextView) findViewById(R.id.gps_type);
+        hint_gps_type   = (TextView) findViewById(R.id.hint_gps_type);
 
         hint_deviceNo   = (TextView) findViewById(R.id.hint_deviceNo);
         hint_indexNum   = (TextView) findViewById(R.id.hint_indexNum);
@@ -322,16 +324,27 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         tv_context      .setText(information.toString());
-                        tv_deviceNo     .setText(String.valueOf(information.getDeviceNo()));
+                        if (information.getDeviceNo() != 0){
+                            tv_deviceNo     .setText(String.valueOf(information.getDeviceNo()));
+                        }
 
-                        gps_tpye        .setText(information.getCoord_type_input());
-                        hint_deviceNo   .setText(information.getMacAdd());
+                        if (!information.getCoord_type_input().equals("")){
+                            gps_tpye        .setText(information.getCoord_type_input());
+                        }
+
+                        hint_gps_type   .setText("BD09");
+                        if (!information.getMacAdd().equals("")){
+                            hint_deviceNo   .setText(information.getMacAdd());
+                        }
+
                         hint_indexNum   .setText("由1开始编号");
                         hint_longitude  .setText("GPS经度");
                         hint_latitude   .setText("GPS纬度");
                         hint_speed      .setText("单位为m/s");
                         hint_direction  .setText("0正北90正东-90正西180或-180正南");
-                        hint_timeNow    .setText(information.getTime());
+                        if (!information.getTime().equals("")){
+                            hint_timeNow    .setText(information.getTime());
+                        }
                         hint_packageNum .setText("发送数据包的个数");
 
                         if (!ed_deviceName.getText().toString().equals("")){

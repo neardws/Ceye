@@ -343,65 +343,22 @@
             android:layout_below="@+id/context"
             android:layout_alignEnd="@+id/context" />
 
-        <Button
-            android:id="@+id/btn_GPS"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ed_frequency"
-            android:visibility="invisible"
-            android:layout_margin="3dp"
-            android:text="@string/btn_GPS" />
 
-        <Button
-            android:id="@+id/btn_timeNow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ed_frequency"
-            android:layout_toEndOf="@+id/btn_GPS"
-            android:visibility="invisible"
-            android:layout_margin="3dp"
-            android:text="@string/timeNow" />
-
-        <Button
-            android:id="@+id/btn_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="3dp"
-            android:text="@string/btn_start" />
-
-        <Button
-            android:id="@+id/btn_stop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_toEndOf="@+id/btn_start"
-            android:layout_margin="3dp"
-            android:text="@string/btn_stop" />
-
-            <TextView
-                android:id="@+id/log"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:hint="@string/hint_log"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:maxLines = "20"
-                android:scrollbars = "vertical"
-                android:layout_below="@+id/spin_frequency"
-                android:layout_alignBottom="@+id/btn_GPS" />
-
-
-<!--        <WebView
-            android:id="@+id/webView"
-            android:visibility="invisible"
+        <TextView
+            android:id="@+id/log"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/tv_black"
-            tools:layout_editor_absoluteX="31dp"
-            tools:layout_editor_absoluteY="478dp" />-->
+            android:textSize="15sp"
+            android:hint="@string/hint_log"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:maxLines = "20"
+            android:scrollbars = "vertical"
+            android:layout_below="@+id/spin_frequency"
+            android:clickable="false"
+            android:longClickable="false"/>
+
+
 
 
     </RelativeLayout>

@@ -1,5 +1,7 @@
 package com.qq.vip.singleangel.v2i_information;
 
+import android.app.ActivityManager;
+import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -62,6 +64,7 @@ import static java.net.Proxy.Type.HTTP;
 public class MainActivity extends AppCompatActivity {
 
     public static final String UPDATA_UI        = "UPDATA_UI";
+    public static final String UPDATA_LOG       = "UPDATA_LOG";
     public static final String UPDATA_SUCCESS   = "UPDATA_SUCCESS";
     public static final String UPDATA_FAILED    = "UPDATA_FAILED";
     public static final String SEND_MESSAGE     = "SEND_MESSAGE";
@@ -85,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
     private int frequency = 5;
 
     private TextView log;
-    private WebView webView;
 
     private TextView tv_deviceNo;
     private TextView tv_indexNum;
@@ -113,10 +115,8 @@ public class MainActivity extends AppCompatActivity {
     private Spinner  spin_frequency;
     private ArrayAdapter arrayAdapter;
 
-    private Button btn_gps;
-    private Button btn_time;
-    private Button btn_start;
-    private Button btn_stop;
+/*    private Button btn_start;
+    private Button btn_stop;*/
 
     public void setFrequency(int frequency) {
         this.frequency = frequency;
@@ -143,24 +143,13 @@ public class MainActivity extends AppCompatActivity {
         intentFilter.addAction(MainActivity.START_SEND);
         intentFilter.addAction(MainActivity.STOP_SEND);
         intentFilter.addAction(MainActivity.SEND_MESSAGE);
+        intentFilter.addAction(MainActivity.UPDATA_LOG);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         log             = (TextView) findViewById(R.id.log);
         log.setMovementMethod(new ScrollingMovementMethod());
-        /*webView         = (WebView) findViewById(R.id.webView);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.setWebViewClient(new WebViewClient());*/
 
         tv_deviceNo     = (TextView) findViewById(R.id.con_deviceNo);
         tv_indexNum     = (TextView) findViewById(R.id.con_indexNum);
@@ -210,59 +199,46 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btn_gps     = (Button) findViewById(R.id.btn_GPS);
-        btn_time    = (Button) findViewById(R.id.btn_timeNow);
-        btn_start   = (Button) findViewById(R.id.btn_start);
-        btn_stop    = (Button) findViewById(R.id.btn_stop);
 
-       /* btn_gps.setOnClickListener(new View.OnClickListener() {
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setImageResource(R.drawable.ic_send_black_24dp);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                GetInfo getInfo = new GetInfo();
-                tv_latitude.setText(String.valueOf(
-                        getInfo.getInformation().getLatitude()));
-                tv_longitude.setText(String.valueOf
-                        (getInfo.getInformation().getLongitude()));
-
-            }
-        });
-
-        btn_time.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });*/
-
-        btn_start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int frequency = 1;
-                if (!ed_frequency.getEditableText().toString().equals("")){
-                    try {
-                        frequency = Integer.parseInt(ed_frequency.getEditableText().toString());
-                    }catch (NumberFormatException e){
-                        Toast.makeText(MainActivity.this, "格式错误，请输入数字", Toast.LENGTH_SHORT).show();
+            public void onClick(View view) {
+                if (!isServiceRunning(getApplicationContext(),"com.qq.vip.singleangel.v2i_information.GetInfo")){
+                    int frequency = 1;
+                    log.setText("");
+                    if (!ed_frequency.getText().toString().equals("")){
+                        try {
+                            frequency = Integer.parseInt(ed_frequency.getText().toString());
+                        }catch (NumberFormatException e){
+                            Toast.makeText(MainActivity.this, "格式错误，请输入数字", Toast.LENGTH_SHORT).show();
+                        }
+                    }else {
+                        Toast.makeText(MainActivity.this, "没有输入信息，默认使用下拉框中内容", Toast.LENGTH_SHORT).show();
+                        frequency = getFrequency();
                     }
+                    Intent intent = new Intent(MainActivity.this, GetInfo.class);
+                    intent.putExtra(GetInfo.FREQUENCY, frequency);
+                    startService(intent);
+                    fab.setImageResource(R.drawable.ic_clear_black_24dp);
+                    log.setMovementMethod(new ScrollingMovementMethod());
+                    log.append("已开启服务\n");
+                    Snackbar.make(view, "已开启服务", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
                 }else {
-                    Toast.makeText(MainActivity.this, "没有输入信息，默认使用下拉框中内容", Toast.LENGTH_SHORT).show();
-                    frequency = getFrequency();
+                    Intent intent = new Intent(MainActivity.this, GetInfo.class);
+                    stopService(intent);
+                    fab.setImageResource(R.drawable.ic_send_black_24dp);
+                    log.setMovementMethod(new ScrollingMovementMethod());
+                    log.append("已关闭服务\n");
+                    Snackbar.make(view, "已关闭服务", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
                 }
-                Intent intent = new Intent(MainActivity.this, GetInfo.class);
-                //intent.setAction(GetInfo.StartThread);
-                intent.putExtra(GetInfo.FREQUENCY, frequency);
-                startService(intent);
+
             }
         });
 
-        btn_stop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, GetInfo.class);
-                //intent.setAction(GetInfo.StopThread);
-                stopService(intent);
-            }
-        });
     }
 
 
@@ -302,6 +278,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * 查看是否有服务正在运行
+     * @param context
+     * @param serviceName
+     * @return
+     */
+    public static boolean isServiceRunning(Context context, String serviceName) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningServiceInfo> runningServiceInfos = am.getRunningServices(200);
+        if (runningServiceInfos.size() <= 0) {
+            return false;
+        }
+        for (ActivityManager.RunningServiceInfo serviceInfo : runningServiceInfos) {
+            if (serviceInfo.service.getClassName().equals(serviceName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * 接收更新UI的广播
      */
     public class ReactionBroadcast extends BroadcastReceiver{
@@ -311,7 +307,7 @@ public class MainActivity extends AppCompatActivity {
             String action = intent.getAction();
             switch (action){
                 case MainActivity.UPDATA_UI:
-                    Toast.makeText(MainActivity.this, "更新信息", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MainActivity.this, "更新信息", Toast.LENGTH_SHORT).show();
                     Information information = (Information) intent.getSerializableExtra(Information.IOFMATION);
 
                     if (information != null){
@@ -399,15 +395,20 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                     break;
+                case MainActivity.UPDATA_LOG:
+                    String strLog = intent.getExtras().getString(MainActivity.UPDATA_LOG);
+                    log.setMovementMethod(new ScrollingMovementMethod());
+                    log.append(strLog+"\n");
+                    break;
                 case MainActivity.SEND_MESSAGE:
                     Information information1 = (Information) getInformation();
                     String url = "http://118.24.19.160:8088/V2I/collect";
-
                     sendPost(url, information1);
                     break;
                 case MainActivity.UPDATA_SUCCESS:
                     String result = (String) intent.getStringExtra(Information.IOFMATION);
                     tv_context.setText(result);
+                    log.setMovementMethod(new ScrollingMovementMethod());
                     log.append(result);
                     break;
                 case MainActivity.UPDATA_FAILED:
@@ -495,6 +496,7 @@ public class MainActivity extends AppCompatActivity {
                 + "&longitude="+String.valueOf(information.getLongitude())
                 + "&direction="+String.valueOf((int) information.getDirection())
                 + "&coord_type_input="+information.getCoord_type_input();
+        log.setMovementMethod(new ScrollingMovementMethod());
         log.append(urlog + "\n");
 
         x.http().post(params, new Callback.CacheCallback<String>() {
@@ -502,15 +504,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String result) {
                 Log.i(TAG, "onSuccess: "+result);
+                log.setMovementMethod(new ScrollingMovementMethod());
                 log.append("发送成功\n"+result+"\n");
-                Toast.makeText(MainActivity.this, "发送信息成功"+result, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "发送信息成功"+result, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 Log.i(TAG, "onError: "+ex.toString());
+                log.setMovementMethod(new ScrollingMovementMethod());
                 log.append("发送失败\n"+ex.toString()+"\n");
-                Toast.makeText(MainActivity.this, "发送信息失败"+ex.toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "发送信息失败"+ex.toString(), Toast.LENGTH_SHORT).show();
 
             }
 

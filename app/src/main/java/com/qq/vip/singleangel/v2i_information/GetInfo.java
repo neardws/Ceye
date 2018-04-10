@@ -79,7 +79,7 @@ public class GetInfo extends Service {
         //LocationMode. Battery_Saving：低功耗；
         //LocationMode. Device_Sensors：仅使用设备；
 
-        option.setCoorType("bd09");
+        option.setCoorType("bd09ll");
         //可选，设置返回经纬度坐标类型，默认gcj02
         //gcj02：国测局坐标；
         //bd09ll：百度经纬度坐标；
@@ -105,6 +105,7 @@ public class GetInfo extends Service {
         option.SetIgnoreCacheException(false);
         //可选，设置是否收集Crash信息，默认收集，即参数为false
 
+
         option.setWifiCacheTimeOut(5*60*1000);
         //可选，7.2版本新增能力
         //如果设置了该接口，首次启动定位时，会先判断当前WiFi是否超出有效期，若超出有效期，会先重新扫描WiFi，然后定位
@@ -112,8 +113,14 @@ public class GetInfo extends Service {
         option.setEnableSimulateGps(false);
         //可选，设置是否需要过滤GPS仿真结果，默认需要，即参数为false
 
+
         mLocationClient.setLocOption(option);
         mLocationClient.start();
+        Toast.makeText(getApplicationContext(), "百度定位服务开始运行", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent();
+        intent.setAction(MainActivity.UPDATA_LOG);
+        intent.putExtra(MainActivity.UPDATA_LOG,"百度定位服务开始运行");
+        sendBroadcast(intent);
 
     }
 
@@ -200,6 +207,11 @@ public class GetInfo extends Service {
         if (mLocationClient.isStarted()){
             mLocationClient.unRegisterLocationListener(myListener);
             mLocationClient.stop();
+            Toast.makeText(getApplicationContext(), "百度定位服务已关闭", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent();
+            intent.setAction(MainActivity.UPDATA_LOG);
+            intent.putExtra(MainActivity.UPDATA_LOG,"百度定位服务已关闭");
+            sendBroadcast(intent);
         }
        // mLocationClient.stop();
 
@@ -399,9 +411,8 @@ public class GetInfo extends Service {
             //此处的BDLocation为定位结果信息类，通过它的各种get方法可获取定位相关的全部结果
             //以下只列举部分获取经纬度相关（常用）的结果信息
             //更多结果信息获取说明，请参照类参考中BDLocation类中的说明
-            Toast.makeText(getApplicationContext(), "百度开始定位。", Toast.LENGTH_SHORT).show();
-            int locationTyp = location.getLocType();
 
+            location.setRadius(0.000000000000f);
             double latitude = location.getLatitude();    //获取纬度信息
             double longitude = location.getLongitude();    //获取经度信息
             float speed = location.getSpeed();

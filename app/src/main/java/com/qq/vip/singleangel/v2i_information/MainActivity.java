@@ -12,6 +12,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,6 +35,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -59,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String UPDATA_UI        = "UPDATA_UI";
     public static final String UPDATA_SUCCESS   = "UPDATA_SUCCESS";
     public static final String UPDATA_FAILED    = "UPDATA_FAILED";
+    public static final String SEND_MESSAGE     = "SEND_MESSAGE";
     public static final String START_SEND       = "START_SEND";
     public static final String STOP_SEND        = "STOP_SEND";
 
@@ -125,11 +131,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /**
+         *对xutils3.5进行初始化
+         */
+        x.Ext.init(getApplication());
+        x.Ext.setDebug(true);
+
         intentFilter.addAction(MainActivity.UPDATA_UI);
         intentFilter.addAction(MainActivity.UPDATA_SUCCESS);
         intentFilter.addAction(MainActivity.UPDATA_FAILED);
         intentFilter.addAction(MainActivity.START_SEND);
         intentFilter.addAction(MainActivity.STOP_SEND);
+        intentFilter.addAction(MainActivity.SEND_MESSAGE);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -144,9 +157,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         log             = (TextView) findViewById(R.id.log);
-        webView         = (WebView) findViewById(R.id.webView);
+        log.setMovementMethod(new ScrollingMovementMethod());
+        /*webView         = (WebView) findViewById(R.id.webView);
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebViewClient(new WebViewClient());*/
 
         tv_deviceNo     = (TextView) findViewById(R.id.con_deviceNo);
         tv_indexNum     = (TextView) findViewById(R.id.con_indexNum);
@@ -351,7 +365,7 @@ public class MainActivity extends AppCompatActivity {
                             information.setDeviceName(ed_deviceName.getText().toString());
                         }
 
-                        try {
+                        /*try {
                             String deviceNo         = URLEncoder.encode(String.valueOf(information.getDeviceNo()),  "utf-8");
                             String indexNum         = URLEncoder.encode(String.valueOf(information.getIndexNum()), "utf-8");
                             String packageNum       = URLEncoder.encode(String.valueOf(information.getPackageNum()), "utf-8");
@@ -380,9 +394,15 @@ public class MainActivity extends AppCompatActivity {
                             Intent intent1 = new Intent();
                             intent.setAction(MainActivity.UPDATA_FAILED);
                             sendBroadcast(intent1);
-                        }
+                        }*/
 
                     }
+                    break;
+                case MainActivity.SEND_MESSAGE:
+                    Information information1 = (Information) getInformation();
+                    String url = "http://118.24.19.160:8088/V2I/collect";
+
+                    sendPost(url, information1);
                     break;
                 case MainActivity.UPDATA_SUCCESS:
                     String result = (String) intent.getStringExtra(Information.IOFMATION);
@@ -397,5 +417,121 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    private  Information getInformation(){
+        Information information = new Information();
+        if (tv_deviceNo.getText()!= null && !tv_deviceNo.getText().toString().equals("")){
+            String deviceNo         = tv_deviceNo.getText().toString();
+            information.setDeviceNo(Integer.valueOf(deviceNo));
+        }
+        if (tv_indexNum.getText() != null && !tv_indexNum.getText().toString().equals("")){
+            String indexNum         = tv_indexNum.getText().toString();
+            information.setIndexNum(Integer.valueOf(indexNum));
+        }
+        if (tv_packageNum.getText() != null && !tv_packageNum.getText().toString().equals("")){
+            String packageNum       = tv_packageNum.getText().toString();
+            information.setPackageNum(Long.valueOf(packageNum));
+        }
+        if (hint_deviceNo.getText() != null && !hint_deviceNo.getText().toString().equals("")){
+            String macAdd           = hint_deviceNo.getText().toString();
+            information.setMacAdd(macAdd);
+        }
+        if (tv_speed.getText() != null && !tv_speed.getText().toString().equals("")){
+            String speed            = tv_speed.getText().toString();
+            information.setSpeed(Float.valueOf(speed));
+        }
+        if (tv_timeNow.getText() != null && !tv_timeNow.getText().toString().equals("")){
+            String timeNow          = tv_timeNow.getText().toString();
+            information.setTimeNow(Long.valueOf(timeNow));
+        }
+        if (tv_latitude.getText() != null && !tv_latitude.getText().toString().equals("")){
+            String latitude         = tv_latitude.getText().toString();
+            information.setLatitude(Double.valueOf(latitude));
+        }
+        if (tv_longitude.getText() != null && !tv_longitude.getText().toString().equals("")){
+            String longitude        = tv_longitude.getText().toString();
+            information.setLongitude(Double.valueOf(longitude));
+        }
+        if (tv_direction.getText() != null && !tv_direction.getText().toString().equals("")){
+            String direction        = tv_direction.getText().toString();
+            information.setDirection(Float.valueOf(direction));
+        }
+        if (gps_tpye.getText() != null && !gps_tpye.getText().toString().equals("")){
+            String coord_type_input = gps_tpye.getText().toString();
+            information.setCoord_type_input(coord_type_input);
+            //information.setCoord_type_input(Information.BDO9);
+        }
+        return information;
+    }
+
+    /**
+     *
+     * @param url
+     * @param information
+     */
+    private void sendPost(String url, Information information) {
+        final String TAG = "sendPost";
+        RequestParams params = new RequestParams(url);
+        params.addBodyParameter("deviceNo",String.valueOf(information.getDeviceNo()));
+        params.addBodyParameter("indexNum",String.valueOf(information.getIndexNum()));
+        params.addBodyParameter("packageNum",String.valueOf(information.getPackageNum()));
+        params.addBodyParameter("macAdd",information.getMacAdd());
+        params.addBodyParameter("speed",String.valueOf(information.getSpeed()));
+        params.addBodyParameter("timeNow",String.valueOf(information.getTimeNow()));
+        params.addBodyParameter("latitude",String.valueOf(information.getLatitude()));
+        params.addBodyParameter("longitude",String.valueOf(information.getLongitude()));
+        params.addBodyParameter("direction",String.valueOf((int) information.getDirection()));
+        params.addBodyParameter("coord_type_input",information.getCoord_type_input());
+
+        String urlog = "http://118.24.19.160:8088/V2I/collect"
+                + "?deviceNo="+String.valueOf(information.getDeviceNo())
+                + "&indexNum="+String.valueOf(information.getIndexNum())
+                + "&packageNum="+String.valueOf(information.getPackageNum())
+                + "&macAdd="+information.getMacAdd()
+                + "&speed="+String.valueOf(information.getSpeed())
+                + "&timeNow="+String.valueOf(information.getTimeNow())
+                + "&latitude="+String.valueOf(information.getLatitude())
+                + "&longitude="+String.valueOf(information.getLongitude())
+                + "&direction="+String.valueOf((int) information.getDirection())
+                + "&coord_type_input="+information.getCoord_type_input();
+        log.append(urlog + "\n");
+
+        x.http().post(params, new Callback.CacheCallback<String>() {
+
+            @Override
+            public void onSuccess(String result) {
+                Log.i(TAG, "onSuccess: "+result);
+                log.append("发送成功\n"+result+"\n");
+                Toast.makeText(MainActivity.this, "发送信息成功"+result, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Log.i(TAG, "onError: "+ex.toString());
+                log.append("发送失败\n"+ex.toString()+"\n");
+                Toast.makeText(MainActivity.this, "发送信息失败"+ex.toString(), Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onCancelled(Callback.CancelledException cex) {
+                Log.i(TAG, "onCancelled: "+cex.toString());
+            }
+
+            @Override
+            public void onFinished() {
+                Log.i(TAG, "onFinished: ");
+            }
+
+            @Override
+            public boolean onCache(String result) {
+                Log.i(TAG, "onCache: "+result);
+                return false;
+            }
+        });
+
+    }
+
+
 
 }

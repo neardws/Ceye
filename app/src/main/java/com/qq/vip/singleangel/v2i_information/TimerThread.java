@@ -66,6 +66,7 @@ public class TimerThread extends Thread{
             updateUI(infor);
             try {
                 sleep(sleepTime);
+                sendMessage();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -76,6 +77,12 @@ public class TimerThread extends Thread{
         Intent intent = new Intent();
         intent.setAction(MainActivity.UPDATA_UI);
         intent.putExtra(Information.IOFMATION, information);
+        context.sendBroadcast(intent);
+    }
+
+    private void sendMessage(){
+        Intent intent = new Intent();
+        intent.setAction(MainActivity.SEND_MESSAGE);
         context.sendBroadcast(intent);
     }
 

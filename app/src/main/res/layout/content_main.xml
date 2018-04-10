@@ -9,10 +9,8 @@
     tools:showIn="@layout/activity_main">
 
     <RelativeLayout
-        android:layout_width="368dp"
-        android:layout_height="495dp"
-        tools:layout_editor_absoluteY="8dp"
-        tools:layout_editor_absoluteX="8dp">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <!--* indexNum     序号
             * longitude    经度
@@ -25,7 +23,7 @@
         <TextView
             android:id="@+id/tv_black"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="0dp"
             android:layout_alignParentTop="true"/>
         <TextView
             android:id="@+id/tag_deviceName"
@@ -339,12 +337,11 @@
             android:id="@+id/hint_frequency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/context"
             android:text="@string/hint_frequency"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_alignParentEnd="true" />
+            android:layout_below="@+id/context"
+            android:layout_alignEnd="@+id/context" />
 
         <Button
             android:id="@+id/btn_GPS"
@@ -369,7 +366,7 @@
             android:id="@+id/btn_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ed_frequency"
+            android:layout_alignParentBottom="true"
             android:layout_margin="3dp"
             android:text="@string/btn_start" />
 
@@ -377,34 +374,26 @@
             android:id="@+id/btn_stop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ed_frequency"
+            android:layout_alignParentBottom="true"
             android:layout_toEndOf="@+id/btn_start"
             android:layout_margin="3dp"
             android:text="@string/btn_stop" />
 
-        <ScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_start"
-            android:scrollbars="vertical"
-            android:scrollbarStyle="outsideOverlay"
-            android:padding="10dp"
-            android:scrollbarFadeDuration="2000">
             <TextView
                 android:id="@+id/log"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="false"
-                android:textSize="12sp"
+                android:textSize="15sp"
                 android:hint="@string/hint_log"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
+                android:maxLines = "20"
+                android:scrollbars = "vertical"
+                android:layout_below="@+id/spin_frequency"
+                android:layout_alignBottom="@+id/btn_GPS" />
 
-                />
-        </ScrollView>
 
-
-        <WebView
+<!--        <WebView
             android:id="@+id/webView"
             android:visibility="invisible"
             android:layout_width="fill_parent"
@@ -412,7 +401,7 @@
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/tv_black"
             tools:layout_editor_absoluteX="31dp"
-            tools:layout_editor_absoluteY="478dp" />
+            tools:layout_editor_absoluteY="478dp" />-->
 
 
     </RelativeLayout>

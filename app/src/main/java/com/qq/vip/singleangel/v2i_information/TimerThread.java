@@ -64,9 +64,9 @@ public class TimerThread extends Thread{
             //infor.setCoord_type_input(Information.WGS84);
             //ooper.loop();
             updateUI(infor);
+            sendMessage();
             try {
                 sleep(sleepTime);
-                sendMessage();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

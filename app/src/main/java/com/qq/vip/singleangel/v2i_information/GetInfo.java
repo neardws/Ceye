@@ -67,7 +67,6 @@ public class GetInfo extends Service {
                 context.getSystemService(Context.LOCATION_SERVICE);
         setGPS(information);
         */
-
         mLocationClient = new LocationClient(getApplicationContext());
         //声明LocationClient类
         mLocationClient.registerLocationListener(myListener);
@@ -418,7 +417,9 @@ public class GetInfo extends Service {
             information.setLatitude(latitude);
             information.setLongitude(longitude);
             information.setSpeed(speed);
-            information.setCoord_type_input(String.valueOf(errorCode));
+            information.setCoord_type_input(Information.BDO9);
+            information.setBaiduErrorCode(String.valueOf(errorCode));
+           // information.setCoord_type_input(String.valueOf(errorCode));
             updateUI(information);
         }
     }

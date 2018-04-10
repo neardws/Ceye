@@ -345,8 +345,9 @@ public class MainActivity extends AppCompatActivity {
                         if (!information.getCoord_type_input().equals("")){
                             gps_tpye        .setText(information.getCoord_type_input());
                         }
-
-                        hint_gps_type   .setText("BD09");
+                        if (!information.getBaiduErrorCode().equals("")){
+                            hint_gps_type   .setText(information.getBaiduErrorCode());
+                        }
                         if (!information.getMacAdd().equals("")){
                             hint_deviceNo   .setText(information.getMacAdd());
                         }

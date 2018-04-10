@@ -14,6 +14,7 @@ import android.location.LocationManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
@@ -38,6 +39,8 @@ import java.util.TimeZone;
  */
 
 public class InfoTool {
+    public static final String TAG = "InfoTool";
+
     private Information information;
     private WifiManager wifiManager;
     private SensorManager sensorManager;
@@ -120,17 +123,45 @@ public class InfoTool {
 
     /**
      * 获取时间
+     * 获取更精确时间，精确到毫秒
      */
     private void getTimeNow(){
+        syncTime();
         SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dff.setTimeZone(TimeZone.getTimeZone("GMT+08"));
         String time = dff.format(new Date());
         information.setTime(time);
-        information.setTimeNow(System.currentTimeMillis()/1000);
-
+        //information.setTimeNow(System.currentTimeMillis()/1000);
+        information.setTimeNow(System.currentTimeMillis());
     }
 
+    /**
+     * +
+     * 获取时间
+     * 获取更精确时间，精确到纳秒
+     */
+    private void getTimeNowNanoTime(){
+        syncTime();
+        SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dff.setTimeZone(TimeZone.getTimeZone("GMT+08"));
+        String time = dff.format(new Date());
+        information.setTime(time);
+        //information.setTimeNow(System.currentTimeMillis()/1000);
+        information.setTimeNow(System.nanoTime());
+    }
 
+    private void syncTime(){
+        SntpClient sntpClient = new SntpClient();
+        if (sntpClient.requestTime(SntpClient.ALI, SntpClient.TIMEOUT)){
+            long time = sntpClient.getNtpTime();
+            SystemClock.setCurrentTimeMillis(time);//设置系统时间
+        }else if (sntpClient.requestTime(SntpClient.SJTU, SntpClient.TIMEOUT)){
+            long time = sntpClient.getNtpTime();
+            SystemClock.setCurrentTimeMillis(time);//设置系统时间
+        }else {
+            Log.d(TAG, "同步时间失败");
+        }
+    }
 
 
 

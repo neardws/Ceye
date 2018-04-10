@@ -43,6 +43,7 @@ public class Information implements Serializable{
     private long        timeNow;
     private String      time;
     private long        packageNum;
+    private String      baiduErrorCode;
     public Information(){
         deviceName          = "Device";
         deviceNo            = 0;
@@ -56,9 +57,10 @@ public class Information implements Serializable{
         timeNow             = 0;
         packageNum          = 0;
         time                = "";
+        baiduErrorCode      = "";
     }
 
-    public Information(String deviceName, int deviceNo, int indexNum, double longitude, double latitude, float speed,
+    public Information(String deviceName, int deviceNo, int indexNum, double longitude, double latitude, float speed, String baiduErrorCode,
                        String coord_type_input, float direction, long timeNow, long packageNum, String time, String macAdd){
         this.deviceName       = deviceName;
         this.deviceNo         = deviceNo;
@@ -72,6 +74,7 @@ public class Information implements Serializable{
         this.packageNum       = packageNum;
         this.time             = time;
         this.macAdd           = macAdd;
+        this.baiduErrorCode   = baiduErrorCode;
     }
 
     public Information(Information information){
@@ -86,6 +89,11 @@ public class Information implements Serializable{
         this.setTime(information.getTime());
         this.setCoord_type_input(information.getCoord_type_input());
         this.setDeviceName(information.getDeviceName());
+        this.setBaiduErrorCode(information.getBaiduErrorCode());
+    }
+
+    public void setBaiduErrorCode(String baiduErrorCode){
+        this.baiduErrorCode = baiduErrorCode;
     }
 
     public void setDeviceName(String deviceName) {
@@ -182,6 +190,10 @@ public class Information implements Serializable{
 
     public String getDeviceName() {
         return deviceName;
+    }
+
+    public String getBaiduErrorCode() {
+        return baiduErrorCode;
     }
 
     @Override

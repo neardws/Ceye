@@ -46,6 +46,12 @@ public int getLocType ( )返回值：
 ### bug fixed
 * 1、使用TXT文本作为数据包进行发送
 * 2、增加AboutMe Activity
+* 3、添加DBFlow, 将发送的数据在本地数据库进行存储
+
+### DBFlow
+> [Github](https://github.com/Raizlabs/DBFlow)
+> [中文文档](https://link.jianshu.com/?t=https://yumenokanata.gitbooks.io/dbflow-tutorials/content/index.html)
+> [英文文档](https://legacy.gitbook.com/book/agrosner/dbflow/details)
 
 ## 2018.4.14_第二次实验计划
 ### 实验时间

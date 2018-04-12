@@ -32,10 +32,23 @@ public class GetInfo extends Service {
     private Context context;
     public static final String FREQUENCY        = "FREQUENCY";
 
+    public static final String _100MS = "100ms";
+    public static final String _200MS = "200ms";
+    public static final String _500MS = "500ms";
+    public static final String _1S    = "1s";
+    public static final String _5S    = "5s";
+    public static final String _10S   = "10s";
+
     public LocationClient mLocationClient = null;
     private BaiduLocationListener myListener = new BaiduLocationListener();
 
-    TimerThread timerThread1;
+    TimerThread timerThread100ms;
+    TimerThread timerThread200ms;
+    TimerThread timerThread500ms;
+    TimerThread timerThread1s;
+    TimerThread timerThread5s;
+    TimerThread timerThread10s;
+    /*TimerThread timerThread1;
     TimerThread timerThread3;
     TimerThread timerThread5;
     TimerThread timerThread10;
@@ -48,7 +61,7 @@ public class GetInfo extends Service {
     TimerThread timerThread45;
     TimerThread timerThread50;
     TimerThread timerThread55;
-    TimerThread timerThread60;
+    TimerThread timerThread60;*/
 
 
     @Nullable
@@ -132,8 +145,32 @@ public class GetInfo extends Service {
             if (isThreadRun()){
                 Toast.makeText(context, "还用线程正在运行，请按停止按钮结束进程。", Toast.LENGTH_LONG).show();
             }else {
+                String frequency = intent.getExtras().getString(GetInfo.FREQUENCY);
+                if (frequency.equals(GetInfo._100MS)){
+                    /**
+                     * TimeThread 运行时间间隔为1*100ms
+                     */
+                    timerThread100ms = new TimerThread(context,1);
+                    timerThread100ms.start();
+                }else if (frequency.equals(GetInfo._200MS)){
+                    timerThread200ms = new TimerThread(context,2);
+                    timerThread200ms.start();
+                }else if (frequency.equals(GetInfo._500MS)){
+                    timerThread500ms = new TimerThread(context,5);
+                    timerThread500ms.start();
+                }else if (frequency.equals(GetInfo._1S)){
+                    timerThread1s = new TimerThread(context,10);
+                    timerThread1s.start();
+                }else if (frequency.equals(GetInfo._5S)){
+                    timerThread5s = new TimerThread(context,50);
+                    timerThread5s.start();
+                }else if (frequency.equals(GetInfo._10S)){
+                    timerThread10s = new TimerThread(context,100);
+                    timerThread10s.start();
+                }else {
 
-                int frequency = intent.getExtras().getInt(GetInfo.FREQUENCY);
+                }
+                /*int frequency = intent.getExtras().getInt(GetInfo.FREQUENCY);
                 switch (frequency){
                     case 1:
                         timerThread1 = new TimerThread(context, 1);
@@ -195,7 +232,7 @@ public class GetInfo extends Service {
                         timerThread5 = new TimerThread(context, 5);
                         timerThread5.start();
                         break;
-                }
+                }*/
             }
         }
     }
@@ -204,18 +241,9 @@ public class GetInfo extends Service {
     public void onDestroy() {
         super.onDestroy();
         //locationManager.removeUpdates(new MobileGPSLocationListener());
-        if (mLocationClient.isStarted()){
-            mLocationClient.unRegisterLocationListener(myListener);
-            mLocationClient.stop();
-            Toast.makeText(getApplicationContext(), "百度定位服务已关闭", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent();
-            intent.setAction(MainActivity.UPDATA_LOG);
-            intent.putExtra(MainActivity.UPDATA_LOG,"百度定位服务已关闭");
-            sendBroadcast(intent);
-        }
        // mLocationClient.stop();
 
-        if (isThreadRun()){
+        /*if (isThreadRun()){
             if (timerThread1 != null){
                 timerThread1.stopThread();
             }else if (timerThread3 != null){
@@ -247,6 +275,34 @@ public class GetInfo extends Service {
             }
         }else {
             //do nothing
+        }*/
+
+        if (isThreadRun()){
+            if (timerThread100ms != null){
+                timerThread100ms.stopThread();
+            }else if (timerThread200ms != null){
+                timerThread200ms.stopThread();
+            }else if (timerThread500ms != null){
+                timerThread500ms.stopThread();
+            }else if (timerThread1s != null){
+                timerThread1s.stopThread();
+            }else if (timerThread5s != null){
+                timerThread5s.stopThread();
+            }else if (timerThread10s != null){
+                timerThread10s.stopThread();
+            }
+        }else {
+            //do nothing
+        }
+
+        if (mLocationClient.isStarted()){
+            mLocationClient.unRegisterLocationListener(myListener);
+            mLocationClient.stop();
+            Toast.makeText(getApplicationContext(), "百度定位服务已关闭", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent();
+            intent.setAction(MainActivity.UPDATA_LOG);
+            intent.putExtra(MainActivity.UPDATA_LOG,"百度定位服务已关闭");
+            sendBroadcast(intent);
         }
     }
 
@@ -256,25 +312,37 @@ public class GetInfo extends Service {
      * @return
      */
     private boolean isThreadRun(){
-        if ( (timerThread1 != null && timerThread1.isAlive())
-                || (timerThread3  != null &&  timerThread3.isAlive() )
-                || (timerThread5  != null &&  timerThread5.isAlive() )
-                || (timerThread10 != null && timerThread10.isAlive() )
-                || (timerThread15 != null && timerThread15.isAlive() )
-                || (timerThread20 != null && timerThread20.isAlive() )
-                || (timerThread25 != null && timerThread25.isAlive() )
-                || (timerThread30 != null && timerThread30.isAlive() )
-                || (timerThread35 != null && timerThread35.isAlive() )
-                || (timerThread40 != null && timerThread40.isAlive() )
-                || (timerThread45 != null && timerThread45.isAlive() )
-                || (timerThread50 != null && timerThread50.isAlive() )
-                || (timerThread55 != null && timerThread55.isAlive() )
-                || (timerThread60 != null && timerThread60.isAlive() ) ){
+
+        if ( (timerThread100ms          != null && timerThread100ms.isAlive())
+                || (timerThread200ms    != null && timerThread200ms.isAlive() )
+                || (timerThread500ms    != null && timerThread500ms.isAlive() )
+                || (timerThread1s       != null && timerThread1s.isAlive() )
+                || (timerThread5s       != null && timerThread5s.isAlive() )
+                || (timerThread10s      != null && timerThread10s.isAlive() )){
             return true;
         }else {
             return false;
         }
-    }
+
+       /* if ( (timerThread1 != null && timerThread1.isAlive())
+            || (timerThread3  != null &&  timerThread3.isAlive() )
+            || (timerThread5  != null &&  timerThread5.isAlive() )
+            || (timerThread10 != null && timerThread10.isAlive() )
+            || (timerThread15 != null && timerThread15.isAlive() )
+            || (timerThread20 != null && timerThread20.isAlive() )
+            || (timerThread25 != null && timerThread25.isAlive() )
+            || (timerThread30 != null && timerThread30.isAlive() )
+            || (timerThread35 != null && timerThread35.isAlive() )
+            || (timerThread40 != null && timerThread40.isAlive() )
+            || (timerThread45 != null && timerThread45.isAlive() )
+            || (timerThread50 != null && timerThread50.isAlive() )
+            || (timerThread55 != null && timerThread55.isAlive() )
+            || (timerThread60 != null && timerThread60.isAlive() ) ){
+        return true;
+    }else {
+        return false;
+    }*/
+}
 
     private class MobileGPSLocationListener implements LocationListener {
 
@@ -412,7 +480,7 @@ public class GetInfo extends Service {
             //以下只列举部分获取经纬度相关（常用）的结果信息
             //更多结果信息获取说明，请参照类参考中BDLocation类中的说明
 
-            location.setRadius(0.000000000000f);
+           // location.setRadius(0.000000000000f);
             double latitude = location.getLatitude();    //获取纬度信息
             double longitude = location.getLongitude();    //获取经度信息
             float speed = location.getSpeed();

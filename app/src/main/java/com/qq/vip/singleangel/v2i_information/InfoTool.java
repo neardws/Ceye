@@ -86,8 +86,6 @@ public class InfoTool {
         sensorManager.registerListener(new MySensorEventListener(),
                 magnetic_field, Sensor.TYPE_MAGNETIC_FIELD);
 
-
-
     }
 
     /**

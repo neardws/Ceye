@@ -2,15 +2,15 @@
     <string name="app_name">V2I_information</string>
     <string name="action_settings">Settings</string>
 
-    * indexNum     序号
-    * longitude    经度
-    * latitude     纬度
-    * speed        速度
-    * direction    方向
-    * timeNow      时间戳
-    * packageNum   包数量
+    * indexNum 序号
+    * longitude 经度
+    * latitude 纬度
+    * speed 速度
+    * direction 方向
+    * timeNow 时间戳
+    * packageNum 包数量
 
-    <string name="deviceName">设备名</string>
+    <string name="deviceName">数据包哈希码</string>
     <string name="deviceNo">设备号</string>
     <string name="indexNum">序号</string>
     <string name="gps_type">GPS类型</string>
@@ -22,7 +22,7 @@
     <string name="packageNum">包数量</string>
     <string name="frequency">频率</string>
 
-    <string name="hint_deviceName">设备名，由用户自定义，默认为Device</string>
+    <string name="hint_deviceName">由每次首包发送时间哈希得到</string>
     <string name="hint_deviceNo">由设备的MAC地址获得</string>
     <string name="hint_indexNum">数据包的序号，由1开始编号</string>
     <string name="hint_gps_type">WGS84/GCJ02/BD09</string>
@@ -34,21 +34,14 @@
     <string name="hint_packageNum">数据包的数量</string>
     <string name="hint_context">"IND##indexNum##LON##longitude##LAT##latitude##SPE##speed##DIR##direction##TIM##timeNow##PAC##packageNum##</string>
     <string name="hint_frequency">更新的时间间隔，单位S</string>
-    <string name="hint_log">显示Log信息,"IND##indexNum##LON##longitude##LAT##latitude##SPE##speed##DIR##direction##TIM##timeNow##PAC##packageNum####百度定位SDKpublic int getLocType ( )返回值：61 ： GPS定位结果，GPS定位成功。62 ： 无法获取有效定位依据，定位失败，请检查运营商网络或者wifi网络是否正常开启，尝试重新请求定位。63 ： 网络异常，没有成功向服务器发起请求，请确认当前测试手机网络是否通畅，尝试重新请求定位。65 ： 定位缓存的结果。
-66 ： 离线定位结果。通过requestOfflineLocaiton调用时对应的返回结果。
-67 ： 离线定位失败。通过requestOfflineLocaiton调用时对应的返回结果。
-68 ： 网络连接失败时，查找本地离线定位时对应的返回结果。
-161： 网络定位结果，网络定位定位成功。
-162： 请求串密文解析失败。
-167： 服务端定位失败，请您检查是否禁用获取位置信息权限，尝试重新请求定位。
-502： key参数错误，请按照说明文档重新申请KEY。
-505： key不存在或者非法，请按照说明文档重新申请KEY。
-601： key服务被开发者自己禁用，请按照说明文档重新申请KEY。
-602： key mcode不匹配，您的ak配置过程中安全码设置有问题，请确保：sha1正确，“;”分号是英文状态；且包名是您当前运行应用的包名，请按照说明文档重新申请KEY。
-501～700：key验证失败，请按照说明文档重新申请KEY</string>
+    <string name="hint_log">显示Log信息,"IND##indexNum##LON##longitude##LAT##latitude##SPE##speed##DIR##direction##TIM##timeNow##PAC##packageNum###</string>
 
     <string name="btn_GPS">GPS</string>
     <string name="btn_start">开始</string>
     <string name="btn_stop">停止</string>
+
+    <string name="tag_setup">设置</string>
+    <string name="package_size">数据包大小</string>
+    <string name="send_frequency">发送频率</string>
 
 </resources>

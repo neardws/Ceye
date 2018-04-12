@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="frequency">
+    <!--<string-array name="frequency">
         <item>1</item>
         <item>3</item>
         <item>5</item>
@@ -15,5 +15,21 @@
         <item>50</item>
         <item>55</item>
         <item>60</item>
+    </string-array>-->
+
+    <string-array name="frequency">
+        <item>100ms</item>
+        <item>200ms</item>
+        <item>500ms</item>
+        <item>1s</item>
+        <item>5s</item>
+        <item>10s</item>
+    </string-array>
+
+    <string-array name="package_size">
+        <item>40B</item>
+        <item>100B</item>
+        <item>500B</item>
+        <item>1KB</item>
     </string-array>
 </resources>

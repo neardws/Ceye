@@ -19,6 +19,10 @@ public class Information implements Serializable{
     public static final String BDO9      = "bd09";
 
     /**
+     * frequency            发送的频率
+     * packageSize          发送数据包的大小
+     * packageName          对此次开始发送时间进行哈希
+     * isEndofPackage       标志位，是否为最后一个包，默认为0
      * deviceName           设备名字
      * deviceNo             设备号
      * macAdd               MAC地址
@@ -29,8 +33,12 @@ public class Information implements Serializable{
      * speed                速度
      * direction            方向
      * timeNow              时间戳
-     * packageNum           包大小
+     * packageNum           总的数据包的数目
      */
+    private String      frequency;
+    private String      packageSize;
+    private int         packageName;
+    private int         isEndofPackage;
     private String      deviceName;
     private int         deviceNo;
     private String      macAdd;
@@ -45,6 +53,10 @@ public class Information implements Serializable{
     private long        packageNum;
     private String      baiduErrorCode;
     public Information(){
+        frequency           = "";
+        packageSize         = "";
+        packageName         = 0;
+        isEndofPackage      = 0;
         deviceName          = "Device";
         deviceNo            = 0;
         macAdd              = "";
@@ -60,8 +72,14 @@ public class Information implements Serializable{
         baiduErrorCode      = "";
     }
 
-    public Information(String deviceName, int deviceNo, int indexNum, double longitude, double latitude, float speed, String baiduErrorCode,
-                       String coord_type_input, float direction, long timeNow, long packageNum, String time, String macAdd){
+    public Information(String frequency, String packageSize, int packageName, int isEndofPackage,
+                        String deviceName, int deviceNo, int indexNum, double longitude, double latitude,
+                        float speed, String baiduErrorCode, String coord_type_input, float direction,
+                        long timeNow, long packageNum, String time, String macAdd){
+        this.frequency        = frequency;
+        this.packageSize      = packageSize;
+        this.packageName      = packageName;
+        this.isEndofPackage   = isEndofPackage;
         this.deviceName       = deviceName;
         this.deviceNo         = deviceNo;
         this.coord_type_input = coord_type_input;
@@ -90,6 +108,26 @@ public class Information implements Serializable{
         this.setCoord_type_input(information.getCoord_type_input());
         this.setDeviceName(information.getDeviceName());
         this.setBaiduErrorCode(information.getBaiduErrorCode());
+        this.setFrequency(information.getFrequency());
+        this.setPackageSize(information.getPackageSize());
+        this.setPackageName(information.getPackageName());
+        this.setIsEndofPackage(information.getIsEndofPackage());
+    }
+
+    public void setPackageName(int packageName) {
+        this.packageName = packageName;
+    }
+
+    public void setIsEndofPackage(int isEndofPackage) {
+        this.isEndofPackage = isEndofPackage;
+    }
+
+    public void setPackageSize(String packageSize) {
+        this.packageSize = packageSize;
+    }
+
+    public void setFrequency(String frequency) {
+        this.frequency = frequency;
     }
 
     public void setBaiduErrorCode(String baiduErrorCode){
@@ -194,6 +232,22 @@ public class Information implements Serializable{
 
     public String getBaiduErrorCode() {
         return baiduErrorCode;
+    }
+
+    public int getIsEndofPackage() {
+        return isEndofPackage;
+    }
+
+    public int getPackageName() {
+        return packageName;
+    }
+
+    public String getFrequency() {
+        return frequency;
+    }
+
+    public String getPackageSize() {
+        return packageSize;
     }
 
     @Override

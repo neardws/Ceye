@@ -55,8 +55,11 @@ import java.net.SocketException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import static java.lang.System.in;
 import static java.net.Proxy.Type.HTTP;
@@ -70,6 +73,11 @@ public class MainActivity extends AppCompatActivity {
     public static final String SEND_MESSAGE     = "SEND_MESSAGE";
     public static final String START_SEND       = "START_SEND";
     public static final String STOP_SEND        = "STOP_SEND";
+
+    public static final String _40B     = "40B";
+    public static final String _100B    = "100B";
+    public static final String _500B    = "500B";
+    public static final String _1KB     = "1KB";
 
     private BroadcastReceiver broadcastReceiver = null;
     private final IntentFilter intentFilter = new IntentFilter();
@@ -85,7 +93,8 @@ public class MainActivity extends AppCompatActivity {
      * frequency    频率
      */
 
-    private int frequency = 5;
+    private String frequency    = "100ms";
+    private String packageSize  = "40B";
 
     private TextView log;
 
@@ -110,20 +119,31 @@ public class MainActivity extends AppCompatActivity {
     private TextView hint_timeNow;
     private TextView hint_packageNum;
 
-    private EditText ed_deviceName;
-    private EditText ed_frequency;
+
+    private TextView tv_deviceName;
+    private TextView is_End_of_Package;
+/*    private EditText ed_deviceName;
+    private EditText ed_frequency;*/
     private Spinner  spin_frequency;
     private ArrayAdapter arrayAdapter;
 
-/*    private Button btn_start;
-    private Button btn_stop;*/
+    private Spinner spin_package_size;
+    private ArrayAdapter arraySize;
 
-    public void setFrequency(int frequency) {
+    public void setFrequency(String frequency) {
         this.frequency = frequency;
     }
 
-    public int getFrequency() {
+    public String getFrequency() {
         return frequency;
+    }
+
+    public void setPackageSize(String packageSize) {
+        this.packageSize = packageSize;
+    }
+
+    public String getPackageSize() {
+        return packageSize;
     }
 
     @Override
@@ -172,8 +192,11 @@ public class MainActivity extends AppCompatActivity {
         hint_timeNow    = (TextView) findViewById(R.id.hint_timeNow);
         hint_packageNum = (TextView) findViewById(R.id.hint_packageNum);
 
-        ed_deviceName = (EditText) findViewById(R.id.edit_deviceName);
-        ed_frequency = (EditText) findViewById(R.id.ed_frequency);
+        tv_deviceName       = (TextView) findViewById(R.id.tv_deviceName);
+        is_End_of_Package   = (TextView) findViewById(R.id.isEndofPackage);
+
+/*        ed_deviceName = (EditText) findViewById(R.id.edit_deviceName);
+        ed_frequency = (EditText) findViewById(R.id.ed_frequency);*/
         spin_frequency = (Spinner) findViewById(R.id.spin_frequency);
         arrayAdapter = ArrayAdapter.createFromResource(this, R.array.frequency,
                         android.R.layout.simple_spinner_item);
@@ -185,12 +208,34 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String freq = (String) arrayAdapter.getItem(position);
                 if (freq != null){
-                    setFrequency(Integer.parseInt(freq));
-                    Toast.makeText(getApplicationContext(), freq +" is selected.",Toast.LENGTH_SHORT).show();
+                    setFrequency(freq);
+                    Toast.makeText(getApplicationContext(), "发送频率" + freq +"  任务开始后请勿更改.",Toast.LENGTH_SHORT).show();
                 }else {
 
                 }
 
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spin_package_size = (Spinner) findViewById(R.id.spin_package_size);
+        arraySize = ArrayAdapter.createFromResource(this, R.array.package_size,
+                    android.R.layout.simple_spinner_item);
+        spin_package_size.setAdapter(arraySize);
+        spin_package_size.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String size = (String) arraySize.getItem(position);
+                if (size != null){
+                    setPackageSize(size);
+                    Toast.makeText(getApplicationContext(), "数据包大小" + size +"  任务开始后请勿更改.",Toast.LENGTH_SHORT).show();
+                }else {
+
+                }
             }
 
             @Override
@@ -206,20 +251,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!isServiceRunning(getApplicationContext(),"com.qq.vip.singleangel.v2i_information.GetInfo")){
-                    int frequency = 1;
                     log.setText("");
-                    if (!ed_frequency.getText().toString().equals("")){
+                    /*if (!ed_frequency.getText().toString().equals("")){
                         try {
-                            frequency = Integer.parseInt(ed_frequency.getText().toString());
+                            frequency = ed_frequency.getText().toString());
                         }catch (NumberFormatException e){
                             Toast.makeText(MainActivity.this, "格式错误，请输入数字", Toast.LENGTH_SHORT).show();
                         }
                     }else {
                         Toast.makeText(MainActivity.this, "没有输入信息，默认使用下拉框中内容", Toast.LENGTH_SHORT).show();
                         frequency = getFrequency();
-                    }
+                    }*/
+                    long nowTime = System.currentTimeMillis();
+                    int timeHash = String.valueOf(nowTime).hashCode();
+                    tv_deviceName.setText(String.valueOf(timeHash));
+
                     Intent intent = new Intent(MainActivity.this, GetInfo.class);
-                    intent.putExtra(GetInfo.FREQUENCY, frequency);
+                    intent.putExtra(GetInfo.FREQUENCY, getFrequency());
                     startService(intent);
                     fab.setImageResource(R.drawable.ic_clear_black_24dp);
                     log.setMovementMethod(new ScrollingMovementMethod());
@@ -231,6 +279,18 @@ public class MainActivity extends AppCompatActivity {
                     stopService(intent);
                     fab.setImageResource(R.drawable.ic_send_black_24dp);
                     log.setMovementMethod(new ScrollingMovementMethod());
+
+                    /**
+                     * 发送最后一个包
+                     */
+                    is_End_of_Package.setText("1");
+                    Information information = getInformation();
+                    information.setIsEndofPackage(1);
+                    Intent intent1 = new Intent(MainActivity.this, DataPackageTool.class);
+                    intent1.setAction(DataPackageTool.THE_END_PACKAGE);
+                    intent1.putExtra(DataPackageTool.PACKAGE_SIZE, information);
+                    startService(intent1);
+
                     log.append("已关闭服务\n");
                     Snackbar.make(view, "已关闭服务", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
@@ -320,8 +380,13 @@ public class MainActivity extends AppCompatActivity {
                         if (information.getLatitude() != 0){
                             tv_latitude     .setText(String.valueOf(information.getLatitude()));
                         }
-
+                        if (tv_speed.getText().toString().equals("")){  //speed为空
                             tv_speed        .setText(String.valueOf(information.getSpeed()));
+                        }else {     //speed不为空
+                            if (information.getSpeed() != 0){
+                                tv_speed        .setText(String.valueOf(information.getSpeed()));
+                            }
+                        }
 
                         if (information.getDirection() != 0){
                             tv_direction    .setText(String.valueOf(information.getDirection()));
@@ -347,6 +412,7 @@ public class MainActivity extends AppCompatActivity {
                         if (!information.getMacAdd().equals("")){
                             hint_deviceNo   .setText(information.getMacAdd());
                         }
+                        is_End_of_Package.setText("0");
 
                         hint_indexNum   .setText("由1开始编号");
                         hint_longitude  .setText("GPS经度");
@@ -358,41 +424,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                         hint_packageNum .setText("发送数据包的个数");
 
-                        if (!ed_deviceName.getText().toString().equals("")){
-                            information.setDeviceName(ed_deviceName.getText().toString());
-                        }
-
-                        /*try {
-                            String deviceNo         = URLEncoder.encode(String.valueOf(information.getDeviceNo()),  "utf-8");
-                            String indexNum         = URLEncoder.encode(String.valueOf(information.getIndexNum()), "utf-8");
-                            String packageNum       = URLEncoder.encode(String.valueOf(information.getPackageNum()), "utf-8");
-                            String macAdd           = URLEncoder.encode(information.getMacAdd(), "utf-8");
-                            String speed            = URLEncoder.encode(String.valueOf(information.getSpeed()), "utf-8");
-                            String timeNow          = URLEncoder.encode(String.valueOf(information.getTimeNow()), "utf-8");
-                            String latitude         = URLEncoder.encode(String.valueOf(information.getLatitude()),"utf-8");
-                            String longitude        = URLEncoder.encode(String.valueOf(information.getLongitude()), "utf-8");
-                            String direction        = URLEncoder.encode(String.valueOf((int) information.getDirection()), "utf-8");
-                            String coord_type_input = URLEncoder.encode(information.getCoord_type_input(), "utf-8");
-                            String url = "http://118.24.19.160:8088/V2I/collect"
-                                    + "?deviceNo="+deviceNo
-                                    + "&indexNum="+indexNum
-                                    + "&packageNum="+packageNum
-                                    + "&macAdd="+macAdd
-                                    + "&speed="+speed
-                                    + "&timeNow="+timeNow
-                                    + "&latitude="+latitude
-                                    + "&longitude="+longitude
-                                    + "&direction="+direction
-                                    + "&coord_type_input="+coord_type_input;
-                            webView.loadUrl(url);
-                            log.append("发送成功\n"+url+"\n");
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                            Intent intent1 = new Intent();
-                            intent.setAction(MainActivity.UPDATA_FAILED);
-                            sendBroadcast(intent1);
-                        }*/
-
                     }
                     break;
                 case MainActivity.UPDATA_LOG:
@@ -401,9 +432,41 @@ public class MainActivity extends AppCompatActivity {
                     log.append(strLog+"\n");
                     break;
                 case MainActivity.SEND_MESSAGE:
-                    Information information1 = (Information) getInformation();
+                    /*Information information1 = (Information) getInformation();
                     String url = "http://118.24.19.160:8088/V2I/collect";
-                    sendPost(url, information1);
+                    sendPost(url, information1);*/
+
+                    /*Intent intent1 = new Intent(MainActivity.this, DataPackageTool.class);
+                    intent1.setAction(DataPackageTool.THE_END_PACKAGE);
+                    intent1.putExtra(DataPackageTool.PACKAGE_SIZE, information);
+                    startService(intent1);*/
+
+                    Information information1 = (Information) getInformation();
+                    if (getPackageSize().equals(MainActivity._40B)){
+                        Intent intent1 = new Intent(MainActivity.this, DataPackageTool.class);
+                        intent1.setAction(DataPackageTool._40B);
+                        intent1.putExtra(DataPackageTool.PACKAGE_SIZE, information1);
+                        startService(intent1);
+                    }else if (getPackageSize().equals(MainActivity._100B)){
+                        Intent intent1 = new Intent(MainActivity.this, DataPackageTool.class);
+                        intent1.setAction(DataPackageTool._100B);
+                        intent1.putExtra(DataPackageTool.PACKAGE_SIZE, information1);
+                        startService(intent1);
+                    }else if (getPackageSize().equals(MainActivity._500B)){
+                        Intent intent1 = new Intent(MainActivity.this, DataPackageTool.class);
+                        intent1.setAction(DataPackageTool._500B);
+                        intent1.putExtra(DataPackageTool.PACKAGE_SIZE, information1);
+                        startService(intent1);
+                    }else if (getPackageSize().equals(MainActivity._1KB)){
+                        Intent intent1 = new Intent(MainActivity.this, DataPackageTool.class);
+                        intent1.setAction(DataPackageTool._1KB);
+                        intent1.putExtra(DataPackageTool.PACKAGE_SIZE, information1);
+                        startService(intent1);
+                    }else {
+                        Toast.makeText(MainActivity.this, "数据包大小不匹配", Toast.LENGTH_SHORT).show();
+                    }
+
+
                     break;
                 case MainActivity.UPDATA_SUCCESS:
                     String result = (String) intent.getStringExtra(Information.IOFMATION);
@@ -463,6 +526,12 @@ public class MainActivity extends AppCompatActivity {
             information.setCoord_type_input(coord_type_input);
             //information.setCoord_type_input(Information.BDO9);
         }
+        if (!frequency.equals("")){
+            information.setFrequency(frequency);
+        }
+        if (!packageSize.equals("")){
+            information.setPackageSize(packageSize);
+        }
         return information;
     }
 
@@ -470,7 +539,7 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param url
      * @param information
-     */
+     *//*
     private void sendPost(String url, Information information) {
         final String TAG = "sendPost";
         RequestParams params = new RequestParams(url);
@@ -535,7 +604,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
+    }*/
 
 
 

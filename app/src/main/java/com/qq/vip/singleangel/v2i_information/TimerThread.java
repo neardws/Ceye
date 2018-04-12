@@ -55,14 +55,10 @@ public class TimerThread extends Thread{
     public void run() {
         super.run();
         stop = false;
-        long sleepTime = (long) frequency*1000;
+        long sleepTime = (long) frequency*100;
         while (!stop){
             Information infor = infoTool.getInfo();
-            //infor.setLongitude(information.getLongitude());
-            //infor.setLatitude(information.getLatitude());
-            //infor.setSpeed(information.getSpeed());
-            //infor.setCoord_type_input(Information.WGS84);
-            //ooper.loop();
+
             updateUI(infor);
             sendMessage();
             try {

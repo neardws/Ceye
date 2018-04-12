@@ -49,15 +49,13 @@ public int getLocType ( )返回值：
 * 3、添加DBFlow, 将发送的数据在本地数据库进行存储
 
 ## DBFlow
-> DBFlow是一个基于AnnotationProcessing(注解处理器)的强大、健壮同时又简单的ORM框架。
-> 此框架设计为了速度、性能和可用性。消除了大量死板的数据库代码，取而代之的是强大而又简介的API接口。
-> DBFlow使数据库的操作变得简洁而稳定，让您能够更专注地编写令人惊讶的APP。
+> *DBFlow是一个基于AnnotationProcessing(注解处理器)的强大、健壮同时又简单的ORM框架。*
+> *此框架设计为了速度、性能和可用性。消除了大量死板的数据库代码，取而代之的是强大而又简介的API接口。*
+> *DBFlow使数据库的操作变得简洁而稳定，让您能够更专注地编写令人惊讶的APP。*
 
-> [Github](https://github.com/Raizlabs/DBFlow)
-
-> [中文文档](https://link.jianshu.com/?t=https://yumenokanata.gitbooks.io/dbflow-tutorials/content/index.html)
-
-> [英文文档](https://legacy.gitbook.com/book/agrosner/dbflow/details)
+> >[**Github**](https://github.com/Raizlabs/DBFlow)
+> >[**中文文档**](https://link.jianshu.com/?t=https://yumenokanata.gitbooks.io/dbflow-tutorials/content/index.html)
+> >[**英文文档**](https://legacy.gitbook.com/book/agrosner/dbflow/details)
 
 ## 2018.4.14_第二次实验计划
 ### 实验时间

@@ -45,11 +45,11 @@
     <string name="send_frequency">发送频率</string>
     
     <!--AboutMeActivity-->
-    <item name="about_me">关于Ceye</item>
-    <item name="version">版本</item>
-    <item name="version_no">0.1</item>
-    <item name="version_data">2018-4-12</item>
-    <item name="baiddu_location_sdk">百度定位SDK</item>
-    <item name="baidu_error_code_"></item>
+    <string name="about_me">关于Ceye</string>
+    <string name="version">版本</string>
+    <string name="version_no">0.1</string>
+    <string name="version_data">2018-4-12</string>
+    <string name="baiddu_location_sdk">百度定位SDK</string>
+    <string name="baidu_error_code_">public int getLocType() 返回值：</string>
 
 </resources>

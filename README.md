@@ -3,8 +3,8 @@ V2I simulation, Baidu map location, Car trace
 
 ## 2018.4.9
 ### bug
-1、时间同步问题，差值为负数
-2、使用大小不同的图片作为数据包进行发送
+* 1、时间同步问题，差值为负数
+* 2、使用大小不同的图片作为数据包进行发送
 
 ### 百度定位SDK
 public int getLocType ( )返回值：

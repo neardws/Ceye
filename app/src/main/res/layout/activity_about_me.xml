@@ -6,18 +6,66 @@
     android:layout_height="match_parent"
     tools:context="com.qq.vip.singleangel.v2i_information.AboutMeActivity">
 
-    <TextView
-        android:id="@+id/log"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="5dp"
-        android:layout_marginStart="5dp"
-        android:clickable="false"
-        android:hint="@string/hint_log"
-        android:longClickable="false"
-        android:maxLines="20"
-        android:scrollbars="vertical"
-        android:textSize="15sp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp">
+        <TextView
+            android:id="@+id/about_me"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_me"
+            android:layout_marginTop="3dp"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/version"
+            android:layout_below="@+id/about_me"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/version"
+            android:layout_marginTop="3dp"
+            android:textSize="16sp"/>
+        <TextView
+            android:id="@+id/version_no"
+            android:layout_below="@+id/version"
+            android:text="@string/version_no"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/version_data"
+            android:layout_marginStart="10pt"
+            android:layout_below="@+id/version"
+            android:layout_toEndOf="@+id/version_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="@string/version_data"/>
+
+        <TextView
+            android:id="@+id/baidu_location_sdk"
+            android:layout_below="@id/version_no"
+            android:layout_marginTop="3dp"
+            android:text="@string/baiddu_location_sdk"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/baidu_error_code"
+            android:layout_below="@+id/baidu_location_sdk"
+            android:text="@string/baidu_error_code_"
+            android:layout_marginTop="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/error_code"
+            android:layout_below="@+id/baidu_error_code"
+            android:layout_marginTop="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -35,10 +35,6 @@ public class Information implements Serializable{
      * timeNow              时间戳
      * packageNum           总的数据包的数目
      */
-    private String      frequency;
-    private String      packageSize;
-    private int         packageName;
-    private int         isEndofPackage;
     private String      deviceName;
     private int         deviceNo;
     private String      macAdd;
@@ -52,6 +48,10 @@ public class Information implements Serializable{
     private String      time;
     private long        packageNum;
     private String      baiduErrorCode;
+    private String      frequency;
+    private String      packageSize;
+    private int         packageName;
+    private int         isEndofPackage;
     public Information(){
         frequency           = "";
         packageSize         = "";

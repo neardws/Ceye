@@ -54,7 +54,7 @@ public class DataPackageTool extends IntentService{
         String packSize = null;
         if (intent != null) {
             packSize = intent.getAction();
-            Information information = (Information) intent.getSerializableExtra(DataPackageTool.PACKAGE_SIZE);
+            final Information information = (Information) intent.getSerializableExtra(DataPackageTool.PACKAGE_SIZE);
             if (packSize.equals(DataPackageTool._40B)){
                 RequestParams params = new RequestParams(url);
                 params.setCancelFast(true);  //可被立即停止
@@ -97,6 +97,7 @@ public class DataPackageTool extends IntentService{
                     public void onSuccess(String result) {
                         Log.i(TAG, "onSuccess: "+result);
                         sendLog("发送成功\n"+result+"\n");
+                        insertInformationSuccess(information);
                         //Toast.makeText(MainActivity.this, "发送信息成功"+result, Toast.LENGTH_SHORT).show();
                     }
 
@@ -104,6 +105,7 @@ public class DataPackageTool extends IntentService{
                     public void onError(Throwable ex, boolean isOnCallback) {
                         Log.i(TAG, "onError: "+ex.toString());
                         sendLog("发送失败\n"+ex.toString()+"\n");
+                        insertInformationFailed(information);
                         //Toast.makeText(MainActivity.this, "发送信息失败"+ex.toString(), Toast.LENGTH_SHORT).show();
 
                     }
@@ -167,6 +169,7 @@ public class DataPackageTool extends IntentService{
                     public void onSuccess(String result) {
                         Log.i(TAG, "onSuccess: "+result);
                         sendLog("发送成功\n"+result+"\n");
+                        insertInformationSuccess(information);
                         //Toast.makeText(MainActivity.this, "发送信息成功"+result, Toast.LENGTH_SHORT).show();
                     }
 
@@ -174,6 +177,7 @@ public class DataPackageTool extends IntentService{
                     public void onError(Throwable ex, boolean isOnCallback) {
                         Log.i(TAG, "onError: "+ex.toString());
                         sendLog("发送失败\n"+ex.toString()+"\n");
+                        insertInformationFailed(information);
                         //Toast.makeText(MainActivity.this, "发送信息失败"+ex.toString(), Toast.LENGTH_SHORT).show();
 
                     }
@@ -237,6 +241,7 @@ public class DataPackageTool extends IntentService{
                     public void onSuccess(String result) {
                         Log.i(TAG, "onSuccess: "+result);
                         sendLog("发送成功\n"+result+"\n");
+                        insertInformationSuccess(information);
                         //Toast.makeText(MainActivity.this, "发送信息成功"+result, Toast.LENGTH_SHORT).show();
                     }
 
@@ -244,6 +249,7 @@ public class DataPackageTool extends IntentService{
                     public void onError(Throwable ex, boolean isOnCallback) {
                         Log.i(TAG, "onError: "+ex.toString());
                         sendLog("发送失败\n"+ex.toString()+"\n");
+                        insertInformationFailed(information);
                         //Toast.makeText(MainActivity.this, "发送信息失败"+ex.toString(), Toast.LENGTH_SHORT).show();
 
                     }
@@ -307,6 +313,7 @@ public class DataPackageTool extends IntentService{
                     public void onSuccess(String result) {
                         Log.i(TAG, "onSuccess: "+result);
                         sendLog("发送成功\n"+result+"\n");
+                        insertInformationSuccess(information);
                         //Toast.makeText(MainActivity.this, "发送信息成功"+result, Toast.LENGTH_SHORT).show();
                     }
 
@@ -314,6 +321,7 @@ public class DataPackageTool extends IntentService{
                     public void onError(Throwable ex, boolean isOnCallback) {
                         Log.i(TAG, "onError: "+ex.toString());
                         sendLog("发送失败\n"+ex.toString()+"\n");
+                        insertInformationFailed(information);
                         //Toast.makeText(MainActivity.this, "发送信息失败"+ex.toString(), Toast.LENGTH_SHORT).show();
 
                     }
@@ -375,6 +383,7 @@ public class DataPackageTool extends IntentService{
                     public void onSuccess(String result) {
                         Log.i(TAG, "onSuccess: "+result);
                         sendLog("发送成功\n"+result+"\n");
+                        insertInformationSuccess(information);
                         //Toast.makeText(MainActivity.this, "发送信息成功"+result, Toast.LENGTH_SHORT).show();
                     }
 
@@ -382,6 +391,7 @@ public class DataPackageTool extends IntentService{
                     public void onError(Throwable ex, boolean isOnCallback) {
                         Log.i(TAG, "onError: "+ex.toString());
                         sendLog("发送失败\n"+ex.toString()+"\n");
+                        insertInformationFailed(information);
                         //Toast.makeText(MainActivity.this, "发送信息失败"+ex.toString(), Toast.LENGTH_SHORT).show();
 
                     }
@@ -416,5 +426,55 @@ public class DataPackageTool extends IntentService{
         intent.setAction(MainActivity.UPDATA_LOG);
         intent.putExtra(MainActivity.UPDATA_LOG,log);
         sendBroadcast(intent);
+    }
+
+    private void insertInformationSuccess(Information information){
+        InformationModel informationModel = new InformationModel();
+        if (information.getIsEndofPackage() == 0){
+            int id = (String.valueOf(information.getDeviceNo())+String.valueOf(information.getTimeNow())).hashCode();
+            informationModel.setId(id);
+        }else if (information.getIsEndofPackage() == 1){
+            int id = (String.valueOf(information.getDeviceNo())+String.valueOf(information.getTimeNow()+100)).hashCode();
+            informationModel.setId(id);
+        }
+        informationModel.setPackageName(information.getPackageName());
+        informationModel.setDeviceNo(information.getDeviceNo());
+        informationModel.setGpsType(information.getCoord_type_input());
+        informationModel.setLongitude(information.getLongitude());
+        informationModel.setLatitude(information.getLatitude());
+        informationModel.setSpeed(information.getSpeed());
+        informationModel.setDirection(information.getDirection());
+        informationModel.setIndexNum(information.getIndexNum());
+        informationModel.setTimeNow(information.getTimeNow());
+        informationModel.setFrequency(information.getFrequency());
+        informationModel.setPackageSize(information.getPackageSize());
+        informationModel.setIsEndofPackage(information.getIsEndofPackage());
+        informationModel.setSuccess(true);
+        informationModel.insert();
+    }
+
+    private void insertInformationFailed(Information information){
+        InformationModel informationModel = new InformationModel();
+        if (information.getIsEndofPackage() == 0){
+            int id = (String.valueOf(information.getDeviceNo())+String.valueOf(information.getTimeNow())).hashCode();
+            informationModel.setId(id);
+        }else if (information.getIsEndofPackage() == 1){
+            int id = (String.valueOf(information.getDeviceNo())+String.valueOf(information.getTimeNow()+100)).hashCode();
+            informationModel.setId(id);
+        }
+        informationModel.setPackageName(information.getPackageName());
+        informationModel.setDeviceNo(information.getDeviceNo());
+        informationModel.setGpsType(information.getCoord_type_input());
+        informationModel.setLongitude(information.getLongitude());
+        informationModel.setLatitude(information.getLatitude());
+        informationModel.setSpeed(information.getSpeed());
+        informationModel.setDirection(information.getDirection());
+        informationModel.setIndexNum(information.getIndexNum());
+        informationModel.setTimeNow(information.getTimeNow());
+        informationModel.setFrequency(information.getFrequency());
+        informationModel.setPackageSize(information.getPackageSize());
+        informationModel.setIsEndofPackage(information.getIsEndofPackage());
+        informationModel.setSuccess(false);
+        informationModel.insert();
     }
 }

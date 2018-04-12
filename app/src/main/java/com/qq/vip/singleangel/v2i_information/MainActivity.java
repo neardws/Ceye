@@ -534,6 +534,10 @@ public class MainActivity extends AppCompatActivity {
         if (!packageSize.equals("")){
             information.setPackageSize(packageSize);
         }
+        if (tv_deviceName.getText() != null && !tv_deviceName.getText().toString().equals("")){
+            String packageName = tv_deviceName.getText().toString();
+            information.setPackageName(Integer.valueOf(packageName));
+        }
         return information;
     }
 

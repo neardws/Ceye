@@ -6,7 +6,7 @@ V2I simulation, Baidu map location, Car trace
 * 1、时间同步问题，差值为负数
 * 2、使用大小不同的图片作为数据包进行发送
 
-### 百度定位SDK
+## 百度定位SDK
 public int getLocType ( )返回值：
 * 61 ： GPS定位结果，GPS定位成功。
 * 62 ： 无法获取有效定位依据，定位失败，请检查运营商网络或者wifi网络是否正常开启，尝试重新请求定位。
@@ -48,9 +48,15 @@ public int getLocType ( )返回值：
 * 2、增加AboutMe Activity
 * 3、添加DBFlow, 将发送的数据在本地数据库进行存储
 
-### DBFlow
+## DBFlow
+> DBFlow是一个基于AnnotationProcessing(注解处理器)的强大、健壮同时又简单的ORM框架。
+> 此框架设计为了速度、性能和可用性。消除了大量死板的数据库代码，取而代之的是强大而又简介的API接口。
+> DBFlow使数据库的操作变得简洁而稳定，让您能够更专注地编写令人惊讶的APP。
+
 > [Github](https://github.com/Raizlabs/DBFlow)
+
 > [中文文档](https://link.jianshu.com/?t=https://yumenokanata.gitbooks.io/dbflow-tutorials/content/index.html)
+
 > [英文文档](https://legacy.gitbook.com/book/agrosner/dbflow/details)
 
 ## 2018.4.14_第二次实验计划

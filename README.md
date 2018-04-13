@@ -57,6 +57,110 @@ public int getLocType ( )返回值：
 > >[**中文文档**](https://link.jianshu.com/?t=https://yumenokanata.gitbooks.io/dbflow-tutorials/content/index.html)
 > >[**英文文档**](https://legacy.gitbook.com/book/agrosner/dbflow/details)
 
+## 2018.4.13
+### 预期计划
+* 读取GPS数据、可视化
+* 从服务器接收数据，在本机统计时延、丢包率等
+* 将JAVA项目迁移为Kotlin
+
+### 实际测试
+安卓客户端使用Packet Capture捕获发送的数据包，实际上使用XUtils.post方法发送的40字节数据包为3KB
+
+```groovy
+
+POST /V2I/collect HTTP/1.1
+If-Modified-Since: Fri, 13 Apr 2018 05:42:00 GMT
+Content-Type: multipart/form-data; boundary=--------7da3d815208100x1.c40e2ac227d58p15
+Content-Length: 2439
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 8.0.0; ONEPLUS A5010 Build/OPR1.170623.032)
+Host: 118.24.19.160:8088
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+----------7da3d815208100x1.c40e2ac227d58p15
+Content-Disposition: form-data; name="file"; filename="file40b"
+Content-Type: application/octet-stream
+
+IND##indexNum##LON##longitude##LAT##lati
+----------7da3d815208100x1.c40e2ac227d58p15
+Content-Disposition: form-data; name="deviceNo"
+Content-Type: text/plain; charset=UTF-8
+
+112161931
+----------7da3d815208100x1.c40e2ac227d58p15
+Content-Disposition: form-data; name="indexNum"
+Content-Type: text/plain; charset=UTF-8
+
+20
+----------7da3d815208100x1.c40e2ac227d58p15
+Content-Disposition: form-data; name="packageNum"
+Content-Type: text/plain; charset=UTF-8
+
+20
+----------7da3d815208100x1.c40e2ac227d58p15
+Content-Disposition: form-data; name="macAdd"
+Content-Type: text/plain; charset=UTF-8
+
+94:65:2D:3F:E7:20
+----------7da3d815208100x1.c40e2ac227d58p15
+Content-Disposition: form-data; name="speed"
+Content-Type: text/plain; charset=UTF-8
+
+0.0
+----------7da3d815208100x1.c40e2ac227d58p15
+Content-Disposition: form-data; name="timeNow"
+Content-Type: text/plain; charset=UTF-8
+
+1523598119736
+----------7da3d815208100x1.c40e2ac227d58p15
+Content-Disposition: form-data; name="latitude"
+Content-Type: text/plain; charset=UTF-8
+
+29.571414
+----------7da3d815208100x1.c40e2ac227d58p15
+Content-Disposition: form-data; name="longitude"
+Content-Type: text/plain; charset=UTF-8
+
+106.47717
+----------7da3d815208100x1.c40e2ac227d58p15
+Content-Disposition: form-data; name="direction"
+Content-Type: text/plain; charset=UTF-8
+
+76
+----------7da3d815208100x1.c40e2ac227d58p15
+Content-Disposition: form-data; name="coord_type_input"
+Content-Type: text/plain; charset=UTF-8
+
+bd09ll
+----------7da3d815208100x1.c40e2ac227d58p15
+Content-Disposition: form-data; name="frequency"
+Content-Type: text/plain; charset=UTF-8
+
+1s
+----------7da3d815208100x1.c40e2ac227d58p15
+Content-Disposition: form-data; name="packageSize"
+Content-Type: text/plain; charset=UTF-8
+
+40B
+----------7da3d815208100x1.c40e2ac227d58p15
+Content-Disposition: form-data; name="packageName"
+Content-Type: text/plain; charset=UTF-8
+
+-1191700514
+----------7da3d815208100x1.c40e2ac227d58p15
+Content-Disposition: form-data; name="isEndofPackage"
+Content-Type: text/plain; charset=UTF-8
+
+1
+----------7da3d815208100x1.c40e2ac227d58p15
+Content-Disposition: form-data; name="id"
+Content-Type: text/plain; charset=UTF-8
+
+-1052558956
+----------7da3d815208100x1.c40e2ac227d58p15--
+
+```
+
 ## 2018.4.14_第二次实验计划
 ### 实验时间
 ------------------
@@ -154,6 +258,7 @@ public int getLocType ( )返回值：
 
 > * 丢包率
     > 预期丢包率小于1%
+
 
 
 

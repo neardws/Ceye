@@ -1,87 +1,78 @@
-package com.qq.vip.singleangel.v2i_information;
+package com.qq.vip.singleangel.v2i_information
 
-import android.Manifest;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Bundle;
-import android.os.Looper;
-import android.support.v4.app.ActivityCompat;
+import android.Manifest
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
+import android.os.Bundle
+import android.os.Looper
+import android.support.v4.app.ActivityCompat
 
 /**
  * Created by singl on 2018/3/30.
  */
 
-public class TimerThread extends Thread{
-    private Context context;
-    private Information information;
+class TimerThread : Thread {
+    private val context: Context
+    private val information: Information
     /**
      * 多少秒来获取信息
      */
-    private int frequency = 1;
+    var frequency = 1
 
-    private InfoTool infoTool;
+    private val infoTool: InfoTool
 
-    private boolean stop = false;
+    private var stop = false
 
-    public int getFrequency() {
-        return frequency;
+    fun stopThread() {
+        infoTool.uninit()
+        this.stop = true
     }
 
-    public void setFrequency(int frequency) {
-        this.frequency = frequency;
-    }
-
-    public void stopThread(){
-        infoTool.uninit();
-        this.stop = true;
-    }
-
-    public TimerThread(){
+    constructor() {
 
     }
 
-    public TimerThread(Context context, int frequency){
-        information = new Information();
-        this.context = context;
-        setFrequency(frequency);
-        infoTool = new InfoTool(context);
+    constructor(context: Context, frequency: Int) {
+        information = Information()
+        this.context = context
+        frequency = frequency
+        infoTool = InfoTool(context)
     }
 
-    @Override
-    public void run() {
-        super.run();
-        stop = false;
-        long sleepTime = (long) frequency*100;
-        while (!stop){
-            Information infor = infoTool.getInfo();
+    override fun run() {
+        super.run()
+        stop = false
+        val sleepTime = frequency.toLong() * 100
+        while (!stop) {
+            val infor = infoTool.info
 
-            updateUI(infor);
-            sendMessage();
+            updateUI(infor)
+            sendMessage()
             try {
-                sleep(sleepTime);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                Thread.sleep(sleepTime)
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
             }
+
         }
     }
 
-    private void updateUI(Information information){
-        Intent intent = new Intent();
-        intent.setAction(MainActivity.UPDATA_UI);
-        intent.putExtra(Information.IOFMATION, information);
-        context.sendBroadcast(intent);
+    private fun updateUI(information: Information?) {
+        val intent = Intent()
+        intent.action = MainActivity.UPDATA_UI
+        intent.putExtra(Information.IOFMATION, information)
+        context.sendBroadcast(intent)
     }
 
-    private void sendMessage(){
-        Intent intent = new Intent();
-        intent.setAction(MainActivity.SEND_MESSAGE);
-        context.sendBroadcast(intent);
+    private fun sendMessage() {
+        val intent = Intent()
+        intent.action = MainActivity.SEND_MESSAGE
+        context.sendBroadcast(intent)
     }
-
 
 
 }

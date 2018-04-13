@@ -1,72 +1,87 @@
-package com.qq.vip.singleangel.v2i_information
+package com.qq.vip.singleangel.v2i_information;
 
-import android.app.ActivityManager
-import android.app.Service
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import android.net.NetworkRequest
-import android.net.Uri
-import android.os.Bundle
-import android.support.design.internal.TextScale
-import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
-import android.text.method.ScrollingMovementMethod
-import android.util.Log
-import android.view.View
-import android.view.Menu
-import android.view.MenuItem
-import android.webkit.WebView
-import android.webkit.WebViewClient
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Spinner
-import android.widget.TextView
-import android.widget.Toast
+import android.app.ActivityManager;
+import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.NetworkRequest;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.design.internal.TextScale;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
+import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import org.apache.http.HttpResponse
-import org.apache.http.NameValuePair
-import org.apache.http.client.ClientProtocolException
-import org.apache.http.client.entity.UrlEncodedFormEntity
-import org.apache.http.client.methods.HttpPost
-import org.apache.http.impl.client.DefaultHttpClient
-import org.apache.http.message.BasicNameValuePair
-import org.apache.http.util.EntityUtils
-import org.xutils.common.Callback
-import org.xutils.http.RequestParams
-import org.xutils.x
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStreamReader
-import java.io.ObjectOutputStream
-import java.io.OutputStream
-import java.io.PrintWriter
-import java.io.UnsupportedEncodingException
-import java.net.HttpURLConnection
-import java.net.InetSocketAddress
-import java.net.Socket
-import java.net.SocketException
-import java.net.URL
-import java.net.URLConnection
-import java.net.URLEncoder
-import java.text.SimpleDateFormat
-import java.util.ArrayList
-import java.util.Date
-import java.util.TimeZone
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
 
-import java.lang.System.`in`
-import java.net.Proxy.Type.HTTP
+import static java.lang.System.in;
+import static java.net.Proxy.Type.HTTP;
 
-class MainActivity : AppCompatActivity() {
+public class MainActivity extends AppCompatActivity {
 
-    private var broadcastReceiver: BroadcastReceiver? = null
-    private val intentFilter = IntentFilter()
+    public static final String UPDATA_UI        = "UPDATA_UI";
+    public static final String UPDATA_LOG       = "UPDATA_LOG";
+    public static final String UPDATA_SUCCESS   = "UPDATA_SUCCESS";
+    public static final String UPDATA_FAILED    = "UPDATA_FAILED";
+    public static final String SEND_MESSAGE     = "SEND_MESSAGE";
+    public static final String START_SEND       = "START_SEND";
+    public static final String STOP_SEND        = "STOP_SEND";
+
+    public static final String _40B     = "40B";
+    public static final String _100B    = "100B";
+    public static final String _500B    = "500B";
+    public static final String _1KB     = "1KB";
+
+    private BroadcastReceiver broadcastReceiver = null;
+    private final IntentFilter intentFilter = new IntentFilter();
+
 
     /**
      * indexNum     序号
@@ -79,359 +94,352 @@ class MainActivity : AppCompatActivity() {
      * frequency    频率
      */
 
-    var frequency: String? = "100ms"
-    var packageSize: String? = "40B"
 
-    private var log: TextView? = null
+    private String frequency    = "100ms";
+    private String packageSize  = "40B";
 
-    private var tv_deviceNo: TextView? = null
-    private var tv_indexNum: TextView? = null
-    private var tv_longitude: TextView? = null
-    private var tv_latitude: TextView? = null
-    private var tv_speed: TextView? = null
-    private var tv_direction: TextView? = null
-    private var tv_timeNow: TextView? = null
-    private var tv_packageNum: TextView? = null
-    private var tv_context: TextView? = null
-    private var gps_tpye: TextView? = null
-    private var hint_gps_type: TextView? = null
+    private TextView log;
 
-    private var hint_deviceNo: TextView? = null
-    private var hint_indexNum: TextView? = null
-    private var hint_longitude: TextView? = null
-    private var hint_latitude: TextView? = null
-    private var hint_speed: TextView? = null
-    private var hint_direction: TextView? = null
-    private var hint_timeNow: TextView? = null
-    private var hint_packageNum: TextView? = null
+    private TextView tv_deviceNo;
+    private TextView tv_indexNum;
+    private TextView tv_longitude;
+    private TextView tv_latitude;
+    private TextView tv_speed;
+    private TextView tv_direction;
+    private TextView tv_timeNow;
+    private TextView tv_packageNum;
+    private TextView tv_context;
+    private TextView gps_tpye;
+    private TextView hint_gps_type;
+
+    private TextView hint_deviceNo;
+    private TextView hint_indexNum;
+    private TextView hint_longitude;
+    private TextView hint_latitude;
+    private TextView hint_speed;
+    private TextView hint_direction;
+    private TextView hint_timeNow;
+    private TextView hint_packageNum;
 
 
-    private var tv_deviceName: TextView? = null
-    private var is_End_of_Package: TextView? = null
-    /*    private EditText ed_deviceName;
+    private TextView tv_deviceName;
+    private TextView is_End_of_Package;
+/*    private EditText ed_deviceName;
     private EditText ed_frequency;*/
-    private var spin_frequency: Spinner? = null
-    private var arrayAdapter: ArrayAdapter<*>? = null
+    private Spinner  spin_frequency;
+    private ArrayAdapter arrayAdapter;
 
-    private var spin_package_size: Spinner? = null
-    private var arraySize: ArrayAdapter<*>? = null
+    private Spinner spin_package_size;
+    private ArrayAdapter arraySize;
 
-    private//information.setCoord_type_input(Information.BDO9);
-    val information: Information
-        get() {
-            val information = Information()
-            if (tv_deviceNo!!.text != null && tv_deviceNo!!.text.toString() != "") {
-                val deviceNo = tv_deviceNo!!.text.toString()
-                information.deviceNo = Integer.valueOf(deviceNo)
-            }
-            if (tv_indexNum!!.text != null && tv_indexNum!!.text.toString() != "") {
-                val indexNum = tv_indexNum!!.text.toString()
-                information.indexNum = Integer.valueOf(indexNum)
-            }
-            if (tv_packageNum!!.text != null && tv_packageNum!!.text.toString() != "") {
-                val packageNum = tv_packageNum!!.text.toString()
-                information.packageNum = java.lang.Long.valueOf(packageNum)
-            }
-            if (hint_deviceNo!!.text != null && hint_deviceNo!!.text.toString() != "") {
-                val macAdd = hint_deviceNo!!.text.toString()
-                information.macAdd = macAdd
-            }
-            if (tv_speed!!.text != null && tv_speed!!.text.toString() != "") {
-                val speed = tv_speed!!.text.toString()
-                information.speed = java.lang.Float.valueOf(speed)
-            }
-            if (tv_timeNow!!.text != null && tv_timeNow!!.text.toString() != "") {
-                val timeNow = tv_timeNow!!.text.toString()
-                information.timeNow = java.lang.Long.valueOf(timeNow)
-            }
-            if (tv_latitude!!.text != null && tv_latitude!!.text.toString() != "") {
-                val latitude = tv_latitude!!.text.toString()
-                information.latitude = java.lang.Double.valueOf(latitude)
-            }
-            if (tv_longitude!!.text != null && tv_longitude!!.text.toString() != "") {
-                val longitude = tv_longitude!!.text.toString()
-                information.longitude = java.lang.Double.valueOf(longitude)
-            }
-            if (tv_direction!!.text != null && tv_direction!!.text.toString() != "") {
-                val direction = tv_direction!!.text.toString()
-                information.direction = java.lang.Float.valueOf(direction)
-            }
-            if (gps_tpye!!.text != null && gps_tpye!!.text.toString() != "") {
-                val coord_type_input = gps_tpye!!.text.toString()
-                information.coord_type_input = coord_type_input
-            }
-            if (frequency != "") {
-                information.frequency = frequency
-            }
-            if (packageSize != "") {
-                information.packageSize = packageSize
-            }
-            if (tv_deviceName!!.text != null && tv_deviceName!!.text.toString() != "") {
-                val packageName = tv_deviceName!!.text.toString()
-                information.packageName = Integer.valueOf(packageName)
-            }
-            return information
-        }
+    public void setFrequency(String frequency) {
+        this.frequency = frequency;
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    public String getFrequency() {
+        return frequency;
+    }
+
+    public void setPackageSize(String packageSize) {
+        this.packageSize = packageSize;
+    }
+
+    public String getPackageSize() {
+        return packageSize;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         /**
-         * 对xutils3.5进行初始化
+         * 创建文件
          */
-        x.Ext.init(application)
-        x.Ext.setDebug(true)
+        FileTool fileTool = new FileTool(getApplicationContext());
+        fileTool.init();
+        /**
+         *对xutils3.5进行初始化
+         */
+        x.Ext.init(getApplication());
+        x.Ext.setDebug(true);
 
-        intentFilter.addAction(MainActivity.UPDATA_UI)
-        intentFilter.addAction(MainActivity.UPDATA_SUCCESS)
-        intentFilter.addAction(MainActivity.UPDATA_FAILED)
-        intentFilter.addAction(MainActivity.START_SEND)
-        intentFilter.addAction(MainActivity.STOP_SEND)
-        intentFilter.addAction(MainActivity.SEND_MESSAGE)
-        intentFilter.addAction(MainActivity.UPDATA_LOG)
+        intentFilter.addAction(MainActivity.UPDATA_UI);
+        intentFilter.addAction(MainActivity.UPDATA_SUCCESS);
+        intentFilter.addAction(MainActivity.UPDATA_FAILED);
+        intentFilter.addAction(MainActivity.START_SEND);
+        intentFilter.addAction(MainActivity.STOP_SEND);
+        intentFilter.addAction(MainActivity.SEND_MESSAGE);
+        intentFilter.addAction(MainActivity.UPDATA_LOG);
 
-        val toolbar = findViewById(R.id.toolbar) as Toolbar
-        setSupportActionBar(toolbar)
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        log = findViewById(R.id.log) as TextView
-        log!!.movementMethod = ScrollingMovementMethod()
+        log             = (TextView) findViewById(R.id.log);
+        log.setMovementMethod(new ScrollingMovementMethod());
 
-        tv_deviceNo = findViewById(R.id.con_deviceNo) as TextView
-        tv_indexNum = findViewById(R.id.con_indexNum) as TextView
-        tv_longitude = findViewById(R.id.con_longitude) as TextView
-        tv_latitude = findViewById(R.id.con_latitude) as TextView
-        tv_speed = findViewById(R.id.con_speed) as TextView
-        tv_direction = findViewById(R.id.con_direction) as TextView
-        tv_timeNow = findViewById(R.id.con_timeNow) as TextView
-        tv_packageNum = findViewById(R.id.con_packageNum) as TextView
-        tv_context = findViewById(R.id.context) as TextView
-        gps_tpye = findViewById(R.id.gps_type) as TextView
-        hint_gps_type = findViewById(R.id.hint_gps_type) as TextView
+        tv_deviceNo     = (TextView) findViewById(R.id.con_deviceNo);
+        tv_indexNum     = (TextView) findViewById(R.id.con_indexNum);
+        tv_longitude    = (TextView) findViewById(R.id.con_longitude);
+        tv_latitude     = (TextView) findViewById(R.id.con_latitude);
+        tv_speed        = (TextView) findViewById(R.id.con_speed);
+        tv_direction    = (TextView) findViewById(R.id.con_direction);
+        tv_timeNow      = (TextView) findViewById(R.id.con_timeNow);
+        tv_packageNum   = (TextView) findViewById(R.id.con_packageNum);
+        tv_context      = (TextView) findViewById(R.id.context);
+        gps_tpye        = (TextView) findViewById(R.id.gps_type);
+        hint_gps_type   = (TextView) findViewById(R.id.hint_gps_type);
 
-        hint_deviceNo = findViewById(R.id.hint_deviceNo) as TextView
-        hint_indexNum = findViewById(R.id.hint_indexNum) as TextView
-        hint_longitude = findViewById(R.id.hint_longitude) as TextView
-        hint_latitude = findViewById(R.id.hint_latitude) as TextView
-        hint_speed = findViewById(R.id.hint_speed) as TextView
-        hint_direction = findViewById(R.id.hint_direction) as TextView
-        hint_timeNow = findViewById(R.id.hint_timeNow) as TextView
-        hint_packageNum = findViewById(R.id.hint_packageNum) as TextView
+        hint_deviceNo   = (TextView) findViewById(R.id.hint_deviceNo);
+        hint_indexNum   = (TextView) findViewById(R.id.hint_indexNum);
+        hint_longitude  = (TextView) findViewById(R.id.hint_longitude);
+        hint_latitude   = (TextView) findViewById(R.id.hint_latitude);
+        hint_speed      = (TextView) findViewById(R.id.hint_speed);
+        hint_direction  = (TextView) findViewById(R.id.hint_direction);
+        hint_timeNow    = (TextView) findViewById(R.id.hint_timeNow);
+        hint_packageNum = (TextView) findViewById(R.id.hint_packageNum);
 
-        tv_deviceName = findViewById(R.id.tv_deviceName) as TextView
-        is_End_of_Package = findViewById(R.id.isEndofPackage) as TextView
+        tv_deviceName       = (TextView) findViewById(R.id.tv_deviceName);
+        is_End_of_Package   = (TextView) findViewById(R.id.isEndofPackage);
 
-        /*        ed_deviceName = (EditText) findViewById(R.id.edit_deviceName);
+/*        ed_deviceName = (EditText) findViewById(R.id.edit_deviceName);
         ed_frequency = (EditText) findViewById(R.id.ed_frequency);*/
-        spin_frequency = findViewById(R.id.spin_frequency) as Spinner
+        spin_frequency = (Spinner) findViewById(R.id.spin_frequency);
         arrayAdapter = ArrayAdapter.createFromResource(this, R.array.frequency,
-                android.R.layout.simple_spinner_item)
-        arrayAdapter!!.setDropDownViewResource(
-                android.R.layout.simple_spinner_dropdown_item)
-        spin_frequency!!.adapter = arrayAdapter
-        spin_frequency!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                val freq = arrayAdapter!!.getItem(position) as String
-                if (freq != null) {
-                    frequency = freq
-                    Toast.makeText(applicationContext, "发送频率$freq  任务开始后请勿更改.", Toast.LENGTH_SHORT).show()
-                } else {
+                        android.R.layout.simple_spinner_item);
+        arrayAdapter.setDropDownViewResource(
+                        android.R.layout.simple_spinner_dropdown_item);
+        spin_frequency.setAdapter(arrayAdapter);
+        spin_frequency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String freq = (String) arrayAdapter.getItem(position);
+                if (freq != null){
+                    setFrequency(freq);
+                    Toast.makeText(getApplicationContext(), "发送频率" + freq +"  任务开始后请勿更改.",Toast.LENGTH_SHORT).show();
+                }else {
 
                 }
 
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>) {
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        }
+        });
 
-        spin_package_size = findViewById(R.id.spin_package_size) as Spinner
+        spin_package_size = (Spinner) findViewById(R.id.spin_package_size);
         arraySize = ArrayAdapter.createFromResource(this, R.array.package_size,
-                android.R.layout.simple_spinner_item)
-        spin_package_size!!.adapter = arraySize
-        spin_package_size!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                val size = arraySize!!.getItem(position) as String
-                if (size != null) {
-                    packageSize = size
-                    Toast.makeText(applicationContext, "数据包大小$size  任务开始后请勿更改.", Toast.LENGTH_SHORT).show()
-                } else {
+                    android.R.layout.simple_spinner_item);
+        spin_package_size.setAdapter(arraySize);
+        spin_package_size.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String size = (String) arraySize.getItem(position);
+                if (size != null){
+                    setPackageSize(size);
+                    Toast.makeText(getApplicationContext(), "数据包大小" + size +"  任务开始后请勿更改.",Toast.LENGTH_SHORT).show();
+                }else {
 
                 }
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>) {
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        }
+        });
 
 
-        val fab = findViewById(R.id.fab) as FloatingActionButton
-        fab.setImageResource(R.drawable.ic_send_black_24dp)
-        fab.setOnClickListener { view ->
-            if (!isServiceRunning(applicationContext, "com.qq.vip.singleangel.v2i_information.GetInfo")) {
-                log!!.text = ""
-                /*if (!ed_frequency.getText().toString().equals("")){
-                        try {
-                            frequency = ed_frequency.getText().toString());
-                        }catch (NumberFormatException e){
-                            Toast.makeText(MainActivity.this, "格式错误，请输入数字", Toast.LENGTH_SHORT).show();
-                        }
-                    }else {
-                        Toast.makeText(MainActivity.this, "没有输入信息，默认使用下拉框中内容", Toast.LENGTH_SHORT).show();
-                        frequency = getFrequency();
-                    }*/
-                val nowTime = System.currentTimeMillis()
-                val timeHash = nowTime.toString().hashCode()
-                tv_deviceName!!.text = timeHash.toString()
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setImageResource(R.drawable.ic_send_black_24dp);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isServiceRunning(getApplicationContext(),"com.qq.vip.singleangel.v2i_information.GetInfo")){
+                    log.setText("");
 
-                val intent = Intent(this@MainActivity, GetInfo::class.java)
-                intent.putExtra(GetInfo.FREQUENCY, frequency)
-                startService(intent)
-                fab.setImageResource(R.drawable.ic_clear_black_24dp)
-                log!!.movementMethod = ScrollingMovementMethod()
-                log!!.append("已开启服务\n")
-                Snackbar.make(view, "已开启服务", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show()
-            } else {
-                val intent = Intent(this@MainActivity, GetInfo::class.java)
-                stopService(intent)
-                fab.setImageResource(R.drawable.ic_send_black_24dp)
-                log!!.movementMethod = ScrollingMovementMethod()
+                    long nowTime = System.currentTimeMillis();
+                    int timeHash = String.valueOf(nowTime).hashCode();
+                    tv_deviceName.setText(String.valueOf(timeHash));
 
-                /**
-                 * 发送最后一个包
-                 */
+                    /**
+                     * 结束发送包，将deviceName 保存到数据库
+                     */
+                 /*   PnameModel pnameModel = new PnameModel();
+                    pnameModel.setPackageName(timeHash);
+                    pnameModel.insert();
+*/
+                    Intent intent = new Intent(MainActivity.this, GetInfo.class);
+                    intent.putExtra(GetInfo.FREQUENCY, getFrequency());
+                    startService(intent);
+                    fab.setImageResource(R.drawable.ic_clear_black_24dp);
+                    log.setMovementMethod(new ScrollingMovementMethod());
+                    log.append("已开启服务\n");
+                    Snackbar.make(view, "已开启服务", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }else {
+                    Intent intent = new Intent(MainActivity.this, GetInfo.class);
+                    stopService(intent);
+                    fab.setImageResource(R.drawable.ic_send_black_24dp);
+                    log.setMovementMethod(new ScrollingMovementMethod());
 
-                /**
-                 * 发送最后一个包
-                 */
-                is_End_of_Package!!.text = "1"
-                val information = information
-                information.setIsEndofPackage(1)
-                information.isEndofPackage = 1
-                val intent1 = Intent(this@MainActivity, DataPackageTool::class.java)
-                intent1.action = DataPackageTool.THE_END_PACKAGE
-                intent1.putExtra(DataPackageTool.PACKAGE_SIZE, information)
-                startService(intent1)
+                    /**
+                     * 发送最后一个包
+                     */
+                    is_End_of_Package.setText("1");
+                    Information information = getInformation();
+                    information.setIndexNum(information.getIndexNum()+1);
+                    information.setIsEndofPackage(1);
+                    Intent intent1 = new Intent(MainActivity.this, DataPackageTool.class);
+                    intent1.setAction(DataPackageTool.THE_END_PACKAGE);
+                    intent1.putExtra(DataPackageTool.PACKAGE_SIZE, information);
+                    startService(intent1);
 
-                log!!.append("已关闭服务\n")
-                Snackbar.make(view, "已关闭服务", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show()
+                    log.append("已关闭服务\n");
+                    Snackbar.make(view, "已关闭服务", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+
             }
-        }
+        });
 
     }
 
 
-    override fun onResume() {
-        super.onResume()
-        broadcastReceiver = ReactionBroadcast()
-        registerReceiver(broadcastReceiver, intentFilter)
+    @Override
+    protected void onResume() {
+        super.onResume();
+        broadcastReceiver = new ReactionBroadcast();
+        registerReceiver(broadcastReceiver, intentFilter);
     }
 
-    override fun onPause() {
-        super.onPause()
-        unregisterReceiver(broadcastReceiver)
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(broadcastReceiver);
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        val id = item.itemId
+        int id = item.getItemId();
 
-
+        //noinspection SimplifiableIfStatement
         if (id == R.id.action_aboutme) {
-            val intent = Intent(this@MainActivity, AboutMeActivity::class.java)
-            startActivity(intent)
-            return true
+            Intent intent = new Intent(MainActivity.this, AboutMeActivity.class);
+            startActivity(intent);
+            return true;
         }
 
-        return super.onOptionsItemSelected(item)
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * 查看是否有服务正在运行
+     * @param context
+     * @param serviceName
+     * @return
+     */
+    public static boolean isServiceRunning(Context context, String serviceName) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningServiceInfo> runningServiceInfos = am.getRunningServices(200);
+        if (runningServiceInfos.size() <= 0) {
+            return false;
+        }
+        for (ActivityManager.RunningServiceInfo serviceInfo : runningServiceInfos) {
+            if (serviceInfo.service.getClassName().equals(serviceName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
      * 接收更新UI的广播
      */
-    inner class ReactionBroadcast : BroadcastReceiver() {
+    public class ReactionBroadcast extends BroadcastReceiver{
 
-        override fun onReceive(context: Context, intent: Intent) {
-            val action = intent.action
-            when (action) {
-                MainActivity.UPDATA_UI -> {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            switch (action){
+                case MainActivity.UPDATA_UI:
                     //Toast.makeText(MainActivity.this, "更新信息", Toast.LENGTH_SHORT).show();
-                    val information = intent.getSerializableExtra(Information.IOFMATION) as Information
+                    Information information = (Information) intent.getSerializableExtra(Information.IOFMATION);
 
-                    if (information != null) {
-                        if (information.indexNum != 0) {
-                            tv_indexNum!!.text = information.indexNum.toString()
+                    if (information != null){
+                        if (information.getIndexNum() != 0){
+                            tv_indexNum     .setText(String.valueOf(information.getIndexNum()));
                         }
-                        if (information.longitude != 0.0) {
-                            tv_longitude!!.text = information.longitude.toString()
+                        if (information.getLongitude() != 0){
+                            tv_longitude    .setText(String.valueOf(information.getLongitude()));
                         }
-                        if (information.latitude != 0.0) {
-                            tv_latitude!!.text = information.latitude.toString()
+                        if (information.getLatitude() != 0){
+                            tv_latitude     .setText(String.valueOf(information.getLatitude()));
                         }
-                        if (tv_speed!!.text.toString() == "") {  //speed为空
-                            tv_speed!!.text = information.speed.toString()
-                        } else {     //speed不为空
-                            if (information.speed != 0f) {
-                                tv_speed!!.text = information.speed.toString()
+                        if (tv_speed.getText().toString().equals("")){  //speed为空
+                            tv_speed        .setText(String.valueOf(information.getSpeed()));
+                        }else {     //speed不为空
+                            if (information.getSpeed() != 0){
+                                tv_speed        .setText(String.valueOf(information.getSpeed()));
                             }
                         }
 
-                        if (information.direction != 0f) {
-                            tv_direction!!.text = information.direction.toString()
+                        if (information.getDirection() != 0){
+                            tv_direction    .setText(String.valueOf(information.getDirection()));
                         }
-                        if (information.timeNow != 0L) {
-                            tv_timeNow!!.text = information.timeNow.toString()
+                        if (information.getTimeNow() != 0){
+                            tv_timeNow      .setText(String.valueOf(information.getTimeNow()));
                         }
-                        if (information.packageNum != 0L) {
-                            tv_packageNum!!.text = information.packageNum.toString()
-                        }
-
-                        tv_context!!.text = information.toString()
-                        if (information.deviceNo != 0) {
-                            tv_deviceNo!!.text = information.deviceNo.toString()
+                        if (information.getPackageNum() != 0){
+                            tv_packageNum   .setText(String.valueOf(information.getPackageNum()));
                         }
 
-                        if (information.coord_type_input != "") {
-                            gps_tpye!!.text = information.coord_type_input
+                        tv_context      .setText(information.toString());
+                        if (information.getDeviceNo() != 0){
+                            tv_deviceNo     .setText(String.valueOf(information.getDeviceNo()));
                         }
-                        if (information.baiduErrorCode != "") {
-                            hint_gps_type!!.text = information.baiduErrorCode
-                        }
-                        if (information.macAdd != "") {
-                            hint_deviceNo!!.text = information.macAdd
-                        }
-                        is_End_of_Package!!.text = "0"
 
-                        hint_indexNum!!.text = "由1开始编号"
-                        hint_longitude!!.text = "GPS经度"
-                        hint_latitude!!.text = "GPS纬度"
-                        hint_speed!!.text = "单位为m/s"
-                        hint_direction!!.text = "0正北90正东-90正西180或-180正南"
-                        if (information.time != "") {
-                            hint_timeNow!!.text = information.time
+                        if (!information.getCoord_type_input().equals("")){
+                            gps_tpye        .setText(information.getCoord_type_input());
                         }
-                        hint_packageNum!!.text = "发送数据包的个数"
+                        if (!information.getBaiduErrorCode().equals("")){
+                            hint_gps_type   .setText(information.getBaiduErrorCode());
+                        }
+                        if (!information.getMacAdd().equals("")){
+                            hint_deviceNo   .setText(information.getMacAdd());
+                        }
+                        is_End_of_Package.setText("0");
+
+                        hint_indexNum   .setText("由1开始编号");
+                        hint_longitude  .setText("GPS经度");
+                        hint_latitude   .setText("GPS纬度");
+                        hint_speed      .setText("单位为m/s");
+                        hint_direction  .setText("0正北90正东-90正西180或-180正南");
+                        if (!information.getTime().equals("")){
+                            hint_timeNow    .setText(information.getTime());
+                        }
+                        hint_packageNum .setText("发送数据包的个数");
 
                     }
-                }
-                MainActivity.UPDATA_LOG -> {
-                    val strLog = intent.extras.getString(MainActivity.UPDATA_LOG)
-                    log!!.movementMethod = ScrollingMovementMethod()
-                    log!!.append(strLog!! + "\n")
-                }
-                MainActivity.SEND_MESSAGE -> {
+                    break;
+                case MainActivity.UPDATA_LOG:
+                    String strLog = intent.getExtras().getString(MainActivity.UPDATA_LOG);
+                    log.setMovementMethod(new ScrollingMovementMethod());
+                    log.append(strLog+"\n");
+                    break;
+                case MainActivity.SEND_MESSAGE:
                     /*Information information1 = (Information) getInformation();
                     String url = "http://118.24.19.160:8088/V2I/collect";
                     sendPost(url, information1);*/
@@ -441,78 +449,103 @@ class MainActivity : AppCompatActivity() {
                     intent1.putExtra(DataPackageTool.PACKAGE_SIZE, information);
                     startService(intent1);*/
 
-                    val information1 = information
-                    if (packageSize == MainActivity._40B) {
-                        val intent1 = Intent(this@MainActivity, DataPackageTool::class.java)
-                        intent1.action = DataPackageTool._40B
-                        intent1.putExtra(DataPackageTool.PACKAGE_SIZE, information1)
-                        startService(intent1)
-                    } else if (packageSize == MainActivity._100B) {
-                        val intent1 = Intent(this@MainActivity, DataPackageTool::class.java)
-                        intent1.action = DataPackageTool._100B
-                        intent1.putExtra(DataPackageTool.PACKAGE_SIZE, information1)
-                        startService(intent1)
-                    } else if (packageSize == MainActivity._500B) {
-                        val intent1 = Intent(this@MainActivity, DataPackageTool::class.java)
-                        intent1.action = DataPackageTool._500B
-                        intent1.putExtra(DataPackageTool.PACKAGE_SIZE, information1)
-                        startService(intent1)
-                    } else if (packageSize == MainActivity._1KB) {
-                        val intent1 = Intent(this@MainActivity, DataPackageTool::class.java)
-                        intent1.action = DataPackageTool._1KB
-                        intent1.putExtra(DataPackageTool.PACKAGE_SIZE, information1)
-                        startService(intent1)
-                    } else {
-                        Toast.makeText(this@MainActivity, "数据包大小不匹配", Toast.LENGTH_SHORT).show()
+                    Information information1 = (Information) getInformation();
+                    if (getPackageSize().equals(MainActivity._40B)){
+                        Intent intent1 = new Intent(MainActivity.this, DataPackageTool.class);
+                        intent1.setAction(DataPackageTool._40B);
+                        intent1.putExtra(DataPackageTool.PACKAGE_SIZE, information1);
+                        startService(intent1);
+                    }else if (getPackageSize().equals(MainActivity._100B)){
+                        Intent intent1 = new Intent(MainActivity.this, DataPackageTool.class);
+                        intent1.setAction(DataPackageTool._100B);
+                        intent1.putExtra(DataPackageTool.PACKAGE_SIZE, information1);
+                        startService(intent1);
+                    }else if (getPackageSize().equals(MainActivity._500B)){
+                        Intent intent1 = new Intent(MainActivity.this, DataPackageTool.class);
+                        intent1.setAction(DataPackageTool._500B);
+                        intent1.putExtra(DataPackageTool.PACKAGE_SIZE, information1);
+                        startService(intent1);
+                    }else if (getPackageSize().equals(MainActivity._1KB)){
+                        Intent intent1 = new Intent(MainActivity.this, DataPackageTool.class);
+                        intent1.setAction(DataPackageTool._1KB);
+                        intent1.putExtra(DataPackageTool.PACKAGE_SIZE, information1);
+                        startService(intent1);
+                    }else {
+                        Toast.makeText(MainActivity.this, "数据包大小不匹配", Toast.LENGTH_SHORT).show();
                     }
-                }
-                MainActivity.UPDATA_SUCCESS -> {
-                    val result = intent.getStringExtra(Information.IOFMATION) as String
-                    tv_context!!.text = result
-                    log!!.movementMethod = ScrollingMovementMethod()
-                    log!!.append(result)
-                }
-                MainActivity.UPDATA_FAILED -> Toast.makeText(this@MainActivity, "发送信息失败", Toast.LENGTH_SHORT).show()
-                else -> {
-                }
+
+
+                    break;
+                case MainActivity.UPDATA_SUCCESS:
+                    String result = (String) intent.getStringExtra(Information.IOFMATION);
+                    tv_context.setText(result);
+                    log.setMovementMethod(new ScrollingMovementMethod());
+                    log.append(result);
+                    break;
+                case MainActivity.UPDATA_FAILED:
+                    Toast.makeText(MainActivity.this, "发送信息失败", Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    break;
             }
         }
     }
 
-    companion object {
-
-        val UPDATA_UI = "UPDATA_UI"
-        val UPDATA_LOG = "UPDATA_LOG"
-        val UPDATA_SUCCESS = "UPDATA_SUCCESS"
-        val UPDATA_FAILED = "UPDATA_FAILED"
-        val SEND_MESSAGE = "SEND_MESSAGE"
-        val START_SEND = "START_SEND"
-        val STOP_SEND = "STOP_SEND"
-
-        val _40B = "40B"
-        val _100B = "100B"
-        val _500B = "500B"
-        val _1KB = "1KB"
-
-        /**
-         * 查看是否有服务正在运行
-         * @param context
-         * @param serviceName
-         * @return
-         */
-        fun isServiceRunning(context: Context, serviceName: String): Boolean {
-            val am = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-            val runningServiceInfos = am.getRunningServices(200)
-            if (runningServiceInfos.size <= 0) {
-                return false
-            }
-            for (serviceInfo in runningServiceInfos) {
-                if (serviceInfo.service.className == serviceName) {
-                    return true
-                }
-            }
-            return false
+    private  Information getInformation(){
+        Information information = new Information();
+        if (tv_deviceNo.getText()!= null && !tv_deviceNo.getText().toString().equals("")){
+            String deviceNo         = tv_deviceNo.getText().toString();
+            information.setDeviceNo(Integer.valueOf(deviceNo));
         }
+        if (tv_indexNum.getText() != null && !tv_indexNum.getText().toString().equals("")){
+            String indexNum         = tv_indexNum.getText().toString();
+            information.setIndexNum(Integer.valueOf(indexNum));
+        }
+        if (tv_packageNum.getText() != null && !tv_packageNum.getText().toString().equals("")){
+            String packageNum       = tv_packageNum.getText().toString();
+            information.setPackageNum(Long.valueOf(packageNum));
+        }
+        if (hint_deviceNo.getText() != null && !hint_deviceNo.getText().toString().equals("")){
+            String macAdd           = hint_deviceNo.getText().toString();
+            information.setMacAdd(macAdd);
+        }
+        if (tv_speed.getText() != null && !tv_speed.getText().toString().equals("")){
+            String speed            = tv_speed.getText().toString();
+            information.setSpeed(Float.valueOf(speed));
+        }
+        if (tv_timeNow.getText() != null && !tv_timeNow.getText().toString().equals("")){
+            String timeNow          = tv_timeNow.getText().toString();
+            information.setTimeNow(Long.valueOf(timeNow));
+        }
+        if (tv_latitude.getText() != null && !tv_latitude.getText().toString().equals("")){
+            String latitude         = tv_latitude.getText().toString();
+            information.setLatitude(Double.valueOf(latitude));
+        }
+        if (tv_longitude.getText() != null && !tv_longitude.getText().toString().equals("")){
+            String longitude        = tv_longitude.getText().toString();
+            information.setLongitude(Double.valueOf(longitude));
+        }
+        if (tv_direction.getText() != null && !tv_direction.getText().toString().equals("")){
+            String direction        = tv_direction.getText().toString();
+            information.setDirection(Float.valueOf(direction));
+        }
+        /*if (gps_tpye.getText() != null && !gps_tpye.getText().toString().equals("")){
+            String coord_type_input = gps_tpye.getText().toString();
+            information.setCoord_type_input(coord_type_input);
+            //information.setCoord_type_input(Information.BDO9);
+        }*/
+        if (!frequency.equals("")){
+            information.setFrequency(frequency);
+        }
+        if (!packageSize.equals("")){
+            information.setPackageSize(packageSize);
+        }
+        if (tv_deviceName.getText() != null && !tv_deviceName.getText().toString().equals("")){
+            String packageName = tv_deviceName.getText().toString();
+            information.setPackageName(Integer.valueOf(packageName));
+        }
+        information.setCoord_type_input("bd09");
+        return information;
     }
 
     /**
@@ -585,6 +618,7 @@ class MainActivity : AppCompatActivity() {
         });
 
     }*/
+
 
 
 }

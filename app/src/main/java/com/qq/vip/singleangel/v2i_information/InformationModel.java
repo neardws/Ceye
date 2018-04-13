@@ -8,7 +8,7 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
 /**
  * Created by singl on 2018/4/12.
  */
-@Table(database = CeyeDatabase.class)
+@Table(name = "informationModel",database = InformationDatabase.class)
 public class InformationModel extends BaseModel {
 
     /**

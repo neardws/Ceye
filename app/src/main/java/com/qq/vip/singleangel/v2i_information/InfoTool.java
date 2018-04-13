@@ -19,6 +19,7 @@ import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -152,12 +153,43 @@ public class InfoTool {
         SntpClient sntpClient = new SntpClient();
         if (sntpClient.requestTime(SntpClient.ALI, SntpClient.TIMEOUT)){
             long time = sntpClient.getNtpTime();
-            SystemClock.setCurrentTimeMillis(time);//设置系统时间
+            //SystemClock.setCurrentTimeMillis(time);//设置系统时间
+            setCurrentTimeMillis(time);
         }else if (sntpClient.requestTime(SntpClient.SJTU, SntpClient.TIMEOUT)){
             long time = sntpClient.getNtpTime();
-            SystemClock.setCurrentTimeMillis(time);//设置系统时间
+            //SystemClock.setCurrentTimeMillis(time);//设置系统时间
+            setCurrentTimeMillis(time);
         }else {
             Log.d(TAG, "同步时间失败");
+        }
+    }
+
+    /**
+     * 设置当前的系统时间
+     *
+     * @param time
+     * @return true表示设置成功, false表示设置失败
+     */
+    public boolean setCurrentTimeMillis(long time) {
+        try {
+            if (ShellUtils.checkRootPermission()) {
+                TimeZone.setDefault(TimeZone.getTimeZone("GMT+8"));
+                Date current = new Date(time);
+                SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd.HHmmssfff");
+                String datetime = df.format(current);
+                Process process = Runtime.getRuntime().exec("su");
+                DataOutputStream os = new DataOutputStream(process.getOutputStream());
+                //os.writeBytes("setprop persist.sys.timezone GMT\n");
+                os.writeBytes("/system/bin/date -s " + datetime + "\n");
+                os.writeBytes("clock -w\n");
+                os.writeBytes("exit\n");
+                os.flush();
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
         }
     }
 

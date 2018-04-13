@@ -57,7 +57,11 @@
         <service
             android:name=".GetInfo"
             android:process=":getinfo" />
+
         <service android:name=".DataPackageTool" />
+
+        <service android:name=".DBTool"
+            android:process=":dbtool"/>
 
         <activity android:name=".AboutMeActivity">
         </activity>

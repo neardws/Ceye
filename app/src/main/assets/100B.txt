@@ -1,1 +1,0 @@
-IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la

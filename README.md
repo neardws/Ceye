@@ -46,7 +46,7 @@ public int getLocType ( )返回值：
 ### bug fixed
 * 1、使用TXT文本作为数据包进行发送
 * 2、增加AboutMe Activity
-* 3、添加DBFlow, 将发送的数据在本地数据库进行存储
+* 3、添加DBFlow依赖, 将发送的数据在本地数据库进行存储
 
 ## DBFlow
 > *DBFlow是一个基于AnnotationProcessing(注解处理器)的强大、健壮同时又简单的ORM框架。*
@@ -62,6 +62,155 @@ public int getLocType ( )返回值：
 * 读取GPS数据、可视化
 * 从服务器接收数据，在本机统计时延、丢包率等
 * 将JAVA项目迁移为Kotlin
+
+### bug fixed
+* 添加三张表 *InfomationModel* 、*PnameModel* 、*ControlModel*
+
+```java
+
+@Table(name = "informationModel",database = InformationDatabase.class)
+public class InformationModel extends BaseModel {
+
+    /**
+     * 主键，用timeNow 和 deviceNo做hash
+     * 可唯一确定某一个设备发送的一条信息
+     */
+    @PrimaryKey
+    private int id;
+
+    /**
+     * 是否发送成功
+     */
+    @Column
+    private boolean isSuccess;
+
+    /**
+     *  packageName 数据包名
+     *  对首次发送数据包的时间戳进行哈希，可以确定单次发送的数据包
+     */
+    @Column
+    private int packageName;
+
+    /**
+     * 设备信息
+     * deviceNo      设备号，由设备MAC地址进行哈希得到，唯一确定一个设备
+     * gpsType       GPS信号类型
+     * longitude     经度
+     * latitude      纬度
+     * speed         速度
+     * direction     方向
+     */
+    @Column
+    private int deviceNo;
+
+    @Column
+    private String gpsType;
+
+    @Column
+    private double longitude;
+
+    @Column
+    private double latitude;
+
+    @Column
+    private float speed;
+
+    @Column
+    private float direction;
+
+    /**
+     * 数据包信息
+     * indexNum         数据包的序号
+     * timeNow          发送时间戳
+     * frequency        数据包发送频率
+     * packageSize      数据包的大小
+     * isEndofPackage   标志位，是否为最后一个包
+     */
+    @Column
+    private int indexNum;
+
+    @Column
+    private long timeNow;
+
+    @Column
+    private String frequency;
+
+    @Column
+    private String packageSize;
+
+    @Column
+    private int isEndofPackage;
+
+}
+
+```
+
+```java
+
+@Table(name = "pnameModel",database = PnameDatabase.class)
+public class PnameModel extends BaseModel {
+    @Column
+    @PrimaryKey
+    private int packageName;
+
+    public int getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(int packageName) {
+        this.packageName = packageName;
+    }
+}
+
+```
+
+```java
+
+@Table(name = "ControlModel",database = ControlDatabase.class)
+public class ControlModel extends BaseModel {
+    @PrimaryKey
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * 接收到Information的时间戳
+     */
+    @Column
+    private long timeReceive;
+
+    public long getTimeReceive() {
+        return timeReceive;
+    }
+
+    public void setTimeReceive(long timeReceive) {
+        this.timeReceive = timeReceive;
+    }
+
+    /**
+     * 发送回来的时间戳
+     */
+    @Column
+    private long timeSendBack;
+
+    public long getTimeSendBack() {
+        return timeSendBack;
+    }
+
+    public void setTimeSendBack(long timeSendBack) {
+        this.timeSendBack = timeSendBack;
+    }
+}
+
+
+```
+
 
 ### 实际测试
 安卓客户端使用Packet Capture捕获发送的数据包，实际上使用XUtils.post方法发送的40字节数据包为3KB

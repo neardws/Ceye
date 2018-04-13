@@ -208,9 +208,9 @@ public class ControlModel extends BaseModel {
     }
 }
 
-
 ```
 
+* 三张表的插入操作已实现
 
 ### 实际测试
 安卓客户端使用Packet Capture捕获发送的数据包，实际上使用XUtils.post方法发送的40字节数据包为3KB

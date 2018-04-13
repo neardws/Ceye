@@ -20,6 +20,7 @@ import java.io.File;
  */
 
 public class DataPackageTool extends IntentService{
+
     public static final String TAG = "DATA_PACKAGE_TOOL";
 
     public static final String PACKAGE_SIZE = "PACKAGE_SIZE";
@@ -31,12 +32,6 @@ public class DataPackageTool extends IntentService{
     public static final String _100B    = "100B";
     public static final String _500B    = "500B";
     public static final String _1KB     = "1024B";
-
-
-/*    public static final String URL_40B   = "file:///android_asset/40B.txt";
-    public static final String URL_100B  = "file:///android_asset/100B.txt";
-    public static final String URL_500B  = "file:///android_asset/500B.txt";
-    public static final String URL_1KB   = "file:///android_asset/1KB.txt";*/
 
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
@@ -85,7 +80,6 @@ public class DataPackageTool extends IntentService{
                 }
 
                 params.addBodyParameter("file", new File(FileTool._40B_FILE_URL), null);
-                //params.addBodyParameter("file", new File(URL_40B), null);
 
                 String urlog = url
                         + "?packageId="+id
@@ -105,51 +99,7 @@ public class DataPackageTool extends IntentService{
                         + "&isEndofPackage="    +String.valueOf(information.getIsEndofPackage());
                 sendLog(urlog);
 
-
-                x.http().post(params, new Callback.CacheCallback<JSONObject>() {
-                    @Override
-                    public void onSuccess(JSONObject result) {
-                        /*try {
-                            *//*int packageId = (int) result.getInt("packageId");
-                            long timeReceive = (long) result.getLong("recvtimeStamp");
-                            long timeSendBack = (long) result.getLong("backtimeStamp");
-                            sendLog("发送成功\n"+"JSON  packageId="+packageId+
-                                    "   backtimeStamp="+ timeSendBack+
-                                    "   recvtimeStamp="+ timeReceive+"\n");*//*
-                            *//*Intent dbIntent = new Intent(DataPackageTool.this, DBTool.class);
-                            dbIntent.setAction(DBTool.ACTION_ADD);
-                            dbIntent.putExtra(DBTool.TABLE_NAME,DBTool.TABLE_CONTROL_MESSAGE);
-                            dbIntent.putExtra(DBTool.CONTROL_ID,packageId);
-                            dbIntent.putExtra(DBTool.TIME_RECEIVE,timeReceive);
-                            dbIntent.putExtra(DBTool.TIME_SEND_BACK,timeSendBack);
-                            startService(dbIntent);*//*
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            sendLog("JSONException\n"+e.toString()+"\n");
-                        }*/
-                    }
-
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
-                        sendLog("发送失败\n"+ex.toString()+"\n");
-                    }
-
-                    @Override
-                    public void onCancelled(CancelledException cex) {
-
-                    }
-
-                    @Override
-                    public void onFinished() {
-
-                    }
-
-                    @Override
-                    public boolean onCache(JSONObject result) {
-                        return false;
-                    }
-                });
-
+                sendPost(params,information);
 
             }else if (packSize.equals(DataPackageTool._100B)){
                 RequestParams params = new RequestParams(url);
@@ -177,7 +127,6 @@ public class DataPackageTool extends IntentService{
                     params.addBodyParameter("packageId",String.valueOf(id));
                 }
                 params.addBodyParameter("file", new File(FileTool._100B_FILE_URL), null);
-              //  params.addBodyParameter("file", new File(URL_100B), null);
 
                 String urlog = url
                         + "?packageId="+id
@@ -196,41 +145,8 @@ public class DataPackageTool extends IntentService{
                         + "&packageName="       +String.valueOf(information.getPackageName())
                         + "&isEndofPackage="    +String.valueOf(information.getIsEndofPackage());
                 sendLog(urlog);
-                x.http().post(params, new Callback.CacheCallback<String>() {
 
-                    @Override
-                    public void onSuccess(String result) {
-                        Log.i(TAG, "onSuccess: "+result);
-                        sendLog("发送成功\n"+result+"\n");
-                  /*      insertInformationSuccess(information);*/
-                        //Toast.makeText(MainActivity.this, "发送信息成功"+result, Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
-                        Log.i(TAG, "onError: "+ex.toString());
-                        sendLog("发送失败\n"+ex.toString()+"\n");
-                /*        insertInformationFailed(information);*/
-                        //Toast.makeText(MainActivity.this, "发送信息失败"+ex.toString(), Toast.LENGTH_SHORT).show();
-
-                    }
-
-                    @Override
-                    public void onCancelled(Callback.CancelledException cex) {
-                        Log.i(TAG, "onCancelled: "+cex.toString());
-                    }
-
-                    @Override
-                    public void onFinished() {
-                        Log.i(TAG, "onFinished: ");
-                    }
-
-                    @Override
-                    public boolean onCache(String result) {
-                        Log.i(TAG, "onCache: "+result);
-                        return false;
-                    }
-                });
+                sendPost(params,information);
 
             }else if (packSize.equals(DataPackageTool._500B)){
                 RequestParams params = new RequestParams(url);
@@ -258,7 +174,6 @@ public class DataPackageTool extends IntentService{
                     params.addBodyParameter("packageId",String.valueOf(id));
                 }
                 params.addBodyParameter("file", new File(FileTool._500B_FILE_URL), null);
-              //  params.addBodyParameter("file", new File(URL_500B), null);
 
                 String urlog = url
                         + "?packageId="+id
@@ -278,41 +193,7 @@ public class DataPackageTool extends IntentService{
                         + "&isEndofPackage="    +String.valueOf(information.getIsEndofPackage());
                 sendLog(urlog);
 
-                x.http().post(params, new Callback.CacheCallback<String>() {
-
-                    @Override
-                    public void onSuccess(String result) {
-                        Log.i(TAG, "onSuccess: "+result);
-                        sendLog("发送成功\n"+result+"\n");
-      /*                  insertInformationSuccess(information);*/
-                        //Toast.makeText(MainActivity.this, "发送信息成功"+result, Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
-                        Log.i(TAG, "onError: "+ex.toString());
-                        sendLog("发送失败\n"+ex.toString()+"\n");
-                 /*       insertInformationFailed(information);*/
-                        //Toast.makeText(MainActivity.this, "发送信息失败"+ex.toString(), Toast.LENGTH_SHORT).show();
-
-                    }
-
-                    @Override
-                    public void onCancelled(Callback.CancelledException cex) {
-                        Log.i(TAG, "onCancelled: "+cex.toString());
-                    }
-
-                    @Override
-                    public void onFinished() {
-                        Log.i(TAG, "onFinished: ");
-                    }
-
-                    @Override
-                    public boolean onCache(String result) {
-                        Log.i(TAG, "onCache: "+result);
-                        return false;
-                    }
-                });
+                sendPost(params,information);
 
             }else if (packSize.equals(DataPackageTool._1KB)){
                 RequestParams params = new RequestParams(url);
@@ -341,7 +222,6 @@ public class DataPackageTool extends IntentService{
                 }
 
                 params.addBodyParameter("file", new File(FileTool._1KB_FILE_URL), null);
-               // params.addBodyParameter("file", new File(URL_1KB), null);
 
                 String urlog = url
                         + "?packageId="+id
@@ -361,41 +241,7 @@ public class DataPackageTool extends IntentService{
                         + "&isEndofPackage="    +String.valueOf(information.getIsEndofPackage());
                 sendLog(urlog);
 
-                x.http().post(params, new Callback.CacheCallback<String>() {
-
-                    @Override
-                    public void onSuccess(String result) {
-                        Log.i(TAG, "onSuccess: "+result);
-                        sendLog("发送成功\n"+result+"\n");
-                 /*       insertInformationSuccess(information);*/
-                        //Toast.makeText(MainActivity.this, "发送信息成功"+result, Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
-                        Log.i(TAG, "onError: "+ex.toString());
-                        sendLog("发送失败\n"+ex.toString()+"\n");
-                       /* insertInformationFailed(information);*/
-                        //Toast.makeText(MainActivity.this, "发送信息失败"+ex.toString(), Toast.LENGTH_SHORT).show();
-
-                    }
-
-                    @Override
-                    public void onCancelled(Callback.CancelledException cex) {
-                        Log.i(TAG, "onCancelled: "+cex.toString());
-                    }
-
-                    @Override
-                    public void onFinished() {
-                        Log.i(TAG, "onFinished: ");
-                    }
-
-                    @Override
-                    public boolean onCache(String result) {
-                        Log.i(TAG, "onCache: "+result);
-                        return false;
-                    }
-                });
+                sendPost(params,information);
 
             }else if (packSize.equals(DataPackageTool.THE_END_PACKAGE)){
                 RequestParams params = new RequestParams(url);
@@ -425,7 +271,7 @@ public class DataPackageTool extends IntentService{
 
 
                 params.addBodyParameter("file", new File(FileTool._40B_FILE_URL), null);
-               // params.addBodyParameter("file", new File(URL_1KB), null);
+
                 String urlog = url
                         + "?packageId="+id
                         + "&deviceNo="          +String.valueOf(information.getDeviceNo())
@@ -443,42 +289,8 @@ public class DataPackageTool extends IntentService{
                         + "&packageName="       +String.valueOf(information.getPackageName())
                         + "&isEndofPackage="    +String.valueOf(information.getIsEndofPackage());
                 sendLog(urlog);
+                sendPost(params,information);
 
-                x.http().post(params, new Callback.CacheCallback<String>() {
-
-                    @Override
-                    public void onSuccess(String result) {
-                        Log.i(TAG, "onSuccess: "+result);
-                        sendLog("发送成功\n"+result+"\n");
-                   /*     insertInformationSuccess(information);*/
-                        //Toast.makeText(MainActivity.this, "发送信息成功"+result, Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
-                        Log.i(TAG, "onError: "+ex.toString());
-                        sendLog("发送失败\n"+ex.toString()+"\n");
-                    /*    insertInformationFailed(information);*/
-                        //Toast.makeText(MainActivity.this, "发送信息失败"+ex.toString(), Toast.LENGTH_SHORT).show();
-
-                    }
-
-                    @Override
-                    public void onCancelled(Callback.CancelledException cex) {
-                        Log.i(TAG, "onCancelled: "+cex.toString());
-                    }
-
-                    @Override
-                    public void onFinished() {
-                        Log.i(TAG, "onFinished: ");
-                    }
-
-                    @Override
-                    public boolean onCache(String result) {
-                        Log.i(TAG, "onCache: "+result);
-                        return false;
-                    }
-                });
             }else {
 
             }
@@ -494,6 +306,68 @@ public class DataPackageTool extends IntentService{
         intent.putExtra(MainActivity.UPDATA_LOG,log);
         sendBroadcast(intent);
     }
+
+    private void InsertInfo(Information information, boolean isSuccess){
+        Intent inforIntent = new Intent(DataPackageTool.this, DBTool.class);
+        inforIntent.setAction(DBTool.ACTION_ADD);
+        inforIntent.putExtra(DBTool.TABLE_NAME, DBTool.TABLE_INFORMATION);
+        inforIntent.putExtra(DBTool.INFORMATION, information);
+        inforIntent.putExtra(DBTool.INFORMATION_SEND_IS_SUCCESS, isSuccess);
+        startService(inforIntent);
+    }
+
+    private void InsertControl(int packageId, long timeReceive, long timeSendBack){
+        Intent dbIntent = new Intent(DataPackageTool.this, DBTool.class);
+        dbIntent.setAction(DBTool.ACTION_ADD);
+        dbIntent.putExtra(DBTool.TABLE_NAME,DBTool.TABLE_CONTROL_MESSAGE);
+        dbIntent.putExtra(DBTool.CONTROL_ID,packageId);
+        dbIntent.putExtra(DBTool.TIME_RECEIVE,timeReceive);
+        dbIntent.putExtra(DBTool.TIME_SEND_BACK,timeSendBack);
+        startService(dbIntent);
+    }
+
+    private void sendPost(RequestParams params, final Information information){
+        x.http().post(params, new Callback.CacheCallback<JSONObject>() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                InsertInfo(information,true);
+                try {
+                    int packageId = (int) result.getInt("packageId");
+                    long timeReceive = (long) result.getLong("recvtimeStamp");
+                    long timeSendBack = (long) result.getLong("backtimeStamp");
+                    sendLog("发送成功\n"+"JSON  packageId="+packageId+
+                            "   backtimeStamp="+ timeSendBack+
+                            "   recvtimeStamp="+ timeReceive+"\n");
+                    InsertControl(packageId,timeReceive,timeSendBack);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    sendLog("JSONException\n"+e.toString()+"\n");
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                sendLog("发送失败\n"+ex.toString()+"\n");
+                InsertInfo(information,false);
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+
+            @Override
+            public boolean onCache(JSONObject result) {
+                return false;
+            }
+        });
+    }
+
 
 
 }

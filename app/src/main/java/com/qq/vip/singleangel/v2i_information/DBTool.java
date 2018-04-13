@@ -113,14 +113,14 @@ public class DBTool extends IntentService {
         informationModel.setIsEndofPackage(information.getIsEndofPackage());
         informationModel.setSuccess(isSuccess);
         informationModel.insert();
-        sendLog("InformationModel 插入成功，ID="+id+"+\n");
+        sendLog("InformationModel 插入成功，ID="+id+"\n");
     }
 
     private void insertPname(int packageName){
         PnameModel pnameModel = new PnameModel();
         pnameModel.setPackageName(packageName);
         pnameModel.insert();
-        sendLog("PnameModel 插入成功，PackageName="+packageName+"+\n");
+        sendLog("PnameModel 插入成功，PackageName="+packageName+"\n");
     }
 
     private void insertControl(int id, long timeReceive, long timeSendBack){
@@ -129,7 +129,7 @@ public class DBTool extends IntentService {
         controlModel.setTimeReceive(timeReceive);
         controlModel.setTimeSendBack(timeSendBack);
         controlModel.insert();
-        sendLog("ControlModel 插入成功，ID="+id+"+\n");
+        sendLog("ControlModel 插入成功，ID="+id+"\n");
     }
 
 

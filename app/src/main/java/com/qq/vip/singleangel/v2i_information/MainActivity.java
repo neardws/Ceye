@@ -124,8 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView tv_deviceName;
     private TextView is_End_of_Package;
-/*    private EditText ed_deviceName;
-    private EditText ed_frequency;*/
+
     private Spinner  spin_frequency;
     private ArrayAdapter arrayAdapter;
 
@@ -202,8 +201,6 @@ public class MainActivity extends AppCompatActivity {
         tv_deviceName       = (TextView) findViewById(R.id.tv_deviceName);
         is_End_of_Package   = (TextView) findViewById(R.id.isEndofPackage);
 
-/*        ed_deviceName = (EditText) findViewById(R.id.edit_deviceName);
-        ed_frequency = (EditText) findViewById(R.id.ed_frequency);*/
         spin_frequency = (Spinner) findViewById(R.id.spin_frequency);
         arrayAdapter = ArrayAdapter.createFromResource(this, R.array.frequency,
                         android.R.layout.simple_spinner_item);
@@ -267,10 +264,8 @@ public class MainActivity extends AppCompatActivity {
                     /**
                      * 结束发送包，将deviceName 保存到数据库
                      */
-                 /*   PnameModel pnameModel = new PnameModel();
-                    pnameModel.setPackageName(timeHash);
-                    pnameModel.insert();
-*/
+                    InsertPname(timeHash);
+
                     Intent intent = new Intent(MainActivity.this, GetInfo.class);
                     intent.putExtra(GetInfo.FREQUENCY, getFrequency());
                     startService(intent);
@@ -440,14 +435,6 @@ public class MainActivity extends AppCompatActivity {
                     log.append(strLog+"\n");
                     break;
                 case MainActivity.SEND_MESSAGE:
-                    /*Information information1 = (Information) getInformation();
-                    String url = "http://118.24.19.160:8088/V2I/collect";
-                    sendPost(url, information1);*/
-
-                    /*Intent intent1 = new Intent(MainActivity.this, DataPackageTool.class);
-                    intent1.setAction(DataPackageTool.THE_END_PACKAGE);
-                    intent1.putExtra(DataPackageTool.PACKAGE_SIZE, information);
-                    startService(intent1);*/
 
                     Information information1 = (Information) getInformation();
                     if (getPackageSize().equals(MainActivity._40B)){
@@ -548,77 +535,12 @@ public class MainActivity extends AppCompatActivity {
         return information;
     }
 
-    /**
-     *
-     * @param url
-     * @param information
-     *//*
-    private void sendPost(String url, Information information) {
-        final String TAG = "sendPost";
-        RequestParams params = new RequestParams(url);
-        params.addBodyParameter("deviceNo",String.valueOf(information.getDeviceNo()));
-        params.addBodyParameter("indexNum",String.valueOf(information.getIndexNum()));
-        params.addBodyParameter("packageNum",String.valueOf(information.getPackageNum()));
-        params.addBodyParameter("macAdd",information.getMacAdd());
-        params.addBodyParameter("speed",String.valueOf(information.getSpeed()));
-        params.addBodyParameter("timeNow",String.valueOf(information.getTimeNow()));
-        params.addBodyParameter("latitude",String.valueOf(information.getLatitude()));
-        params.addBodyParameter("longitude",String.valueOf(information.getLongitude()));
-        params.addBodyParameter("direction",String.valueOf((int) information.getDirection()));
-        params.addBodyParameter("coord_type_input",information.getCoord_type_input());
-
-        String urlog = "http://118.24.19.160:8088/V2I/collect"
-                + "?deviceNo="+String.valueOf(information.getDeviceNo())
-                + "&indexNum="+String.valueOf(information.getIndexNum())
-                + "&packageNum="+String.valueOf(information.getPackageNum())
-                + "&macAdd="+information.getMacAdd()
-                + "&speed="+String.valueOf(information.getSpeed())
-                + "&timeNow="+String.valueOf(information.getTimeNow())
-                + "&latitude="+String.valueOf(information.getLatitude())
-                + "&longitude="+String.valueOf(information.getLongitude())
-                + "&direction="+String.valueOf((int) information.getDirection())
-                + "&coord_type_input="+information.getCoord_type_input();
-        log.setMovementMethod(new ScrollingMovementMethod());
-        log.append(urlog + "\n");
-
-        x.http().post(params, new Callback.CacheCallback<String>() {
-
-            @Override
-            public void onSuccess(String result) {
-                Log.i(TAG, "onSuccess: "+result);
-                log.setMovementMethod(new ScrollingMovementMethod());
-                log.append("发送成功\n"+result+"\n");
-                //Toast.makeText(MainActivity.this, "发送信息成功"+result, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                Log.i(TAG, "onError: "+ex.toString());
-                log.setMovementMethod(new ScrollingMovementMethod());
-                log.append("发送失败\n"+ex.toString()+"\n");
-                //Toast.makeText(MainActivity.this, "发送信息失败"+ex.toString(), Toast.LENGTH_SHORT).show();
-
-            }
-
-            @Override
-            public void onCancelled(Callback.CancelledException cex) {
-                Log.i(TAG, "onCancelled: "+cex.toString());
-            }
-
-            @Override
-            public void onFinished() {
-                Log.i(TAG, "onFinished: ");
-            }
-
-            @Override
-            public boolean onCache(String result) {
-                Log.i(TAG, "onCache: "+result);
-                return false;
-            }
-        });
-
-    }*/
-
-
+    private void InsertPname(int packageName){
+        Intent pnameIntent = new Intent(MainActivity.this, DBTool.class);
+        pnameIntent.setAction(DBTool.ACTION_ADD);
+        pnameIntent.putExtra(DBTool.TABLE_NAME, DBTool.TABLE_PACKAGE_NAME);
+        pnameIntent.putExtra(DBTool.PACKAGE_NAME, packageName);
+        startService(pnameIntent);
+    }
 
 }

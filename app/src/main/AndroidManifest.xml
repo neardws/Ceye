@@ -60,8 +60,7 @@
 
         <service android:name=".DataPackageTool" />
 
-        <service android:name=".DBTool"
-            android:process=":dbtool"/>
+        <service android:name=".DBTool" />
 
         <activity android:name=".AboutMeActivity">
         </activity>

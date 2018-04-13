@@ -43,7 +43,7 @@
     <string name="tag_setup">设置</string>
     <string name="package_size">数据包大小</string>
     <string name="send_frequency">发送频率</string>
-    
+
     <!--AboutMeActivity-->
     <string name="about_me">关于Ceye</string>
     <string name="version">版本</string>
@@ -51,5 +51,31 @@
     <string name="version_data">2018-4-12</string>
     <string name="baiddu_location_sdk">百度定位SDK</string>
     <string name="baidu_error_code_">public int getLocType() 返回值：</string>
+
+    <!--DAActivity-->
+    <string name="DA">数据分析</string>
+    <string name="item_no">No</string>
+    <string name="item_id">ID</string>
+    <string name="item_index">Index</string>
+    <string name="item_sendTime">SST</string>
+    <string name="item_receiveTime">SRT</string>
+    <string name="item_my_sendTime">CST</string>
+    <string name="item_my_receiveTime">CRT</string>
+    <string name="itme_flag_end">END</string>
+    <string name="itme_delay">Delay</string>
+
+    <string name="item_context_no">1</string>
+    <string name="item_context_id">553556064</string>
+    <string name="item_context_index">73</string>
+    <string name="item_context_sendTime">1523621829218</string>
+    <string name="item_context_receiveTime">1523621829029</string>
+    <string name="item_context_my_sendTime">1523621830167</string>
+    <string name="item_context_my_receiveTime">1523621831112</string>
+    <string name="item_context_flag_end">1</string>
+    <string name="item_context_delay">5000ms</string>
+
+    <string name="package_name">数据包哈希码</string>
+    <string name="Delay">时延</string>
+    <string name="Package_Lost">丢包率</string>
 
 </resources>

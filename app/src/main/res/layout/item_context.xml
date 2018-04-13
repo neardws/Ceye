@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp">
+
+
+    <TextView
+        android:id="@+id/item_context_no"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/item_context_no"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:textSize="12sp"
+        android:id="@+id/item_context_id"
+        android:layout_toEndOf="@+id/item_context_no"
+        android:hint="@string/item_context_id"
+        android:layout_marginStart="2pt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:textSize="12sp"
+        android:id="@+id/item_context_index"
+        android:layout_toEndOf="@+id/item_context_id"
+        android:layout_marginStart="2pt"
+        android:hint="@string/item_context_index"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:textSize="12sp"
+        android:id="@+id/item_context_CST"
+        android:layout_toEndOf="@+id/item_context_index"
+        android:layout_marginStart="2pt"
+        android:hint="@string/item_context_my_sendTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:textSize="12sp"
+        android:id="@+id/item_context_SRT"
+        android:layout_toEndOf="@+id/item_context_CST"
+        android:layout_marginStart="2pt"
+        android:hint="@string/item_context_receiveTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:textSize="12sp"
+        android:id="@+id/item_context_SST"
+        android:layout_toEndOf="@+id/item_context_SRT"
+        android:layout_marginStart="2pt"
+        android:hint="@string/item_context_sendTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:textSize="12sp"
+        android:id="@+id/item_context_CRT"
+        android:layout_toEndOf="@+id/item_context_SST"
+        android:layout_marginStart="2pt"
+        android:hint="@string/item_context_my_receiveTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:textSize="12sp"
+        android:id="@+id/item_context_end_flag"
+        android:hint="@string/item_context_flag_end"
+        android:layout_marginStart="2pt"
+        android:layout_toEndOf="@+id/item_context_CRT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:textSize="12sp"
+        android:id="@+id/item_context_Delay"
+        android:hint="@string/item_context_delay"
+        android:layout_toEndOf="@id/item_context_end_flag"
+        android:layout_marginStart="2pt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+
+</RelativeLayout>

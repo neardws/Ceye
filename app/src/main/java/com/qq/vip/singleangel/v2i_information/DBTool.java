@@ -5,6 +5,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.annotation.Nullable;
 
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.raizlabs.android.dbflow.sql.language.Select;
+
+import java.util.List;
+
 /**
  * DBTool 增删改查操作
  * Created by singl on 2018/4/13.
@@ -47,6 +52,7 @@ public class DBTool extends IntentService {
     public static final String CONTROL_ID       = "CONTROL_ID";
     public static final String TIME_RECEIVE     = "TIME_RECEIVE";
     public static final String TIME_SEND_BACK   = "TIME_SEND_BACK";
+    public static final String TIME_MY_RECEIVE  = "TIME_MY_RECEIVE";
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
@@ -67,20 +73,46 @@ public class DBTool extends IntentService {
                 int id = intent.getExtras().getInt(DBTool.CONTROL_ID);
                 long timeReceive = intent.getExtras().getLong(DBTool.TIME_RECEIVE);
                 long timeSendBack = intent.getExtras().getLong(DBTool.TIME_SEND_BACK);
-                insertControl(id,timeReceive,timeSendBack);
+                long timeMyReceive = intent.getExtras().getLong(DBTool.TIME_MY_RECEIVE);
+                insertControl(id,timeReceive,timeSendBack,timeMyReceive);
             }
         }
         /**
          * 删除操作
          */
         else if (action.equals(DBTool.ACTION_DELETE)){
-
+            String tableName = intent.getExtras().getString(DBTool.TABLE_NAME);
+            if (tableName.equals(DBTool.TABLE_PACKAGE_NAME)){
+                List<PnameModel> pnameModelList = SQLite.select().from(PnameModel.class).queryList();
+                for (PnameModel pnameModel:pnameModelList){
+                    pnameModel.delete();
+                }
+            }else if (tableName.equals(DBTool.TABLE_INFORMATION)){
+                List<InformationModel> informationModelList = SQLite.select().from(InformationModel.class).queryList();
+                for (InformationModel informationModel:informationModelList){
+                    informationModel.delete();
+                }
+            }else if (tableName.equals(DBTool.TABLE_CONTROL_MESSAGE)){
+                List<ControlModel> controlModelList = SQLite.select().from(ControlModel.class).queryList();
+                for (ControlModel controlModel:controlModelList){
+                    controlModel.delete();
+                }
+            }
         }
         /**
          * 查询操作
          */
         else if (action.equals(DBTool.ACTION_SELETE)){
+            String tableName = intent.getExtras().getString(DBTool.TABLE_NAME);
+            if (tableName.equals(DBTool.TABLE_PACKAGE_NAME)){
+                //返回所有查询结果
+                List<PnameModel> pnameModelList = new Select().from(PnameModel.class).queryList();
 
+            }else if (tableName.equals(DBTool.TABLE_INFORMATION)){
+
+            }else if (tableName.equals(DBTool.TABLE_CONTROL_MESSAGE)){
+
+            }
         }
 
     }
@@ -123,11 +155,12 @@ public class DBTool extends IntentService {
         sendLog("PnameModel 插入成功，PackageName="+packageName+"\n");
     }
 
-    private void insertControl(int id, long timeReceive, long timeSendBack){
+    private void insertControl(int id, long timeReceive, long timeSendBack, long timeMyReceive){
         ControlModel controlModel = new ControlModel();
         controlModel.setId(id);
         controlModel.setTimeReceive(timeReceive);
         controlModel.setTimeSendBack(timeSendBack);
+        controlModel.setTimeMyReceive(timeMyReceive);
         controlModel.insert();
         sendLog("ControlModel 插入成功，ID="+id+"\n");
     }

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.qq.vip.singleangel.v2i_information.DAActivity">
+
+    <RelativeLayout
+        android:layout_width="368dp"
+        android:layout_height="495dp"
+        tools:layout_editor_absoluteY="8dp"
+        tools:layout_editor_absoluteX="8dp">
+
+        <TextView
+            android:id="@+id/package_name"
+            android:text="@string/package_name"
+            android:textSize="15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Spinner
+            android:id="@+id/spin_package_name"
+            android:layout_marginStart="2pt"
+            android:layout_toEndOf="@+id/package_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/frequency"
+            android:text="@string/frequency"
+            android:layout_below="@id/package_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/context_frequency"
+            android:hint="@string/frequency"
+            android:layout_below="@+id/package_name"
+            android:layout_toEndOf="@id/frequency"
+            android:layout_marginStart="2pt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/package_size"
+            android:text="@string/package_size"
+            android:layout_below="@+id/package_name"
+            android:layout_toEndOf="@id/context_frequency"
+            android:layout_marginStart="2pt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/context_package_size"
+            android:hint="@string/package_size"
+            android:layout_below="@+id/package_name"
+            android:layout_toEndOf="@id/package_size"
+            android:layout_marginStart="2pt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/Delay"
+            android:layout_below="@+id/frequency"
+            android:text="@string/Delay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/context_delay"
+            android:layout_toEndOf="@+id/Delay"
+            android:layout_marginStart="2pt"
+            android:layout_below="@+id/frequency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/Delay" />
+
+        <TextView
+            android:id="@+id/PackageLost"
+            android:text="@string/Package_Lost"
+            android:layout_marginStart="2pt"
+            android:layout_below="@+id/frequency"
+            android:layout_toEndOf="@+id/context_delay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/context_package_lost"
+            android:layout_below="@+id/frequency"
+            android:layout_marginStart="2pt"
+            android:layout_toEndOf="@+id/PackageLost"
+            android:hint="@string/Package_Lost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_title"
+            android:layout_below="@+id/Delay"
+            >
+            <TextView
+                android:id="@+id/item_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/item_no" />
+
+            <TextView
+                android:id="@+id/item_id"
+                android:layout_toEndOf="@+id/item_no"
+                android:text="@string/item_id"
+                android:layout_marginStart="2pt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/item_index"
+                android:layout_toEndOf="@+id/item_id"
+                android:layout_marginStart="10pt"
+                android:text="@string/item_index"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/item_CST"
+                android:layout_toEndOf="@+id/item_index"
+                android:layout_marginStart="10pt"
+                android:text="@string/item_my_sendTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/item_SRT"
+                android:layout_toEndOf="@+id/item_CST"
+                android:layout_marginStart="10pt"
+                android:text="@string/item_receiveTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/item_SST"
+                android:layout_toEndOf="@+id/item_SRT"
+                android:layout_marginStart="10pt"
+                android:text="@string/item_sendTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/item_CRT"
+                android:layout_toEndOf="@+id/item_SST"
+                android:layout_marginStart="10pt"
+                android:text="@string/item_my_receiveTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/item_end_flag"
+                android:text="@string/itme_flag_end"
+                android:layout_marginStart="10pt"
+                android:layout_toEndOf="@+id/item_CRT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/item_Delay"
+                android:text="@string/itme_delay"
+                android:layout_toEndOf="@id/item_end_flag"
+                android:layout_marginStart="3pt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+        <ListView
+            android:id="@+id/item"
+            android:layout_below="@+id/item_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </ListView>
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

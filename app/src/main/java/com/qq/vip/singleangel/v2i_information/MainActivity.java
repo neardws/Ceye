@@ -29,6 +29,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -157,6 +159,8 @@ public class MainActivity extends AppCompatActivity {
          */
         FileTool fileTool = new FileTool(getApplicationContext());
         fileTool.init();
+
+
         /**
          *对xutils3.5进行初始化
          */
@@ -335,6 +339,24 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, AboutMeActivity.class);
             startActivity(intent);
             return true;
+        }else if (id == R.id.action_da){
+            Intent intent = new Intent(MainActivity.this, DAActivity.class);
+            startActivity(intent);
+            return true;
+        }else if (id == R.id.action_delete){
+            /*Intent intent = new Intent(MainActivity.this, DBTool.class);
+            intent.setAction(DBTool.ACTION_DELETE);
+            intent.putExtra(DBTool.TABLE_NAME, DBTool.TABLE_PACKAGE_NAME);
+            startService(intent);
+            Intent intent1 = new Intent(MainActivity.this, DBTool.class);
+            intent1.setAction(DBTool.ACTION_DELETE);
+            intent1.putExtra(DBTool.TABLE_NAME, DBTool.TABLE_INFORMATION);
+            startService(intent1);
+            Intent intent2 = new Intent(MainActivity.this, DBTool.class);
+            intent2.setAction(DBTool.ACTION_DELETE);
+            intent2.putExtra(DBTool.TABLE_NAME, DBTool.TABLE_CONTROL_MESSAGE);
+            startService(intent2);
+            Toast.makeText(MainActivity.this,"初始化成功",Toast.LENGTH_SHORT).show();*/
         }
 
         return super.onOptionsItemSelected(item);

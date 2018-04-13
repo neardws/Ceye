@@ -323,6 +323,8 @@ public class DataPackageTool extends IntentService{
         dbIntent.putExtra(DBTool.CONTROL_ID,packageId);
         dbIntent.putExtra(DBTool.TIME_RECEIVE,timeReceive);
         dbIntent.putExtra(DBTool.TIME_SEND_BACK,timeSendBack);
+        long timeMyReceive = System.currentTimeMillis();
+        dbIntent.putExtra(DBTool.TIME_MY_RECEIVE,timeMyReceive);
         startService(dbIntent);
     }
 
@@ -335,6 +337,7 @@ public class DataPackageTool extends IntentService{
                     int packageId = (int) result.getInt("packageId");
                     long timeReceive = (long) result.getLong("recvtimeStamp");
                     long timeSendBack = (long) result.getLong("backtimeStamp");
+                    long nowTime = System.currentTimeMillis();
                     sendLog("发送成功\n"+"JSON  packageId="+packageId+
                             "   backtimeStamp="+ timeSendBack+
                             "   recvtimeStamp="+ timeReceive+"\n");

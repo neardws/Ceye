@@ -28,12 +28,41 @@ public class FileTool {
     public static final String _1KB_FILE_URL = "/mnt/sdcard/file1024b";
 
     private static final String str_40B  = "IND##indexNum##LON##longitude##LAT##lati";
-    private static final String str_100B = "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la";
+
+    private static final String str_100B = "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "#longitude##LAT##latie##";
+
     private static final String str_500B = "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
-                                           "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
-                                           "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
-                                           "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
-                                           "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la";
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "#longitude##LAT##latie##"+
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "#longitude##LAT##latie##";
     private static final String str_1KB  = "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
                                            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
                                            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
@@ -44,7 +73,29 @@ public class FileTool {
                                            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
                                            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
                                            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
-                                           "#longitude##LAT##latie##";
+                                           "#longitude##LAT##latie##"+
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "#longitude##LAT##latie##"+
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "IND##indexNum##LON##longitude##LAT##latiIND##indexNum##LON##longitude##LAT##lati##longitude##LAT##la" +
+            "#longitude##LAT##latie##";
 
     public FileTool(Context context){
         this.context = context;

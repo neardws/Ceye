@@ -62,6 +62,7 @@ public int getLocType ( )返回值：
 * 读取GPS数据、可视化
 * 从服务器接收数据，在本机统计时延、丢包率等
 * 将JAVA项目迁移为Kotlin
+* 现在代码越来越多，分组进行管理
 
 ### bug fixed
 * 添加三张表 *InfomationModel* 、*PnameModel* 、*ControlModel*

@@ -22,7 +22,7 @@ public class ControlModel extends BaseModel {
     }
 
     /**
-     * 接收到Information的时间戳
+     * 服务器接收到Information的时间戳
      */
     @Column
     private long timeReceive;
@@ -36,7 +36,7 @@ public class ControlModel extends BaseModel {
     }
 
     /**
-     * 发送回来的时间戳
+     * 服务器发送回来的时间戳
      */
     @Column
     private long timeSendBack;
@@ -47,5 +47,18 @@ public class ControlModel extends BaseModel {
 
     public void setTimeSendBack(long timeSendBack) {
         this.timeSendBack = timeSendBack;
+    }
+
+    /**
+     * 客户端接收到信息的时间戳
+     */
+    private long timeMyReceive;
+
+    public long getTimeMyReceive() {
+        return timeMyReceive;
+    }
+
+    public void setTimeMyReceive(long timeMyReceive) {
+        this.timeMyReceive = timeMyReceive;
     }
 }

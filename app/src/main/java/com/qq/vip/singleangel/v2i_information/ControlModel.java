@@ -51,7 +51,9 @@ public class ControlModel extends BaseModel {
 
     /**
      * 客户端接收到信息的时间戳
+     * 未添加@Column标记
      */
+    @Column
     private long timeMyReceive;
 
     public long getTimeMyReceive() {

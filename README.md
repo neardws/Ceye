@@ -409,6 +409,47 @@ Content-Type: text/plain; charset=UTF-8
 > * 丢包率
     > 预期丢包率小于1%
 
+## 2018.4.16
+### Debug
+> * 读取数据库后发现 *CRT* （客户端接收时间）都为空
+
+```java
+
+public final class ControlModel_Table extends ModelAdapter<ControlModel> {
+  /**
+   * Primary Key */
+  public static final Property<Integer> id = new Property<Integer>(ControlModel.class, "id");
+
+  public static final Property<Long> timeReceive = new Property<Long>(ControlModel.class, "timeReceive");
+
+  public static final Property<Long> timeSendBack = new Property<Long>(ControlModel.class, "timeSendBack");
+
+  public static final IProperty[] ALL_COLUMN_PROPERTIES = new IProperty[]{id,timeReceive,timeSendBack};
+
+```
+
+> 发现ControlModel已更改，但是ControlModel_Table并为更改，故没有存储timeMyReceive时间，发现真实错误原因为为添加@Column标记
+
+```java
+
+    /**
+     * 客户端接收到信息的时间戳
+     * 未添加@Column标记
+     */
+
+    private long timeMyReceive;
+
+    public long getTimeMyReceive() {
+        return timeMyReceive;
+    }
+
+    public void setTimeMyReceive(long timeMyReceive) {
+        this.timeMyReceive = timeMyReceive;
+    }
+
+```
+
+
 
 
 

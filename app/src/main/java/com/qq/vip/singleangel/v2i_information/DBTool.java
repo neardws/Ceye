@@ -160,9 +160,9 @@ public class DBTool extends IntentService {
         controlModel.setId(id);
         controlModel.setTimeReceive(timeReceive);
         controlModel.setTimeSendBack(timeSendBack);
-        controlModel.setTimeMyReceive(timeMyReceive);
+        controlModel.setTimeMyReceive(123456);
         controlModel.insert();
-        sendLog("ControlModel 插入成功，ID="+id+"\n");
+        sendLog("ControlModel 插入成功，ID="+id+",   Time my receive "+controlModel.getTimeMyReceive()+"\n");
     }
 
 

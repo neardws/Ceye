@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -324,6 +325,7 @@ public class DataPackageTool extends IntentService{
         dbIntent.putExtra(DBTool.TIME_RECEIVE,timeReceive);
         dbIntent.putExtra(DBTool.TIME_SEND_BACK,timeSendBack);
         long timeMyReceive = System.currentTimeMillis();
+        Toast.makeText(getApplicationContext(),"TimeMyReceive    "+timeMyReceive, Toast.LENGTH_SHORT).show();
         dbIntent.putExtra(DBTool.TIME_MY_RECEIVE,timeMyReceive);
         startService(dbIntent);
     }

@@ -60,8 +60,10 @@
         <service android:name=".DataPackageTool" />
         <service android:name=".DBTool" />
 
-        <activity android:name=".AboutMeActivity"></activity>
-        <activity android:name=".DAActivity"></activity>
+        <activity android:name=".AboutMeActivity" />
+        <activity android:name=".DAActivity" />
+        <activity android:name=".TableActivity" />
+        <activity android:name=".DebugActivity"></activity>
     </application>
 
 </manifest>

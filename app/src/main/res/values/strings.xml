@@ -78,4 +78,8 @@
     <string name="Delay">时延</string>
     <string name="Package_Lost">丢包率</string>
 
+    <string name="table_information">信息表</string>
+    <string name="table_packageName">包名表</string>
+    <string name="table_control">控制表</string>
+
 </resources>

@@ -1,8 +1,10 @@
-package com.qq.vip.singleangel.v2i_information;
+package com.qq.vip.singleangel.v2i_information.Activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import com.qq.vip.singleangel.v2i_information.R;
 
 public class AboutMeActivity extends AppCompatActivity {
     private TextView tv_error_code;

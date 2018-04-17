@@ -1,10 +1,17 @@
-package com.qq.vip.singleangel.v2i_information;
+package com.qq.vip.singleangel.v2i_information.Tool;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.support.annotation.Nullable;
 
+import com.qq.vip.singleangel.v2i_information.Activity.MainActivity;
+import com.qq.vip.singleangel.v2i_information.ClassDefined.Information;
+import com.qq.vip.singleangel.v2i_information.DataBase.Model.ControlModel;
+import com.qq.vip.singleangel.v2i_information.DataBase.Model.ControlModel_Table;
+import com.qq.vip.singleangel.v2i_information.DataBase.Model.InformationModel;
+import com.qq.vip.singleangel.v2i_information.DataBase.Model.InformationModel_Table;
+import com.qq.vip.singleangel.v2i_information.DataBase.Model.PnameModel;
+import com.qq.vip.singleangel.v2i_information.DataBase.Model.PnameModel_Table;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
@@ -37,6 +44,7 @@ public class DBTool extends IntentService {
     public static final String TABLE_INFORMATION        = "TABLE_INFORMATION";
     public static final String TABLE_PACKAGE_NAME       = "TABLE_PACKAGE_NAME";
     public static final String TABLE_CONTROL_MESSAGE    = "TABLE_CONTROL_MESSAGE";
+    public static final String TABLE_ALL                = "TABLE_ALL";
 
     /*InformationModel*/
     public static final String INFORMATION                  = "INFORMATION";
@@ -97,6 +105,31 @@ public class DBTool extends IntentService {
                 for (ControlModel controlModel:controlModelList){
                     controlModel.delete();
                 }
+            } else if (tableName.equals(DBTool.TABLE_ALL)) {
+                int packageName = intent.getExtras().getInt(DBTool.PACKAGE_NAME);
+                /**
+                 * 先删除Pname
+                 */
+                PnameModel pnameModel = new Select().from(PnameModel.class)
+                        .where(PnameModel_Table.packageName.is(packageName)).querySingle();
+                if (pnameModel != null) {
+                    pnameModel.delete();
+                }
+                /**
+                 * 删除Infor和Control
+                 */
+                List<InformationModel> informationModels = new Select().from(InformationModel.class)
+                        .where(InformationModel_Table.packageName.is(packageName)).queryList();
+                for (InformationModel informationModel: informationModels){
+                    int id = informationModel.getId();
+                    ControlModel controlModel = new Select().from(ControlModel.class)
+                            .where(ControlModel_Table.id.is(id)).querySingle();
+                    if (controlModel != null){
+                        controlModel.delete();
+                    }
+                    informationModel.delete();
+                }
+                sendLog("删除了Pname:"+packageName+"所有表信息。");
             }
         }
         /**
@@ -160,7 +193,7 @@ public class DBTool extends IntentService {
         controlModel.setId(id);
         controlModel.setTimeReceive(timeReceive);
         controlModel.setTimeSendBack(timeSendBack);
-        controlModel.setTimeMyReceive(123456);
+        controlModel.setTimeMyReceive(timeMyReceive);
         controlModel.insert();
         sendLog("ControlModel 插入成功，ID="+id+",   Time my receive "+controlModel.getTimeMyReceive()+"\n");
     }

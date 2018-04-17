@@ -1,4 +1,4 @@
-package com.qq.vip.singleangel.v2i_information;
+package com.qq.vip.singleangel.v2i_information.ClassDefined;
 
 import java.io.Serializable;
 

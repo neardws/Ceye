@@ -1,5 +1,6 @@
-package com.qq.vip.singleangel.v2i_information;
+package com.qq.vip.singleangel.v2i_information.DataBase.Model;
 
+import com.qq.vip.singleangel.v2i_information.DataBase.ControlDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;

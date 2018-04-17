@@ -1,4 +1,4 @@
-package com.qq.vip.singleangel.v2i_information;
+package com.qq.vip.singleangel.v2i_information.Fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -10,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.qq.vip.singleangel.v2i_information.DataBase.Model.PnameModel;
+import com.qq.vip.singleangel.v2i_information.R;
 
 import java.util.List;
 

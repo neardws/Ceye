@@ -1,4 +1,4 @@
-package com.qq.vip.singleangel.v2i_information;
+package com.qq.vip.singleangel.v2i_information.Fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,19 +7,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.qq.vip.singleangel.v2i_information.R;
+
 /**
  * Created by singl on 2018/4/16.
  */
 
-public class FragmentControl extends Fragment{
+public class FragmentInformation extends Fragment{
     private static final String ARG_SECTION_NUMBER = "section_number";
 
-    public FragmentControl(){
+    public FragmentInformation(){
 
     }
 
-    public static FragmentControl newInstance(int sectionNumber) {
-        FragmentControl fragment = new FragmentControl();
+    public static FragmentInformation newInstance(int sectionNumber) {
+        FragmentInformation fragment = new FragmentInformation();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
@@ -29,7 +31,7 @@ public class FragmentControl extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_control, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_information, container, false);
 
 
         return rootView;

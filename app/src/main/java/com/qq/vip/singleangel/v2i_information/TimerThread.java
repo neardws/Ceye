@@ -1,15 +1,11 @@
 package com.qq.vip.singleangel.v2i_information;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Bundle;
-import android.os.Looper;
-import android.support.v4.app.ActivityCompat;
+
+import com.qq.vip.singleangel.v2i_information.Activity.MainActivity;
+import com.qq.vip.singleangel.v2i_information.ClassDefined.Information;
+import com.qq.vip.singleangel.v2i_information.Tool.InfoTool;
 
 /**
  * Created by singl on 2018/3/30.

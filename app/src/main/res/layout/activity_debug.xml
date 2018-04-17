@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.qq.vip.singleangel.v2i_information.DebugActivity">
+    tools:context="com.qq.vip.singleangel.v2i_information.Activity.DebugActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -35,11 +35,120 @@
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
+        <Spinner
+            android:id="@+id/spin_package_name"
+            android:layout_below="@id/line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </Spinner>
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_toEndOf="@+id/spin_package_name"
+            android:layout_below="@+id/line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete"/>
+        <Button
+            android:id="@+id/btn_search"
+            android:layout_below="@+id/line"
+            android:layout_toEndOf="@+id/btn_delete"
+            android:text="Search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btn_aya"
+            android:layout_below="@+id/line"
+            android:layout_toEndOf="@+id/btn_search"
+            android:text="DA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/frequency"
+            android:text="@string/frequency"
+            android:layout_below="@id/btn_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/context_frequency"
+            android:hint="@string/frequency"
+            android:layout_below="@+id/btn_delete"
+            android:layout_toEndOf="@id/frequency"
+            android:layout_marginStart="2pt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/package_size"
+            android:text="@string/package_size"
+            android:layout_below="@+id/btn_delete"
+            android:layout_toEndOf="@id/context_frequency"
+            android:layout_marginStart="2pt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/context_package_size"
+            android:hint="@string/package_size"
+            android:layout_below="@+id/btn_delete"
+            android:layout_toEndOf="@id/package_size"
+            android:layout_marginStart="2pt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/Delay"
+            android:layout_below="@+id/frequency"
+            android:text="单次时延"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/context_delay"
+            android:layout_toEndOf="@+id/Delay"
+            android:layout_marginStart="2pt"
+            android:layout_below="@+id/frequency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/Delay" />
+        <TextView
+            android:id="@+id/doubleDelay"
+            android:layout_below="@+id/frequency"
+            android:layout_marginStart="2pt"
+            android:text="来回时延"
+            android:layout_toEndOf="@id/context_delay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/context_doubledelay"
+            android:layout_toEndOf="@+id/doubleDelay"
+            android:layout_marginStart="2pt"
+            android:layout_below="@+id/frequency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/Delay" />
+
+        <TextView
+            android:id="@+id/PackageLost"
+            android:text="@string/Package_Lost"
+            android:layout_marginStart="2pt"
+            android:layout_below="@+id/frequency"
+            android:layout_toEndOf="@+id/context_doubledelay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/context_package_lost"
+            android:layout_below="@+id/frequency"
+            android:layout_marginStart="2pt"
+            android:layout_toEndOf="@+id/PackageLost"
+            android:hint="@string/Package_Lost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/debug_log"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/line"
+            android:layout_below="@+id/Delay"
             android:layout_alignParentBottom="true"
             android:clickable="false"
             android:hint="@string/hint_log"

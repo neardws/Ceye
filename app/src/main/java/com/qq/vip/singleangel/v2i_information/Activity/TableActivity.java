@@ -1,4 +1,4 @@
-package com.qq.vip.singleangel.v2i_information;
+package com.qq.vip.singleangel.v2i_information.Activity;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -7,6 +7,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.qq.vip.singleangel.v2i_information.Fragment.FragmentControl;
+import com.qq.vip.singleangel.v2i_information.Fragment.FragmentInformation;
+import com.qq.vip.singleangel.v2i_information.Fragment.FragmentPackageName;
+import com.qq.vip.singleangel.v2i_information.R;
 
 public class TableActivity extends AppCompatActivity {
 

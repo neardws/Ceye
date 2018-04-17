@@ -1,70 +1,35 @@
-package com.qq.vip.singleangel.v2i_information;
+package com.qq.vip.singleangel.v2i_information.Activity;
 
 import android.app.ActivityManager;
-import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.NetworkRequest;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.internal.TextScale;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.qq.vip.singleangel.v2i_information.Tool.DBTool;
+import com.qq.vip.singleangel.v2i_information.Tool.DataPackageTool;
+import com.qq.vip.singleangel.v2i_information.Tool.FileTool;
+import com.qq.vip.singleangel.v2i_information.GetInfo;
+import com.qq.vip.singleangel.v2i_information.ClassDefined.Information;
+import com.qq.vip.singleangel.v2i_information.R;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
-import org.xutils.common.Callback;
-import org.xutils.http.RequestParams;
 import org.xutils.x;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.SocketException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
-
-import static java.lang.System.in;
-import static java.net.Proxy.Type.HTTP;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -157,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         /**
          * 创建文件
          */
-        FileTool fileTool = new FileTool(getApplicationContext());
+        final FileTool fileTool = new FileTool(getApplicationContext());
         fileTool.init();
 
 
@@ -299,6 +264,8 @@ public class MainActivity extends AppCompatActivity {
                     log.append("已关闭服务\n");
                     Snackbar.make(view, "已关闭服务", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
+
+                    fileTool.writeLog(log.getText().toString());
                 }
 
             }
@@ -346,9 +313,20 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             return true;
         }else if (id == R.id.action_delete){
-
+            /*Intent pname = new Intent(MainActivity.this,DBTool.class);
+            pname.setAction(DBTool.ACTION_DELETE);
+            pname.putExtra(DBTool.TABLE_NAME,DBTool.TABLE_PACKAGE_NAME);
+            startService(pname);
+            Intent infor = new Intent(MainActivity.this,DBTool.class);
+            pname.setAction(DBTool.ACTION_DELETE);
+            pname.putExtra(DBTool.TABLE_NAME,DBTool.TABLE_INFORMATION);
+            startService(infor);
+            Intent control = new Intent(MainActivity.this,DBTool.class);
+            pname.setAction(DBTool.ACTION_DELETE);
+            pname.putExtra(DBTool.TABLE_NAME,DBTool.TABLE_CONTROL_MESSAGE);
+            startService(control);
+            Toast.makeText(getApplicationContext(),"初始化成功。",Toast.LENGTH_SHORT).show();*/
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -438,7 +416,7 @@ public class MainActivity extends AppCompatActivity {
                             hint_timeNow    .setText(information.getTime());
                         }
                         hint_packageNum .setText("发送数据包的个数");
-
+                        /*log.append("时间戳："+information.getTimeNow()+"   时间："+information.getTime()+"\n");*/
                     }
                     break;
                 case MainActivity.UPDATA_LOG:
@@ -449,6 +427,7 @@ public class MainActivity extends AppCompatActivity {
                 case MainActivity.SEND_MESSAGE:
 
                     Information information1 = (Information) getInformation();
+                    log.append("时间戳："+information1.getTimeNow()+"   时间："+information1.getTime()+"\n");
                     if (getPackageSize().equals(MainActivity._40B)){
                         Intent intent1 = new Intent(MainActivity.this, DataPackageTool.class);
                         intent1.setAction(DataPackageTool._40B);

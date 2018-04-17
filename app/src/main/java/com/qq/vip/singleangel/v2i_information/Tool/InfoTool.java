@@ -1,22 +1,16 @@
-package com.qq.vip.singleangel.v2i_information;
+package com.qq.vip.singleangel.v2i_information.Tool;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.os.Bundle;
-import android.os.SystemClock;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+
+import com.qq.vip.singleangel.v2i_information.ClassDefined.Information;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;

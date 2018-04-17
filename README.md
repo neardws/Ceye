@@ -1,5 +1,9 @@
 # Ceye
 V2I simulation, Baidu map location, Car trace
+2018.4.17 版本 1.0
+ > 功能实现
+ > * 上传Baidu 定位GPS信息
+ > * 包传输信息到本地数据库，本地进行数据分析
 
 ## 2018.4.9
 ### bug
@@ -449,6 +453,13 @@ public final class ControlModel_Table extends ModelAdapter<ControlModel> {
 
 ```
 
+### 2018.4.17
+#### 版本发布
+release 1.0
+
+#### 预期实现功能
+* UI更新
+* 增加百度鹰眼SDK
 
 
 

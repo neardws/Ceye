@@ -1,6 +1,5 @@
-package com.qq.vip.singleangel.v2i_information;
+package com.qq.vip.singleangel.v2i_information.Activity;
 
-import android.service.notification.Condition;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,16 +7,19 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baidu.mapapi.map.Text;
-import com.raizlabs.android.dbflow.annotation.Database;
+import com.qq.vip.singleangel.v2i_information.DataBase.Model.ControlModel;
+import com.qq.vip.singleangel.v2i_information.DataBase.Model.ControlModel_Table;
+import com.qq.vip.singleangel.v2i_information.ClassDefined.DAObject;
+import com.qq.vip.singleangel.v2i_information.DataBase.Model.InformationModel;
+import com.qq.vip.singleangel.v2i_information.DataBase.Model.InformationModel_Table;
+import com.qq.vip.singleangel.v2i_information.DataBase.Model.PnameModel;
+import com.qq.vip.singleangel.v2i_information.R;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
-import java.net.IDN;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,12 +79,12 @@ public class DAActivity extends AppCompatActivity {
                     String packageSize = getPackageSize(intPackageName);
                     tv_package_size.setText(packageSize);
 
-                    String avarageDelay = getDelay(intPackageName);
-                    if (avarageDelay == null){
+                /*    String avarageDelay = getDelay(intPackageName);*/
+                 /*   if (avarageDelay == null){
 
                     }else {
                         tv_delay.setText(avarageDelay);
-                    }
+                    }*/
 
                     //Toast.makeText(getApplicationContext(), "数据包哈希值为" + packageName ,Toast.LENGTH_SHORT).show();
                 }else {
@@ -145,7 +147,6 @@ public class DAActivity extends AppCompatActivity {
                 daObject.setCrt(controlModel.getTimeMyReceive());
                 daObject.setSrt(controlModel.getTimeReceive());
                 daObject.setSst(controlModel.getTimeSendBack());
-                daObject.setDelay();
                 daObjects.add(daObject);
             }
             return daObjects;
@@ -153,7 +154,7 @@ public class DAActivity extends AppCompatActivity {
 
     }
 
-    private String getDelay(int packageName){
+   /* private String getDelay(int packageName){
         ArrayList<DAObject> daObjects = getDAOjects(packageName);
         if (daObjects==null){
             return "error,no data.";
@@ -169,6 +170,6 @@ public class DAActivity extends AppCompatActivity {
         long avarageDelay = (long) delay / i;
         String strDelay = avarageDelay + "ms";
         return strDelay;
-    }
+    }*/
 
 }

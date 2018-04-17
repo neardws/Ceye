@@ -1,4 +1,4 @@
-package com.qq.vip.singleangel.v2i_information;
+package com.qq.vip.singleangel.v2i_information.Tool;
 
 import android.os.SystemClock;
 import android.util.Log;

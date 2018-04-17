@@ -1,12 +1,11 @@
-package com.qq.vip.singleangel.v2i_information;
+package com.qq.vip.singleangel.v2i_information.Tool;
 
 import android.app.IntentService;
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
-import android.widget.Toast;
+
+import com.qq.vip.singleangel.v2i_information.Activity.MainActivity;
+import com.qq.vip.singleangel.v2i_information.ClassDefined.Information;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -317,16 +316,14 @@ public class DataPackageTool extends IntentService{
         startService(inforIntent);
     }
 
-    private void InsertControl(int packageId, long timeReceive, long timeSendBack){
+    private void InsertControl(int packageId, long timeReceive, long timeSendBack, long nowTimw){
         Intent dbIntent = new Intent(DataPackageTool.this, DBTool.class);
         dbIntent.setAction(DBTool.ACTION_ADD);
         dbIntent.putExtra(DBTool.TABLE_NAME,DBTool.TABLE_CONTROL_MESSAGE);
         dbIntent.putExtra(DBTool.CONTROL_ID,packageId);
         dbIntent.putExtra(DBTool.TIME_RECEIVE,timeReceive);
         dbIntent.putExtra(DBTool.TIME_SEND_BACK,timeSendBack);
-        long timeMyReceive = System.currentTimeMillis();
-        Toast.makeText(getApplicationContext(),"TimeMyReceive    "+timeMyReceive, Toast.LENGTH_SHORT).show();
-        dbIntent.putExtra(DBTool.TIME_MY_RECEIVE,timeMyReceive);
+        dbIntent.putExtra(DBTool.TIME_MY_RECEIVE,nowTimw);
         startService(dbIntent);
     }
 
@@ -343,7 +340,7 @@ public class DataPackageTool extends IntentService{
                     sendLog("发送成功\n"+"JSON  packageId="+packageId+
                             "   backtimeStamp="+ timeSendBack+
                             "   recvtimeStamp="+ timeReceive+"\n");
-                    InsertControl(packageId,timeReceive,timeSendBack);
+                    InsertControl(packageId,timeReceive,timeSendBack, nowTime);
                 } catch (JSONException e) {
                     e.printStackTrace();
                     sendLog("JSONException\n"+e.toString()+"\n");

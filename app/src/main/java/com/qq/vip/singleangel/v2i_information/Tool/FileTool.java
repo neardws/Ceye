@@ -1,16 +1,16 @@
-package com.qq.vip.singleangel.v2i_information;
+package com.qq.vip.singleangel.v2i_information.Tool;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.qq.vip.singleangel.v2i_information.Activity.MainActivity;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
 /**
@@ -22,10 +22,11 @@ public class FileTool {
     private String packageName;
     public static final String TAG = "FileTool";
 
-    public static final String _40B_FILE_URL = "/mnt/sdcard/file40b";
-    public static final String _100B_FILE_URL = "/mnt/sdcard/file100b";
-    public static final String _500B_FILE_URL = "/mnt/sdcard/file500b";
-    public static final String _1KB_FILE_URL = "/mnt/sdcard/file1024b";
+    public static final String _40B_FILE_URL    = "/mnt/sdcard/file40b";
+    public static final String _100B_FILE_URL   = "/mnt/sdcard/file100b";
+    public static final String _500B_FILE_URL   = "/mnt/sdcard/file500b";
+    public static final String _1KB_FILE_URL    = "/mnt/sdcard/file1024b";
+    public static final String MY_LOG           = "/mnt/sdcard/v2iinformationlog.txt";
 
     private static final String str_40B  = "IND##indexNum##LON##longitude##LAT##lati";
 
@@ -110,6 +111,7 @@ public class FileTool {
         creatFile(_100B_FILE_URL);
         creatFile(_500B_FILE_URL);
         creatFile(_1KB_FILE_URL);
+        creatFile(MY_LOG);
     }
 
     private void creatFile(String fileUrl){
@@ -150,6 +152,8 @@ public class FileTool {
                     outputStream.write(str_1KB.getBytes());
                     sendLog("Write 1024B_File Success.");
                     Toast.makeText(context,"Write 1024B_File Success.",Toast.LENGTH_SHORT).show();
+                }else if (fileUrl.equals(MY_LOG)){
+
                 }else {
                     Toast.makeText(context,"Write File 参数不匹配",Toast.LENGTH_SHORT).show();
                 }
@@ -161,6 +165,25 @@ public class FileTool {
 
             }
 
+        }
+    }
+
+    public void writeLog(String log){
+        File file = new File(MY_LOG);
+        if (!file.exists()){
+            sendLog("MyLog file is not exists.");
+        }else {
+            try {
+                OutputStream outputStream = new FileOutputStream(file,true);
+                outputStream.write(log.getBytes());
+                outputStream.write("\r\n".getBytes());
+                outputStream.flush();
+                outputStream.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

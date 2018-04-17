@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.qq.vip.singleangel.v2i_information.TableActivity">
+    tools:context="com.qq.vip.singleangel.v2i_information.Activity.TableActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="368dp"

@@ -1,4 +1,4 @@
-package com.qq.vip.singleangel.v2i_information;
+package com.qq.vip.singleangel.v2i_information.DataBase;
 
 import com.raizlabs.android.dbflow.annotation.Database;
 

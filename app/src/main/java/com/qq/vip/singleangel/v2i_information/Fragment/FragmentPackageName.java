@@ -1,4 +1,4 @@
-package com.qq.vip.singleangel.v2i_information;
+package com.qq.vip.singleangel.v2i_information.Fragment;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -6,14 +6,9 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.raizlabs.android.dbflow.sql.language.SQLite;
-import com.raizlabs.android.dbflow.sql.language.Select;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.qq.vip.singleangel.v2i_information.R;
 
 /**
  * Created by singl on 2018/4/16.

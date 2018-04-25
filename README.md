@@ -461,6 +461,11 @@ release 1.0
 * UI更新
 * 增加百度鹰眼SDK
 
+### 2018.4.25
+#### 添加功能
+* 百度云推送
+> [百度云推送官方文档](http://push.baidu.com/doc/guide/index)
+
 
 
 

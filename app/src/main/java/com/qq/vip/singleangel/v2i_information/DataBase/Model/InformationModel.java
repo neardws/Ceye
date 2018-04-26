@@ -66,13 +66,13 @@ public class InformationModel extends BaseModel {
      * direction     方向
      */
     @Column
-    private int deviceNo;
+    private String deviceNo;
 
-    public int getDeviceNo() {
+    public String getDeviceNo() {
         return deviceNo;
     }
 
-    public void setDeviceNo(int deviceNo) {
+    public void setDeviceNo(String deviceNo) {
         this.deviceNo = deviceNo;
     }
 

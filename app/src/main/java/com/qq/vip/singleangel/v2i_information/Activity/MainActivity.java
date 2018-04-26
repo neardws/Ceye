@@ -20,6 +20,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.android.pushservice.PushConstants;
+import com.baidu.android.pushservice.PushManager;
+import com.baidu.android.pushservice.PushSettings;
 import com.qq.vip.singleangel.v2i_information.Tool.DBTool;
 import com.qq.vip.singleangel.v2i_information.Tool.DataPackageTool;
 import com.qq.vip.singleangel.v2i_information.Tool.FileTool;
@@ -40,6 +43,19 @@ public class MainActivity extends AppCompatActivity {
     public static final String SEND_MESSAGE     = "SEND_MESSAGE";
     public static final String START_SEND       = "START_SEND";
     public static final String STOP_SEND        = "STOP_SEND";
+
+    /**
+     * 百度Push
+     */
+    public static final String TYPE_ON_BIND                     = "type_on_bind";
+    public static final String TYPE_ON_MESSAGE                  = "type_on_message";
+    public static final String TYPE_ON_NotificationArrived      = "type_onNotificationArrived";
+    public static final String TYPE_ON_NotificationClicked      = "type_onNotificationClicked";
+    public static final String TYPE_ON_SET_TAGS                 = "type_on_set_tags";
+    public static final String TYPE_ON_DEL_TAGS                 = "type_on_del_tags";
+    public static final String TYPE_ON_LIST_TAGS                = "type_on_list_tags";
+    public static final String TYPE_ON_UNBIND                   = "type_on_unbind";
+
 
     public static final String _40B     = "40B";
     public static final String _100B    = "100B";
@@ -125,6 +141,11 @@ public class MainActivity extends AppCompatActivity {
         final FileTool fileTool = new FileTool(getApplicationContext());
         fileTool.init();
 
+        /**
+         * 添加百度云推送
+         */
+       // PushSettings.enableDebugMode(getApplicationContext(), true);
+        PushManager.startWork(getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY,"GQCEClqBN0kluKXSVTPdrXZ0HX5b3VFS");
 
         /**
          *对xutils3.5进行初始化
@@ -139,6 +160,12 @@ public class MainActivity extends AppCompatActivity {
         intentFilter.addAction(MainActivity.STOP_SEND);
         intentFilter.addAction(MainActivity.SEND_MESSAGE);
         intentFilter.addAction(MainActivity.UPDATA_LOG);
+
+        /**
+         *百度云推送
+         */
+        intentFilter.addAction(MainActivity.TYPE_ON_BIND);
+        intentFilter.addAction(MainActivity.TYPE_ON_MESSAGE);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -392,7 +419,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         tv_context      .setText(information.toString());
-                        if (information.getDeviceNo() != 0){
+                        if (information.getDeviceNo() != ""){
                             tv_deviceNo     .setText(String.valueOf(information.getDeviceNo()));
                         }
 
@@ -463,6 +490,29 @@ public class MainActivity extends AppCompatActivity {
                 case MainActivity.UPDATA_FAILED:
                     Toast.makeText(MainActivity.this, "发送信息失败", Toast.LENGTH_SHORT).show();
                     break;
+                case MainActivity.TYPE_ON_BIND:
+                    String channelId = intent.getExtras().getString(MainActivity.TYPE_ON_BIND);
+                    tv_deviceNo.setText(channelId);
+                    /**
+                     * 向服务器上传ChannelID
+                     */
+                    Information channelInformation = new Information();
+                   channelInformation.setDeviceNo(channelId);
+
+                    Intent channelIntent = new Intent(MainActivity.this, DataPackageTool.class);
+                    channelIntent.setAction(DataPackageTool.CHANNEL_ID);
+                    channelIntent.putExtra(DataPackageTool.PACKAGE_SIZE, channelInformation);
+                    startService(channelIntent);
+                    //Toast.makeText(context, channelId, Toast.LENGTH_SHORT).show();
+                    //log.append("MainActivity.TYPE_ON_BIND"+channelId);
+                    break;
+                case MainActivity.TYPE_ON_MESSAGE:
+                    String message = intent.getExtras().getString(MainActivity.TYPE_ON_MESSAGE);
+                    /**
+                     * 对 message 进行处理，存入数据库
+                     */
+
+                    break;
                 default:
                     break;
             }
@@ -473,7 +523,7 @@ public class MainActivity extends AppCompatActivity {
         Information information = new Information();
         if (tv_deviceNo.getText()!= null && !tv_deviceNo.getText().toString().equals("")){
             String deviceNo         = tv_deviceNo.getText().toString();
-            information.setDeviceNo(Integer.valueOf(deviceNo));
+            information.setDeviceNo(deviceNo);
         }
         if (tv_indexNum.getText() != null && !tv_indexNum.getText().toString().equals("")){
             String indexNum         = tv_indexNum.getText().toString();

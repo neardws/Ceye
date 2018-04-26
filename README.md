@@ -465,6 +465,28 @@ release 1.0
 #### 添加功能
 * 百度云推送
 > [百度云推送官方文档](http://push.baidu.com/doc/guide/index)
+* public void onBind(Context,errorCode,appid,userId,channelId,requestId)绑定云推送返回值中的errorCode，解释如下：
+* 0 - Success
+* 10001 - Network Problem
+* 10101  Integrate Check Error
+* 30600 - Internal Server Error
+* 30601 - Method Not Allowed
+* 30602 - Request Params Not Valid
+* 30603 - Authentication Failed
+* 30604 - Quota Use Up Payment Required
+* 30605 -Data Required Not Found
+* 30606 - Request Time Expires Timeout
+* 30607 - Channel Token Timeout
+* 30608 - Bind Relation Not Found
+* 30609 - Bind Number Too Many
+
+#### bug
+* 华为平板能收到推送消息，一加5T注册成功，能收不到推送
+> 记录下Bug设备
+> 型号：Oneplus A5001  安卓版本：8.0
+
+### 2018.4.26
+##### 百度云推送测试阶段
 
 
 

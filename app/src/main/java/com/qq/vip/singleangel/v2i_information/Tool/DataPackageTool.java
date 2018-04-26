@@ -28,6 +28,7 @@ public class DataPackageTool extends IntentService{
 
     public static final String THE_END_PACKAGE = "THE_END_PACKAGE";
 
+    public static final String CHANNEL_ID = "channel_id";
     public static final String _40B     = "40B";
     public static final String _100B    = "100B";
     public static final String _500B    = "500B";
@@ -291,6 +292,12 @@ public class DataPackageTool extends IntentService{
                 sendLog(urlog);
                 sendPost(params,information);
 
+            }else if (packSize.equals(DataPackageTool.CHANNEL_ID)){
+                RequestParams params = new RequestParams(url);
+                params.setCancelFast(true);  //可被立即停止
+                params.addBodyParameter("deviceNo",String.valueOf(information.getDeviceNo()));
+                sendLog("Send channel id :"+ String.valueOf(information.getDeviceNo()));
+                sendPost(params,information);
             }else {
 
             }

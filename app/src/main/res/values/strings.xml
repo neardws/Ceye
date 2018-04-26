@@ -23,7 +23,7 @@
     <string name="frequency">频率</string>
 
     <string name="hint_deviceName">由每次首包发送时间哈希得到</string>
-    <string name="hint_deviceNo">由设备的MAC地址获得</string>
+    <string name="hint_deviceNo">百度云推送ChannelID</string>
     <string name="hint_indexNum">数据包的序号，由1开始编号</string>
     <string name="hint_gps_type">WGS84/GCJ02/BD09</string>
     <string name="hint_longitude">GPS经度</string>

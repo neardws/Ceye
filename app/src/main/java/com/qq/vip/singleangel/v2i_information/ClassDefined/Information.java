@@ -36,7 +36,7 @@ public class Information implements Serializable{
      * packageNum           总的数据包的数目
      */
     private String      deviceName;
-    private int         deviceNo;
+    private String      deviceNo;
     private String      macAdd;
     private String      coord_type_input;
     private int         indexNum;
@@ -58,7 +58,7 @@ public class Information implements Serializable{
         packageName         = 0;
         isEndofPackage      = 0;
         deviceName          = "Device";
-        deviceNo            = 0;
+        deviceNo            = "";
         macAdd              = "";
         coord_type_input    = "";
         indexNum            = 0;
@@ -73,7 +73,7 @@ public class Information implements Serializable{
     }
 
     public Information(String frequency, String packageSize, int packageName, int isEndofPackage,
-                        String deviceName, int deviceNo, int indexNum, double longitude, double latitude,
+                        String deviceName, String deviceNo, int indexNum, double longitude, double latitude,
                         float speed, String baiduErrorCode, String coord_type_input, float direction,
                         long timeNow, long packageNum, String time, String macAdd){
         this.frequency        = frequency;
@@ -146,7 +146,7 @@ public class Information implements Serializable{
         this.macAdd = macAdd;
     }
 
-    public void setDeviceNo(int deviceNo) {
+    public void setDeviceNo(String deviceNo) {
         this.deviceNo = deviceNo;
     }
 
@@ -214,7 +214,7 @@ public class Information implements Serializable{
         return time;
     }
 
-    public int getDeviceNo() {
+    public String getDeviceNo() {
         return deviceNo;
     }
 

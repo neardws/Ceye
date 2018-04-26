@@ -285,7 +285,7 @@ public class InfoTool {
             }
         }
         int deviceNo = macAddress.hashCode();
-        information.setDeviceNo(deviceNo);
+        //information.setDeviceNo(deviceNo);
         information.setMacAdd(macAddress);
     }
 

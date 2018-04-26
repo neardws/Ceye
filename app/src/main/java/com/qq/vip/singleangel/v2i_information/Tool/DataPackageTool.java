@@ -53,8 +53,8 @@ public class DataPackageTool extends IntentService{
         String packSize = null;
         if (intent != null) {
             packSize = intent.getAction();
-            final Information information = (Information) intent.getSerializableExtra(DataPackageTool.PACKAGE_SIZE);
             if (packSize.equals(DataPackageTool._40B)){
+                Information information = (Information) intent.getSerializableExtra(DataPackageTool.PACKAGE_SIZE);
                 RequestParams params = new RequestParams(url);
                 params.setCancelFast(true);  //可被立即停止
                 params.addBodyParameter("deviceNo",String.valueOf(information.getDeviceNo()));
@@ -103,6 +103,7 @@ public class DataPackageTool extends IntentService{
                 sendPost(params,information);
 
             }else if (packSize.equals(DataPackageTool._100B)){
+                Information information = (Information) intent.getSerializableExtra(DataPackageTool.PACKAGE_SIZE);
                 RequestParams params = new RequestParams(url);
                 params.setCancelFast(true);  //可被立即停止
                 params.addBodyParameter("deviceNo",String.valueOf(information.getDeviceNo()));
@@ -150,6 +151,7 @@ public class DataPackageTool extends IntentService{
                 sendPost(params,information);
 
             }else if (packSize.equals(DataPackageTool._500B)){
+                Information information = (Information) intent.getSerializableExtra(DataPackageTool.PACKAGE_SIZE);
                 RequestParams params = new RequestParams(url);
                 params.setCancelFast(true);  //可被立即停止
                 params.addBodyParameter("deviceNo",String.valueOf(information.getDeviceNo()));
@@ -197,6 +199,7 @@ public class DataPackageTool extends IntentService{
                 sendPost(params,information);
 
             }else if (packSize.equals(DataPackageTool._1KB)){
+                Information information = (Information) intent.getSerializableExtra(DataPackageTool.PACKAGE_SIZE);
                 RequestParams params = new RequestParams(url);
                 params.setCancelFast(true);  //可被立即停止
                 params.addBodyParameter("deviceNo",String.valueOf(information.getDeviceNo()));
@@ -245,6 +248,7 @@ public class DataPackageTool extends IntentService{
                 sendPost(params,information);
 
             }else if (packSize.equals(DataPackageTool.THE_END_PACKAGE)){
+                Information information = (Information) intent.getSerializableExtra(DataPackageTool.PACKAGE_SIZE);
                 RequestParams params = new RequestParams(url);
                 params.setCancelFast(true);  //可被立即停止
                 params.addBodyParameter("deviceNo",String.valueOf(information.getDeviceNo()));
@@ -293,11 +297,12 @@ public class DataPackageTool extends IntentService{
                 sendPost(params,information);
 
             }else if (packSize.equals(DataPackageTool.CHANNEL_ID)){
+                String channelID = intent.getExtras().getString(DataPackageTool.CHANNEL_ID);
                 RequestParams params = new RequestParams(url);
                 params.setCancelFast(true);  //可被立即停止
-                params.addBodyParameter("deviceNo",String.valueOf(information.getDeviceNo()));
-                sendLog("Send channel id :"+ String.valueOf(information.getDeviceNo()));
-                sendPost(params,information);
+                params.addBodyParameter("deviceNo",channelID);
+                //sendLog("Send channel id :"+ String.valueOf(information.getDeviceNo()));
+                sendPost(params,channelID);
             }else {
 
             }
@@ -358,6 +363,35 @@ public class DataPackageTool extends IntentService{
             public void onError(Throwable ex, boolean isOnCallback) {
                 sendLog("发送失败\n"+ex.toString()+"\n");
                 InsertInfo(information,false);
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+
+            @Override
+            public boolean onCache(JSONObject result) {
+                return false;
+            }
+        });
+    }
+
+    private void sendPost(RequestParams params, final String channelID){
+        x.http().post(params, new Callback.CacheCallback<JSONObject>() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                sendLog("Send channel id :"+channelID+"发送成功\n"+"\n");
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                sendLog("发送失败\n"+ex.toString()+"\n");
             }
 
             @Override

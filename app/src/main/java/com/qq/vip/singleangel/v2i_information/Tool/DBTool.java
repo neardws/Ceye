@@ -41,6 +41,7 @@ public class DBTool extends IntentService {
     public static final String ACTION_SELETE    = "ACTION_SELETE";
 
     public static final String TABLE_NAME               = "TABLE_NAME";
+    public static final String TABLE_MESSAGE            = "TABLE_MESSAGE";
     public static final String TABLE_INFORMATION        = "TABLE_INFORMATION";
     public static final String TABLE_PACKAGE_NAME       = "TABLE_PACKAGE_NAME";
     public static final String TABLE_CONTROL_MESSAGE    = "TABLE_CONTROL_MESSAGE";
@@ -83,6 +84,10 @@ public class DBTool extends IntentService {
                 long timeSendBack = intent.getExtras().getLong(DBTool.TIME_SEND_BACK);
                 long timeMyReceive = intent.getExtras().getLong(DBTool.TIME_MY_RECEIVE);
                 insertControl(id,timeReceive,timeSendBack,timeMyReceive);
+            }else if (tableName.equals(DBTool.TABLE_MESSAGE)){
+
+            }else {
+
             }
         }
         /**
@@ -198,6 +203,9 @@ public class DBTool extends IntentService {
         sendLog("ControlModel 插入成功，ID="+id+",   Time my receive "+controlModel.getTimeMyReceive()+"\n");
     }
 
+    private void insertMessage(int id, String context, long timeSendBack, long timeMyReceive){
+
+    }
 
     private void sendLog(String log){
         Intent intent = new Intent();

@@ -496,12 +496,9 @@ public class MainActivity extends AppCompatActivity {
                     /**
                      * 向服务器上传ChannelID
                      */
-                    Information channelInformation = new Information();
-                   channelInformation.setDeviceNo(channelId);
-
                     Intent channelIntent = new Intent(MainActivity.this, DataPackageTool.class);
                     channelIntent.setAction(DataPackageTool.CHANNEL_ID);
-                    channelIntent.putExtra(DataPackageTool.PACKAGE_SIZE, channelInformation);
+                    channelIntent.putExtra(DataPackageTool.CHANNEL_ID, channelId);
                     startService(channelIntent);
                     //Toast.makeText(context, channelId, Toast.LENGTH_SHORT).show();
                     //log.append("MainActivity.TYPE_ON_BIND"+channelId);

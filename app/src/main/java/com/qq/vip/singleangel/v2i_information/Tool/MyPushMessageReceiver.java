@@ -47,6 +47,8 @@ public class MyPushMessageReceiver extends PushMessageReceiver {
     public static final String TAG = MyPushMessageReceiver.class
             .getSimpleName();
 
+    public static final String BLANK_STRING = "";
+
     /**
      * 调用PushManager.startWork后，sdk将对push
      * server发起绑定请求，这个过程是异步的。绑定请求的结果通过onBind返回。 如果您需要用单播推送，需要把这里获取的channel
@@ -83,7 +85,7 @@ public class MyPushMessageReceiver extends PushMessageReceiver {
             Toast.makeText(context,"百度云推送绑定绑定失败，errorCode="+errorCode,Toast.LENGTH_SHORT).show();
         }
         // Demo更新界面展示代码，应用请在这里加入自己的处理逻辑
-        updateContent(context, responseString, MainActivity.TYPE_ON_BIND, channelId);
+        updateContent(context, responseString, MainActivity.TYPE_ON_BIND, channelId, BLANK_STRING, BLANK_STRING);
 
     }
 
@@ -106,21 +108,33 @@ public class MyPushMessageReceiver extends PushMessageReceiver {
         Toast.makeText(context, messageString, Toast.LENGTH_SHORT).show();
 
         // 自定义内容获取方式，mykey和myvalue对应透传消息推送时自定义内容中设置的键和值
-        /*if (!TextUtils.isEmpty(customContentString)) {
+        /*String id = null;
+        String timeSendBack = null;
+        if (!TextUtils.isEmpty(customContentString)) {
             JSONObject customJson = null;
             try {
                 customJson = new JSONObject(customContentString);
-                String myvalue = null;
-                if (!customJson.isNull("mykey")) {
-                    myvalue = customJson.getString("mykey");
+                if (!customJson.isNull("id")) {
+                    id = customJson.getString("id");
                 }
+                if (!customJson.isNull("timeSendBack")){
+                    timeSendBack = customJson.getString("timeSendBack");
+                }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }*/
 
         // Demo更新界面展示代码，应用请在这里加入自己的处理逻辑
-        updateContent(context, messageString, MainActivity.TYPE_ON_MESSAGE, message);
+        String id = String.valueOf(System.currentTimeMillis());
+        String timeSendBack = null;
+        if (id != null && timeSendBack != null){
+            updateContent(context, messageString, MainActivity.TYPE_ON_MESSAGE, message, id, timeSendBack);
+        }else {
+            updateContent(context, messageString, MainActivity.TYPE_ON_MESSAGE, message, id, BLANK_STRING);
+        }
+
     }
 
     /**
@@ -162,7 +176,7 @@ public class MyPushMessageReceiver extends PushMessageReceiver {
         Toast.makeText(context, notifyString, Toast.LENGTH_SHORT).show();
         // Demo更新界面展示代码，应用请在这里加入自己的处理逻辑
         // 你可以參考 onNotificationClicked中的提示从自定义内容获取具体值
-        updateContent(context, notifyString, MainActivity.TYPE_ON_NotificationArrived, "");
+        updateContent(context, notifyString, MainActivity.TYPE_ON_NotificationArrived, BLANK_STRING, BLANK_STRING, BLANK_STRING);
     }
 
     /**
@@ -200,7 +214,7 @@ public class MyPushMessageReceiver extends PushMessageReceiver {
         }
 
         // Demo更新界面展示代码，应用请在这里加入自己的处理逻辑
-        updateContent(context, notifyString, MainActivity.TYPE_ON_NotificationClicked, "");
+        updateContent(context, notifyString, MainActivity.TYPE_ON_NotificationClicked, BLANK_STRING, BLANK_STRING, BLANK_STRING);
     }
 
     /**
@@ -226,7 +240,7 @@ public class MyPushMessageReceiver extends PushMessageReceiver {
         Log.d(TAG, responseString);
 
         // Demo更新界面展示代码，应用请在这里加入自己的处理逻辑
-        updateContent(context, responseString, MainActivity.TYPE_ON_SET_TAGS, "");
+        updateContent(context, responseString, MainActivity.TYPE_ON_SET_TAGS, BLANK_STRING, BLANK_STRING, BLANK_STRING);
     }
 
     /**
@@ -252,7 +266,7 @@ public class MyPushMessageReceiver extends PushMessageReceiver {
         Log.d(TAG, responseString);
 
         // Demo更新界面展示代码，应用请在这里加入自己的处理逻辑
-        updateContent(context, responseString, MainActivity.TYPE_ON_DEL_TAGS, "");
+        updateContent(context, responseString, MainActivity.TYPE_ON_DEL_TAGS, BLANK_STRING, BLANK_STRING, BLANK_STRING);
     }
 
     /**
@@ -275,7 +289,7 @@ public class MyPushMessageReceiver extends PushMessageReceiver {
         Log.d(TAG, responseString);
 
         // Demo更新界面展示代码，应用请在这里加入自己的处理逻辑
-        updateContent(context, responseString, MainActivity.TYPE_ON_LIST_TAGS, "");
+        updateContent(context, responseString, MainActivity.TYPE_ON_LIST_TAGS, BLANK_STRING, BLANK_STRING, BLANK_STRING);
     }
 
     /**
@@ -299,10 +313,10 @@ public class MyPushMessageReceiver extends PushMessageReceiver {
             Log.d(TAG, "解绑成功");
         }
         // Demo更新界面展示代码，应用请在这里加入自己的处理逻辑
-        updateContent(context, responseString, MainActivity.TYPE_ON_UNBIND, "");
+        updateContent(context, responseString, MainActivity.TYPE_ON_UNBIND, BLANK_STRING, BLANK_STRING, BLANK_STRING);
     }
 
-    private void updateContent(Context context, String content, String type, String value) {
+    private void updateContent(Context context, String content, String type, String value, String id, String timeSendBack) {
         Log.d(TAG, "updateContent");
         String logText = "";
 
@@ -330,7 +344,12 @@ public class MyPushMessageReceiver extends PushMessageReceiver {
              */
             Intent messageIntent = new Intent();
             messageIntent.setAction(MainActivity.TYPE_ON_MESSAGE);
-            messageIntent.putExtra(MainActivity.TYPE_ON_MESSAGE, value);
+            messageIntent.putExtra(MainActivity.MESSAGE_CONTEXT, value);
+            messageIntent.putExtra(MainActivity.MESSAGE_ID, id);
+           // messageIntent.putExtra(MainActivity.MESSAGE_TIME_SEND_BACK, Long.valueOf(timeSendBack));
+            messageIntent.putExtra(MainActivity.MESSAGE_TIME_SEND_BACK, 0);
+            long nowTime = System.currentTimeMillis();
+            messageIntent.putExtra(MainActivity.MESSAGE_TIME_MY_RECEIVE, nowTime);
             context.sendBroadcast(messageIntent);
         }else {
             //do nothing

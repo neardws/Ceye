@@ -4,21 +4,22 @@ import com.qq.vip.singleangel.v2i_information.DataBase.MessageDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.structure.BaseModel;
 
 /**
  * Created by singl on 2018/4/26.
  */
 @Table(name = "MessageModel",database = MessageDatabase.class)
-public class MessageModel {
+public class MessageModel extends BaseModel{
 
     @PrimaryKey
-    private int id;
+    private String id;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

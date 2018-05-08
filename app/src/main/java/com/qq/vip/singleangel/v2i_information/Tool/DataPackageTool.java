@@ -298,6 +298,7 @@ public class DataPackageTool extends IntentService{
 
             }else if (packSize.equals(DataPackageTool.CHANNEL_ID)){
                 String channelID = intent.getExtras().getString(DataPackageTool.CHANNEL_ID);
+                String url = "http://118.24.19.160:8088/V2I/RegChID";
                 RequestParams params = new RequestParams(url);
                 params.setCancelFast(true);  //可被立即停止
                 params.addBodyParameter("deviceNo",channelID);
@@ -383,10 +384,15 @@ public class DataPackageTool extends IntentService{
     }
 
     private void sendPost(RequestParams params, final String channelID){
-        x.http().post(params, new Callback.CacheCallback<JSONObject>() {
+        x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
-            public void onSuccess(JSONObject result) {
-                sendLog("Send channel id :"+channelID+"发送成功\n"+"\n");
+            public boolean onCache(String result) {
+                return false;
+            }
+
+            @Override
+            public void onSuccess(String result) {
+                sendLog("Send channel id :"+channelID+"发送成功"+result+"\n"+"\n");
             }
 
             @Override
@@ -404,10 +410,6 @@ public class DataPackageTool extends IntentService{
 
             }
 
-            @Override
-            public boolean onCache(JSONObject result) {
-                return false;
-            }
         });
     }
 

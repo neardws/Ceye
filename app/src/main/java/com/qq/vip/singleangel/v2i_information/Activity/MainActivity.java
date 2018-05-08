@@ -56,6 +56,12 @@ public class MainActivity extends AppCompatActivity {
     public static final String TYPE_ON_LIST_TAGS                = "type_on_list_tags";
     public static final String TYPE_ON_UNBIND                   = "type_on_unbind";
 
+    /*TYPE_ON_MESSAGE*/
+    public static final String MESSAGE_ID               = "MESSAGE_ID";
+    public static final String MESSAGE_CONTEXT          = "MESSAGE_CONTEXT";
+    public static final String MESSAGE_TIME_SEND_BACK   = "MESSAGE_TIME_SEND_BACK";
+    public static final String MESSAGE_TIME_MY_RECEIVE  = "MESSAGE_TIME_MY_RECEIVE";
+
 
     public static final String _40B     = "40B";
     public static final String _100B    = "100B";
@@ -504,11 +510,21 @@ public class MainActivity extends AppCompatActivity {
                     //log.append("MainActivity.TYPE_ON_BIND"+channelId);
                     break;
                 case MainActivity.TYPE_ON_MESSAGE:
-                    String message = intent.getExtras().getString(MainActivity.TYPE_ON_MESSAGE);
                     /**
                      * 对 message 进行处理，存入数据库
                      */
-
+                    String id = intent.getExtras().getString(MainActivity.MESSAGE_ID);
+                    long timeSendBack = intent.getExtras().getLong(MainActivity.MESSAGE_TIME_SEND_BACK);
+                    long timeMyReceive = intent.getExtras().getLong(MainActivity.MESSAGE_TIME_MY_RECEIVE);
+                    String message = intent.getExtras().getString(MainActivity.MESSAGE_CONTEXT);
+                    Intent messageIntent = new Intent(MainActivity.this, DBTool.class);
+                    messageIntent.setAction(DBTool.ACTION_ADD);
+                    messageIntent.putExtra(DBTool.TABLE_NAME, DBTool.TABLE_MESSAGE);
+                    messageIntent.putExtra(DBTool.MESSAGE_ID, id);
+                    messageIntent.putExtra(DBTool.MESSAGE_CONTEXT, message);
+                    messageIntent.putExtra(DBTool.TIME_SEND_BACK, timeSendBack);
+                    messageIntent.putExtra(DBTool.TIME_MY_RECEIVE, timeMyReceive);
+                    startService(messageIntent);
                     break;
                 default:
                     break;

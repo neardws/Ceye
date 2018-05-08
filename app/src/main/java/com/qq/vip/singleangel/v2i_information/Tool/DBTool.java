@@ -10,6 +10,7 @@ import com.qq.vip.singleangel.v2i_information.DataBase.Model.ControlModel;
 import com.qq.vip.singleangel.v2i_information.DataBase.Model.ControlModel_Table;
 import com.qq.vip.singleangel.v2i_information.DataBase.Model.InformationModel;
 import com.qq.vip.singleangel.v2i_information.DataBase.Model.InformationModel_Table;
+import com.qq.vip.singleangel.v2i_information.DataBase.Model.MessageModel;
 import com.qq.vip.singleangel.v2i_information.DataBase.Model.PnameModel;
 import com.qq.vip.singleangel.v2i_information.DataBase.Model.PnameModel_Table;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -63,6 +64,10 @@ public class DBTool extends IntentService {
     public static final String TIME_SEND_BACK   = "TIME_SEND_BACK";
     public static final String TIME_MY_RECEIVE  = "TIME_MY_RECEIVE";
 
+    /*MessageModel*/
+    public static final String MESSAGE_ID   = "MESSAGE_ID";
+    public static final String MESSAGE_CONTEXT = "MESSAGE_CONTEXT";
+
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         String action = intent.getAction();
@@ -85,7 +90,11 @@ public class DBTool extends IntentService {
                 long timeMyReceive = intent.getExtras().getLong(DBTool.TIME_MY_RECEIVE);
                 insertControl(id,timeReceive,timeSendBack,timeMyReceive);
             }else if (tableName.equals(DBTool.TABLE_MESSAGE)){
-
+                String id = intent.getExtras().getString(DBTool.MESSAGE_ID);
+                String context = intent.getExtras().getString(DBTool.MESSAGE_CONTEXT);
+                long timeSendBack = intent.getExtras().getLong(DBTool.TIME_SEND_BACK);
+                long timeMyReceive = intent.getExtras().getLong(DBTool.TIME_MY_RECEIVE);
+                insertMessage(id,context,timeSendBack,timeMyReceive);
             }else {
 
             }
@@ -203,8 +212,14 @@ public class DBTool extends IntentService {
         sendLog("ControlModel 插入成功，ID="+id+",   Time my receive "+controlModel.getTimeMyReceive()+"\n");
     }
 
-    private void insertMessage(int id, String context, long timeSendBack, long timeMyReceive){
-
+    private void insertMessage(String id, String context, long timeSendBack, long timeMyReceive){
+        MessageModel messageModel = new MessageModel();
+        messageModel.setId(id);
+        messageModel.setContext(context);
+        messageModel.setTimeSendBack(timeSendBack);
+        messageModel.setTimeMyReceive(timeMyReceive);
+        messageModel.insert();
+        sendLog("MessageModel 插入成功，ID="+id+",   Time my receive "+timeMyReceive+"\n");
     }
 
     private void sendLog(String log){
